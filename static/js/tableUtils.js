@@ -38,7 +38,7 @@ const htmlTableToExcel = () => {
     document.body.innerHTML = oldPage;
 }
 
-function clean(table) {
+const clean = (table) => {
     table.querySelectorAll("tr").forEach((row, idx) => {
         if (idx === 0) {
             row.querySelector("th:last-child").remove();
@@ -52,16 +52,28 @@ function clean(table) {
 }
 
 $(window).on('load', () => {
-    // get url params
     let urlParams = new URLSearchParams(window.location.search);
     let order_by = urlParams.get('order_by');
     let value = urlParams.get('value');
     let query = urlParams.get('query');
-    console.log(order_by, value, query);
     if (order_by !== null || value !== null || query !== null) {
-        // remove css
         $('#clearFilters').css('display', 'inline-block');
     } else {
         $('#clearFilters').css('display', 'none');
     }
 });
+
+const sort = (order_by) => {
+    let queryStr = window.location.search;
+    const urlParams = new URLSearchParams(queryStr);
+    let value = urlParams.get('value');
+    let order = urlParams.get('order_by');
+    let query = urlParams.get('query');
+    if (value === 'desc' || value === null || order !== order_by) {
+        value = 'asc';
+    } else {
+        value = 'desc';
+    }
+    let path = '?order_by=' + order_by + '&value=' + value;
+    window.location.href = query ? path + '&query=' + query : path;
+}
