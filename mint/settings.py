@@ -3,7 +3,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -14,7 +13,6 @@ SECRET_KEY = 'django-insecure-xkn3k*ilf1u)3sl!7uxdy_c4i=@z_3+8r4ud2ipp5zv&mdh$pz
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -27,6 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # apps
     'home',
+    'customer',
 ]
 
 MIDDLEWARE = [
@@ -47,7 +46,7 @@ TEMPLATES = [
         'DIRS': [
             BASE_DIR / 'static/templates'
         ]
-    ,
+        ,
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -62,7 +61,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mint.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -72,7 +70,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -92,7 +89,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -103,7 +99,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/

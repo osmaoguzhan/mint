@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12" style="text-align: left">
+                <h1>{{ title }}</h1>
+            </div>
+            <hr/>
+        </div>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" role="alert" style="text-align: start">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <div class="row">
+            <div class="col-8" style="text-align: left">
+                <a href="{% url 'customers.create' %}" class="btn btn-primary btn-sm active" role="button"
+                   aria-pressed="true">Add new customer
+                    <i class="fas fa-plus"></i>
+                </a>
+                <a onclick="exportTable()" class="btn btn-primary btn-sm active"
+                   role="button"
+                   aria-pressed="true">Export
+                    <i class="fas fa-file-export"></i>
+                </a>
+                <a href="{% url 'customers.list' %}" class="btn btn-primary btn-sm active"
+                   role="button" style="display: none" id="clearFilters"
+                   aria-pressed="true">Clear Filters
+                    <i class="fas fa-arrows-rotate"></i>
+                </a>
+            </div>
+            <div class="col-4" style="text-align: right">
+                <form method="get">
+                    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+                           aria-describedby="search-addon" name="query"/>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="row table-responsive" style="margin-top: 10px">
+                <table class="table table-striped" id="tableToExport">
+                    <thead>
+                    <tr>
+                        <th scope="col">Firstname&nbsp;<i onclick="sort('name')" class="fa fa-sort"></i></th>
+                        <th scope="col">Lastname&nbsp;<i onclick="sort('surname')" class="fa fa-sort"></i></th>
+                        <th scope="col">Email&nbsp;<i onclick="sort('email')" class="fa fa-sort"></i></th>
+                        <th scope="col">Phone Number&nbsp;<i onclick="sort('phone')" class="fa fa-sort"></i></th>
+                        <th scope="col">Address&nbsp;<i onclick="sort('address')" class="fa fa-sort"></i></th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for customer in customers %}
+                        <tr>
+                            <td style="width: 10%" class="align-middle">{{ customer.name }} </td>
+                            <td style="width: 10%" class="align-middle">{{ customer.surname }} </td>
+                            <td style="width: 10%" class="align-middle">{{ customer.email }} </td>
+                            <td style="width: 10%" class="align-middle">{{ customer.phone }} </td>
+                            <td style="width: 50%" class="align-middle">{{ customer.address }}</td>
+                            <td style="width: 5%" class="align-middle">
+                                <a href="{% url 'customers.update' pk=customer.id %}"
+                                   class="btn btn-primary btn-sm active"
+                                   role="button"><i
+                                        class="fas fa-edit"></i></a>
+                            </td>
+                            <td style="width: 5%" class="align-middle">
+                                <form> {% csrf_token %}
+                                    <a class="btn btn-danger btn-sm active" role="button"
+                                       onclick="deleteCustomer({{ customer.id }})"><i
+                                            class="fas fa-trash"></i></a>
+                                </form>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="7" style="text-align: center">No customers found</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="{% static '/js/customer.js' %}"></script>
+    <script src="{% static '/js/tableUtils.js' %}"></script>
+{% endblock %}
+
