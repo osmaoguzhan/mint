@@ -33,7 +33,7 @@ class CustomerListView(ListView):
     }
 
     def get_queryset(self):
-        query, order_by, value = queryParser.queryParser(self)
+        query, order_by, value = queryParser.queryParser(self, 'name')
         if query and query != '':
             return Customer.objects.filter(name__icontains=query).order_by(order_by) or Customer.objects.filter(
                 surname__icontains=query).order_by(order_by) or Customer.objects.filter(

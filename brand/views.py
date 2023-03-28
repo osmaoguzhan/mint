@@ -29,7 +29,7 @@ class BrandListView(ListView):
     }
 
     def get_queryset(self):
-        query, order_by, value = queryParser.queryParser(self)
+        query, order_by, value = queryParser.queryParser(self, 'name')
         if query and query != '':
             return Brand.objects.filter(name__icontains=query).order_by(order_by) or Brand.objects.filter(
                 category__icontains=query).order_by(order_by) or Brand.objects.filter(
