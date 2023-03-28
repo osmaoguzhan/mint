@@ -2,4 +2,4 @@ from django.views.generic import TemplateView
 
 
 class HomeView(TemplateView):
-    template_name = 'home/welcome.html'
+    template_name = 'table_template.html'

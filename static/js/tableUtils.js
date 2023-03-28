@@ -63,7 +63,9 @@ $(window).on('load', () => {
     }
 });
 
-const sort = (order_by) => {
+const sort = (item, size) => {
+    if (size <= 1) return;
+    let order_by = item.id;
     let queryStr = window.location.search;
     const urlParams = new URLSearchParams(queryStr);
     let value = urlParams.get('value');

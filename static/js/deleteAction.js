@@ -1,8 +1,8 @@
-const deleteCustomer = (id) => {
+const deleteAction = (item, id) => {
     let csrftoken = getCookie('csrftoken');
     Swal.fire(
         {
-            title: 'Are you sure? You want to delete this customer?',
+            title: `Are you sure? You want to delete this ${item}?`,
             text: "You won't be able to revert this!",
             icon: 'warning',
             showCancelButton: true,
@@ -13,7 +13,7 @@ const deleteCustomer = (id) => {
     ).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: `/customers/${id}/delete`,
+                url: `/${item}s/${id}/delete/`,
                 type: 'POST',
                 headers: {
                     'X-CSRFToken': csrftoken
@@ -21,7 +21,7 @@ const deleteCustomer = (id) => {
                 success: () => {
                     Swal.fire(
                         'Deleted!',
-                        'The customer has been deleted.',
+                        `The ${item} has been deleted.`,
                         'success'
                     ).then(() => {
                         location.reload();
@@ -31,7 +31,7 @@ const deleteCustomer = (id) => {
                 error: () => {
                     Swal.fire(
                         'Error!',
-                        'Something went wrong while deleting the customer.',
+                        `Something went wrong while deleting the ${item}.`,
                         'error'
                     )
                 }

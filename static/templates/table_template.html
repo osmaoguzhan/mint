@@ -22,8 +22,8 @@
         {% endif %}
         <div class="row">
             <div class="col-8" style="text-align: left">
-                <a href="{% url 'customers.create' %}" class="btn btn-primary btn-sm active" role="button"
-                   aria-pressed="true">Add new customer
+                <a href="{{ request.path }}{{ create_path }}" class="btn btn-primary btn-sm active" role="button"
+                   aria-pressed="true">{{ add_new_text }}
                     <i class="fas fa-plus"></i>
                 </a>
                 <a onclick="exportTable()" class="btn btn-primary btn-sm active"
@@ -31,7 +31,7 @@
                    aria-pressed="true">Export
                     <i class="fas fa-file-export"></i>
                 </a>
-                <a href="{% url 'customers.list' %}" class="btn btn-primary btn-sm active"
+                <a href="{{ request.path }}" class="btn btn-primary btn-sm active"
                    role="button" style="display: none" id="clearFilters"
                    aria-pressed="true">Clear Filters
                     <i class="fas fa-arrows-rotate"></i>
@@ -49,40 +49,41 @@
                 <table class="table table-striped" id="tableToExport">
                     <thead>
                     <tr>
-                        <th scope="col">Firstname&nbsp;<i onclick="sort('name')" class="fa fa-sort"></i></th>
-                        <th scope="col">Lastname&nbsp;<i onclick="sort('surname')" class="fa fa-sort"></i></th>
-                        <th scope="col">Email&nbsp;<i onclick="sort('email')" class="fa fa-sort"></i></th>
-                        <th scope="col">Phone Number&nbsp;<i onclick="sort('phone')" class="fa fa-sort"></i></th>
-                        <th scope="col">Address&nbsp;<i onclick="sort('address')" class="fa fa-sort"></i></th>
+                        {% for data in header_data %}
+                            <th scope="col">{{ data.header }}&nbsp;<i
+                                    style="cursor:pointer;display: {% if table_data|length <= 1 %} none {% else %} inline-block{% endif %}"
+                                    onclick="sort(this, {{ table_data|length }})"
+                                    id="{{ data.id }}"
+                                    class="fa fa-sort"></i>
+                            </th>
+                        {% endfor %}
                         <th scope="col">Edit</th>
                         <th scope="col">Delete</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for customer in customers %}
+                    {% for data in table_data.values %}
                         <tr>
-                            <td style="width: 10%" class="align-middle">{{ customer.name }} </td>
-                            <td style="width: 10%" class="align-middle">{{ customer.surname }} </td>
-                            <td style="width: 10%" class="align-middle">{{ customer.email }} </td>
-                            <td style="width: 10%" class="align-middle">{{ customer.phone }} </td>
-                            <td style="width: 50%" class="align-middle">{{ customer.address }}</td>
-                            <td style="width: 5%" class="align-middle">
-                                <a href="{% url 'customers.update' pk=customer.id %}"
+                            {% for value in data.values %}
+                                <td class="align-middle">{{ value }} </td>
+                            {% endfor %}
+                            <td class="align-middle">
+                                <a href="{{ request.path }}{{ data.id }}/{{ update_path }}"
                                    class="btn btn-primary btn-sm active"
                                    role="button"><i
                                         class="fas fa-edit"></i></a>
                             </td>
-                            <td style="width: 5%" class="align-middle">
+                            <td class="align-middle">
                                 <form> {% csrf_token %}
                                     <a class="btn btn-danger btn-sm active" role="button"
-                                       onclick="deleteCustomer({{ customer.id }})"><i
+                                       onclick="deleteAction('{{ delete_action }}' ,{{ data.id }})"><i
                                             class="fas fa-trash"></i></a>
                                 </form>
                             </td>
                         </tr>
                     {% empty %}
                         <tr>
-                            <td colspan="7" style="text-align: center">No customers found</td>
+                            <td colspan="7" style="text-align: center">{{ not_found_text }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -90,7 +91,7 @@
             </div>
         </div>
     </div>
-    <script src="{% static '/js/customer.js' %}"></script>
-    <script src="{% static '/js/tableUtils.js' %}"></script>
+    <script src="{% static 'js/tableUtils.js' %}"></script>
+    <script src="{% static 'js/deleteAction.js' %}"></script>
 {% endblock %}
 
