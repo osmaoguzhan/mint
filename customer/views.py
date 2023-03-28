@@ -1,50 +1,61 @@
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, DeleteView, UpdateView, CreateView
+
+from utils import queryParser
 from .models import Customer
 from .forms import CustomerForm
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 
+LIST_PATH = '/customers/'
+
 
 class CustomerListView(ListView):
     model = Customer
-    template_name = 'customer/list.html'
-    context_object_name = 'customers'
+    template_name = 'table_template.html'
+    context_object_name = 'table_data'
     extra_context = {
+        'header_data': [
+            {'id': 'id', 'header': 'ID'},
+            {'id': 'name', 'header': 'Firstname'},
+            {'id': 'surname', 'header': 'Lastname'},
+            {'id': 'email', 'header': 'Email'},
+            {'id': 'phone', 'header': 'Phone Number'},
+            {'id': 'address', 'header': 'Address'},
+            {'id': 'created', 'header': 'Created'}
+        ],
         'title': 'Customers',
+        'create_path': 'create/',
+        'update_path': 'update/',
+        'delete_action': 'customer',
+        'not_found_text': 'No customers found!',
+        'add_new_text': 'Add a new customer'
     }
 
     def get_queryset(self):
-        query = self.request.GET.get('query')
-        order_by = self.request.GET.get('order_by')
-        value = self.request.GET.get('value')
-        if order_by is None or order_by == '':
-            order_by = 'name'
-        if value is None or value == '':
-            value = 'asc'
-        if value == 'desc':
-            order_by = '-' + order_by
+        query, order_by, value = queryParser.queryParser(self, 'name')
         if query and query != '':
             return Customer.objects.filter(name__icontains=query).order_by(order_by) or Customer.objects.filter(
                 surname__icontains=query).order_by(order_by) or Customer.objects.filter(
                 email__icontains=query).order_by(order_by) or Customer.objects.filter(
                 phone__icontains=query).order_by(order_by) or Customer.objects.filter(
-                address__icontains=query).order_by(order_by)
+                address__icontains=query).order_by(order_by) or Customer.objects.filter(
+                created__icontains=query).order_by(order_by)
         return Customer.objects.all().order_by(order_by)
 
 
 class CustomerDeleteView(DeleteView):
     model = Customer
-    success_url = '/customers/'
+    success_url = '/customers'
 
 
 class CustomerUpdateView(SuccessMessageMixin, UpdateView):
     model = Customer
     success_url = '/customers/'
-    template_name = 'customer/customer_form.html'
+    template_name = 'form_template.html'
     success_message = '%(name)s %(surname)s successfully updated!'
     form_class = CustomerForm
-    extra_context = {'submit_btn': 'Update', 'title': 'Update Customer'}
+    extra_context = {'submit_btn': 'Update', 'title': 'Update Customer', 'list_path': LIST_PATH}
 
     def get_success_message(self, cleaned_data):
         return self.success_message % dict(
@@ -57,9 +68,9 @@ class CustomerUpdateView(SuccessMessageMixin, UpdateView):
 class CustomerCreateView(CreateView):
     model = Customer
     success_url = '/customers/'
-    template_name = 'customer/customer_form.html'
+    template_name = 'form_template.html'
     form_class = CustomerForm
-    extra_context = {'submit_btn': 'Create', 'title': 'Create Customer'}
+    extra_context = {'submit_btn': 'Create', 'title': 'Create Customer', 'list_path': LIST_PATH}
 
     def __init__(self, **kwargs):
         super().__init__()
