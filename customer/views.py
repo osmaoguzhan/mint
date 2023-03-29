@@ -1,16 +1,17 @@
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, DeleteView, UpdateView, CreateView
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 from utils import queryParser
 from .models import Customer
 from .forms import CustomerForm
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
+from django.conf import settings
 
 LIST_PATH = '/customers/'
 
 
-class CustomerListView(ListView):
+class CustomerListView(LoginRequiredMixin, ListView):
     model = Customer
     template_name = 'table_template.html'
     context_object_name = 'table_data'
@@ -31,6 +32,7 @@ class CustomerListView(ListView):
         'not_found_text': 'No customers found!',
         'add_new_text': 'Add a new customer'
     }
+    login_url = settings.LOGIN_URL
 
     def get_queryset(self):
         query, order_by, value = queryParser.queryParser(self, 'name')
@@ -44,18 +46,20 @@ class CustomerListView(ListView):
         return Customer.objects.all().order_by(order_by)
 
 
-class CustomerDeleteView(DeleteView):
+class CustomerDeleteView(LoginRequiredMixin, DeleteView):
     model = Customer
-    success_url = '/customers'
+    success_url = '/customers/'
+    login_url = settings.LOGIN_URL
 
 
-class CustomerUpdateView(SuccessMessageMixin, UpdateView):
+class CustomerUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Customer
     success_url = '/customers/'
     template_name = 'form_template.html'
     success_message = '%(name)s %(surname)s successfully updated!'
     form_class = CustomerForm
     extra_context = {'submit_btn': 'Update', 'title': 'Update Customer', 'list_path': LIST_PATH}
+    login_url = settings.LOGIN_URL
 
     def get_success_message(self, cleaned_data):
         return self.success_message % dict(
@@ -65,12 +69,13 @@ class CustomerUpdateView(SuccessMessageMixin, UpdateView):
         )
 
 
-class CustomerCreateView(CreateView):
+class CustomerCreateView(LoginRequiredMixin, CreateView):
     model = Customer
     success_url = '/customers/'
     template_name = 'form_template.html'
     form_class = CustomerForm
     extra_context = {'submit_btn': 'Create', 'title': 'Create Customer', 'list_path': LIST_PATH}
+    login_url = settings.LOGIN_URL
 
     def __init__(self, **kwargs):
         super().__init__()
