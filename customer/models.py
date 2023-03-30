@@ -1,4 +1,5 @@
 from django.db import models
+from home.models import CompanyUser
 
 
 class Customer(models.Model):
@@ -7,6 +8,8 @@ class Customer(models.Model):
     email = models.EmailField()
     phone = models.CharField(max_length=100)
     address = models.CharField(max_length=100)
+    company = models.ForeignKey(CompanyUser, on_delete=models.DO_NOTHING, related_name='customers', blank=True,
+                                null=True)
     created = models.DateField(auto_now_add=True)
 
     def __str__(self):
