@@ -1,15 +1,17 @@
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Brand
 from .forms import BrandForm
 from django.contrib import messages
 from utils import queryParser
+from django.conf import settings
 
 LIST_PATH = '/brands/'
 
 
-class BrandListView(ListView):
+class BrandListView(LoginRequiredMixin, ListView):
     model = Brand
     template_name = 'table_template.html'
     context_object_name = 'table_data'
@@ -27,6 +29,7 @@ class BrandListView(ListView):
         'not_found_text': 'No brands found!',
         'add_new_text': 'Add a new brand'
     }
+    login_url = settings.LOGIN_URL
 
     def get_queryset(self):
         query, order_by, value = queryParser.queryParser(self, 'name')
@@ -37,13 +40,14 @@ class BrandListView(ListView):
         return Brand.objects.all().order_by(order_by)
 
 
-class BrandUpdateView(SuccessMessageMixin, UpdateView):
+class BrandUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Brand
     success_url = '/brands'
     template_name = 'form_template.html'
     success_message = '%(name)s is successfully updated!'
     form_class = BrandForm
     extra_context = {'submit_btn': 'Update', 'title': 'Update Brand', 'list_path': LIST_PATH}
+    login_url = settings.LOGIN_URL
 
     def get_success_message(self, cleaned_data):
         return self.success_message % dict(
@@ -53,12 +57,13 @@ class BrandUpdateView(SuccessMessageMixin, UpdateView):
         )
 
 
-class BrandCreateView(CreateView):
+class BrandCreateView(LoginRequiredMixin, CreateView):
     model = Brand
     success_url = '/brands/'
     template_name = 'form_template.html'
     form_class = BrandForm
     extra_context = {'submit_btn': 'Create', 'title': 'Create a Brand', 'list_path': LIST_PATH}
+    login_url = settings.LOGIN_URL
 
     def __init__(self, **kwargs):
         super().__init__()
@@ -72,6 +77,7 @@ class BrandCreateView(CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class BrandDeleteView(DeleteView):
+class BrandDeleteView(LoginRequiredMixin, DeleteView):
     model = Brand
     success_url = '/brands/'
+    login_url = settings.LOGIN_URL
