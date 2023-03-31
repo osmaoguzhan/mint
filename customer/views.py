@@ -36,14 +36,16 @@ class CustomerListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         query, order_by, value = queryParser.queryParser(self, 'name')
+        print(self.request.user.customers)
         if query and query != '':
-            return Customer.objects.filter(name__icontains=query).order_by(order_by) or Customer.objects.filter(
-                surname__icontains=query).order_by(order_by) or Customer.objects.filter(
-                email__icontains=query).order_by(order_by) or Customer.objects.filter(
-                phone__icontains=query).order_by(order_by) or Customer.objects.filter(
-                address__icontains=query).order_by(order_by) or Customer.objects.filter(
+            return self.request.user.customers.filter(name__icontains=query).order_by(
+                order_by) or self.request.user.customers.filter(
+                surname__icontains=query).order_by(order_by) or self.request.user.customers.filter(
+                email__icontains=query).order_by(order_by) or self.request.user.customers.filter(
+                phone__icontains=query).order_by(order_by) or self.request.user.customers.filter(
+                address__icontains=query).order_by(order_by) or self.request.user.customers.filter(
                 created__icontains=query).order_by(order_by)
-        return Customer.objects.all().order_by(order_by)
+        return self.request.user.customers.all().order_by(order_by)
 
 
 class CustomerDeleteView(LoginRequiredMixin, DeleteView):
@@ -83,6 +85,7 @@ class CustomerCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
+        self.object.company = self.request.user
         self.object.save()
         messages.success(self.request,
                          f"{self.object.name} {self.object.surname} successfully added!")

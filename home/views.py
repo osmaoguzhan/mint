@@ -1,5 +1,7 @@
-from django.views.generic import TemplateView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.views.generic import TemplateView, CreateView
 from django.contrib.auth.views import LoginView, LogoutView
+from .admin import UserCreationForm
 from django.shortcuts import redirect
 from .forms import LoginForm
 
@@ -21,3 +23,12 @@ class LogoutInterfaceView(LogoutView):
 
 class HomeView(TemplateView):
     template_name = 'home/welcome.html'
+    extra_context = {'title': 'Home'}
+
+
+class SignupView(SuccessMessageMixin, CreateView):
+    form_class = UserCreationForm
+    template_name = 'home/signup.html'
+    extra_context = {'title': 'Signup'}
+    success_url = '/login/'
+    success_message = 'Account created successfully'

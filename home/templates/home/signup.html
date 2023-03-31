@@ -1,33 +1,15 @@
 {% extends "base.html" %}
 {% load static %}
+{% load custom_tags %}
 
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
-    {% if messages %}
-        <script>
-            {% for message in messages %}
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: '{{ message }}',
-                    showConfirmButton: true,
-                    timer: 2500,
-                    confirmButtonText: 'Ok'
-                })
-            {% endfor %}
-        </script>
-    {% endif %}
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col col-xl-10">
-                <div class="card" style="border-radius: 1rem;">
+                <div class="card shadow-lg" style="border-radius: 1rem;">
                     <div class="row g-0">
-                        <div class="col-md-6 col-lg-5 d-none d-md-block">
-                            <img src="{% static 'images/login.webp' %}"
-                                 alt="login form" class="img-fluid"
-                                 style="border-radius: 1rem 0 0 1rem;height: 100%"/>
-                        </div>
-                        <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                        <div class="col-md-12 col-lg-12 d-flex align-items-center">
                             <div class="card-body p-4 p-lg-5 text-black">
                                 <form method="post"> {% csrf_token %}
                                     <div class="d-flex mb-3 pb-1"
@@ -41,18 +23,27 @@
                                             </a>
                                         </span>
                                     </div>
-                                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your
+                                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Create your
                                         account</h5>
-                                    <div class="form-outline mb-4">
-                                        {{ form.username }}
-                                    </div>
-                                    <div class="form-outline mb-4">
-                                        {{ form.password }}
-                                    </div>
+                                    {% for field in form %}
+                                        <div class="form-outline mb-4">
+                                            {% if field.errors %}
+                                                {{ field|add_attr:"form-control form-control-lg is-invalid" }}
+                                                <span class="text-danger d-flex justify-content-start mt-1">
+                                                {{ field.errors|first }}
+                                            </span>
+                                            {% else %}
+                                                {{ field|add_attr:"form-control form-control-lg" }}
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+
                                     <div class="pt-1 mb-4">
-                                        <button class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
+                                        <button class="btn btn-dark btn-lg btn-block" type="submit">Signup
+                                        </button>
                                     </div>
-                                    <a href="{% url "signup" %}" style="color: #393f81;">Don't have an account?</a>
+                                    <a href="{% url "login" %}" style="color: #393f81;">Do you already have an
+                                        account?</a>
                                 </form>
                             </div>
                         </div>

@@ -34,10 +34,11 @@ class BrandListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         query, order_by, value = queryParser.queryParser(self, 'name')
         if query and query != '':
-            return Brand.objects.filter(name__icontains=query).order_by(order_by) or Brand.objects.filter(
-                category__icontains=query).order_by(order_by) or Brand.objects.filter(
+            return self.request.user.brands.filter(name__icontains=query).order_by(
+                order_by) or self.request.user.brands.filter(
+                category__icontains=query).order_by(order_by) or self.request.user.brands.filter(
                 created__icontains=query).order_by(order_by)
-        return Brand.objects.all().order_by(order_by)
+        return self.request.user.brands.all().order_by(order_by)
 
 
 class BrandUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
@@ -71,6 +72,7 @@ class BrandCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
+        self.object.company = self.request.user
         self.object.save()
         messages.success(self.request,
                          f"{self.object.name} is successfully added with the category {self.object.category}!")

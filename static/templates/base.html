@@ -24,7 +24,7 @@
     <script src="{% static '/js/cookie.js' %}"></script>
 </head>
 <body>
-<nav class="navbar navbar-dark bg-dark">
+<nav class="navbar navbar-dark bg-dark shadow-lg">
     {% if user.is_authenticated %}
         <div class="col-md-6">
             <div class="container-fluid">
@@ -39,12 +39,12 @@
         <div class="col-md-6"></div>
     {% endif %}
     <div class="col-md-6">
-        <div class="d-flex justify-content-end" style="margin-right: 5px">
+        <div class="d-flex justify-content-end" style="margin-right: 10px">
             {% if user.is_authenticated %}
-                <div class="dropdown">
-                    <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                        Welcome {{ user.username }}
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
+                            data-bs-display="static" aria-expanded="false">
+                        Welcome {{ user.company_name }}
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li><a class="dropdown-item" href="#">Profile</a></li>
@@ -53,7 +53,7 @@
                 </div>
             {% else %}
                 {% if request.path == "/login/" %}
-                    <a class="btn btn-dark btn-outline-light me-1" href="#">Signup</a>
+                    <a class="btn btn-dark btn-outline-light me-1" href="{% url "signup" %}">Signup</a>
                 {% elif  request.path == '/signup/' %}
                     <a class="btn btn-dark btn-outline-light me-1"
                        href="{% url "login" %}">
