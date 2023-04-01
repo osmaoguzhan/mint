@@ -26,7 +26,8 @@ INSTALLED_APPS = [
     # apps
     'home',
     'customer',
-    'brand'
+    'brand',
+    'supplier',
 ]
 
 MIDDLEWARE = [
