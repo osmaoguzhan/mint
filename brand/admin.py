@@ -3,7 +3,7 @@ from . import models
 
 
 class BrandAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category', 'created')
+    list_display = ('name', 'category', 'supplier', 'created')
 
 
 admin.site.register(models.Brand, BrandAdmin)

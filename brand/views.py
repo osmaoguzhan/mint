@@ -20,6 +20,7 @@ class BrandListView(LoginRequiredMixin, ListView):
             {'id': 'id', 'header': 'ID'},
             {'id': 'name', 'header': 'Brand Name'},
             {'id': 'category', 'header': 'Category'},
+            {'id': 'supplier', 'header': 'Supplier'},
             {'id': 'created', 'header': 'Created'}
         ],
         'title': 'Brands',
@@ -37,13 +38,14 @@ class BrandListView(LoginRequiredMixin, ListView):
             return self.request.user.brands.filter(name__icontains=query).order_by(
                 order_by) or self.request.user.brands.filter(
                 category__icontains=query).order_by(order_by) or self.request.user.brands.filter(
+                supplier__icontains=query).order_by(order_by) or self.request.user.brands.filter(
                 created__icontains=query).order_by(order_by)
         return self.request.user.brands.all().order_by(order_by)
 
 
 class BrandUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Brand
-    success_url = '/brands'
+    success_url = LIST_PATH
     template_name = 'form_template.html'
     success_message = '%(name)s is successfully updated!'
     form_class = BrandForm
@@ -60,7 +62,7 @@ class BrandUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
 class BrandCreateView(LoginRequiredMixin, CreateView):
     model = Brand
-    success_url = '/brands/'
+    success_url = LIST_PATH
     template_name = 'form_template.html'
     form_class = BrandForm
     extra_context = {'submit_btn': 'Create', 'title': 'Create a Brand', 'list_path': LIST_PATH}
@@ -81,5 +83,5 @@ class BrandCreateView(LoginRequiredMixin, CreateView):
 
 class BrandDeleteView(LoginRequiredMixin, DeleteView):
     model = Brand
-    success_url = '/brands/'
+    success_url = LIST_PATH
     login_url = settings.LOGIN_URL
