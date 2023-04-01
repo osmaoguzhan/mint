@@ -21,6 +21,7 @@ class ProductListView(LoginRequiredMixin, ListView):
             {'id': 'id', 'header': 'ID'},
             {'id': 'name', 'header': 'Name'},
             {'id': 'description', 'header': 'Description'},
+            {'id': 'amount', 'header': 'Amount'},
             {'id': 'unit', 'header': 'Unit'},
             {'id': 'price', 'header': 'Price'},
             {'id': 'brand', 'header': 'Brand'},
@@ -41,6 +42,7 @@ class ProductListView(LoginRequiredMixin, ListView):
             return self.request.user.products.filter(name__icontains=query).order_by(
                 order_by) or self.request.user.products.filter(
                 description__icontains=query).order_by(order_by) or self.request.user.products.filter(
+                amount__icontains=query).order_by(order_by) or self.request.user.products.filter(
                 unit__icontains=query).order_by(order_by) or self.request.user.products.filter(
                 price__icontains=query).order_by(order_by) or self.request.user.products.filter(
                 brand__icontains=query).order_by(order_by) or self.request.user.products.filter(

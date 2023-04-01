@@ -7,10 +7,11 @@ from .models import Product
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ["name", "description", "unit", "price", "brand"]
+        fields = ["name", "description", "amount", "unit", "price", "brand"]
         widgets = {
             "name": forms.TextInput(attrs={"class": "form-control", "id": "name"}),
             "description": forms.Textarea(attrs={"class": "form-control", "id": "description"}),
+            "amount": forms.NumberInput(attrs={"class": "form-control", "id": "amount"}),
             "unit": forms.TextInput(attrs={"class": "form-control", "id": "unit"}),
             "price": forms.NumberInput(attrs={"class": "form-control", "id": "price"}),
             "brand": forms.Select(attrs={"class": "form-control", "id": "brand"}),
@@ -18,6 +19,7 @@ class ProductForm(forms.ModelForm):
         labels = {
             "name": "Name",
             "description": "Description",
+            "amount": "Amount",
             "unit": "Unit",
             "price": "Price",
             "brand": "Brand"
@@ -37,6 +39,14 @@ class ProductForm(forms.ModelForm):
             raise ValidationError("Description must be between 3 and 100 characters")
         return description
 
+    def clean_amount(self):
+        amount = self.cleaned_data["amount"]
+        if amount <= 0 or amount > 99999999:
+            raise ValidationError("Amount must be greater than 0 and less than 99999999")
+        elif amount is None:
+            raise ValidationError("Amount must be entered")
+        return amount
+
     def clean_unit(self):
         unit = self.cleaned_data["unit"]
         if len(unit) < 1 or len(unit) > 10:
@@ -45,7 +55,7 @@ class ProductForm(forms.ModelForm):
 
     def clean_price(self):
         price = self.cleaned_data["price"]
-        if 0 > price > 99999999:
+        if price <= 0 or price > 99999999:
             raise ValidationError("Price must be greater than 0 and less than 99999999")
         return price
 
