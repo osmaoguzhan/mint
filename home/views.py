@@ -13,7 +13,7 @@ class LoginPageView(LoginView):
 
     def get(self, request, *args, **kwargs):
         if self.request.user.is_authenticated:
-            return redirect('/brands/')
+            return redirect('/dashboard/')
         return super().get(request, *args, **kwargs)
 
 
@@ -32,3 +32,19 @@ class SignupView(SuccessMessageMixin, CreateView):
     extra_context = {'title': 'Signup'}
     success_url = '/login/'
     success_message = 'Account created successfully'
+
+
+class DashboardView(TemplateView):
+    template_name = 'home/dashboard.html'
+    context_object_name = 'analytics'
+    extra_context = {'title': 'Dashboard'}
+
+    def get(self, request, *args, **kwargs):
+        self.extra_context['analytics'] = {
+            'customer_count': self.request.user.customers.count(),
+            'brand_count': self.request.user.brands.count(),
+            'categories': self.request.user.brands.all().values('category'),
+        }
+        if not self.request.user.is_authenticated:
+            return redirect('/login/')
+        return super().get(request, *args, **kwargs)

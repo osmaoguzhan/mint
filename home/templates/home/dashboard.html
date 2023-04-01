@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <!-- dashboard -->
+    <div class="container">
+        <!-- create a card with icon -->
+        <div class="row my-2">
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="card bg-danger text-white mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Products</h5>
+                        <p class="card-text h3">{{ request.user.brands.count }}</p>
+                        <i class="fas fa-2x fa-chart-line"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="card bg-primary text-white mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Customers</h5>
+                        <p class="card-text h3">{{ request.user.customers.count }}</p>
+                        <i class="fas fa-2x fa-person"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="card bg-success text-white mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Suppliers</h5>
+                        <p class="card-text h3">12</p>
+                        <i class="fas  fa-2x fa-truck-field"></i></div>
+                </div>
+            </div>
+            <div class="row my-2">
+                <div class="col-lg-6 col-md-12 col-sm-12 mt-3">
+                    <div class="card shadow-lg">
+                        <div class="card-body">
+                            <canvas id="chart-line"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12 mt-3">
+                    <div class="card shadow-lg">
+                        <div class="card-body">
+                            <canvas id="bar-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        console.log({{ analytics.0 }})
+    </script>
+    <script>
+        let count = {{ analytics.categories.count }};
+        if (count === 0) {
+            let element = document.getElementById("chart-line").css('display', 'none');
+        }
+        let categories = {};
+        {% for category in analytics.categories %}
+            if (categories["{{ category.category }}"] === undefined) {
+                categories["{{ category.category }}"] = 1;
+            } else {
+                categories["{{ category.category }}"] += 1;
+            }
+        {% endfor %}
+        let colors = [];
+        for (let i = 0; i < count; i++) {
+            colors.push('#' + Math.floor(Math.random() * 16777215).toString(16));
+        }
+        let ctx = $("#chart-line");
+        let myLineChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: Object.keys(categories),
+                datasets:
+                    [{
+                        data: Object.values(categories),
+                        backgroundColor: colors
+                    }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Categories'
+                }
+            }
+        });
+        let barchart = $("#bar-chart");
+        let bar = new Chart(barchart, {
+            type: 'bar',
+            data: {
+                labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+                datasets: [{
+                    data: [86, 114, 106, 106, 107, 111, 133, 221],
+                    label: "Incoming",
+                    borderColor: "#458af7",
+                    backgroundColor: '#458af7',
+                    fill: false
+                }, {
+                    data: [282, 350, 411, 502, 635, 809, 1100],
+                    label: "Outgoing",
+                    borderColor: "#8e5ea2",
+                    fill: true,
+                    backgroundColor: '#8e5ea2'
+
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Income/Outcome'
+                }
+            }
+        });
+    </script>
+{% endblock %}
