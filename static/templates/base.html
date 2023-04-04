@@ -93,7 +93,7 @@
                 <a class="nav-link active text-white" href="{% url 'home' %}">{% trans 'label:home' %}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" href="#">{% trans 'label:products' %}</a>
+                <a class="nav-link text-white" href="{% url "products.list" %}">{% trans 'label:products' %}</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-white" href="{% url "suppliers.list" %}">{% trans 'label:suppliers' %}</a>
