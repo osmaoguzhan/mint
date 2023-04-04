@@ -128,5 +128,6 @@ LOGOUT_REDIRECT_URL = '/login/'
 AUTH_USER_MODEL = 'home.CompanyUser'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-ALLOWED_HOSTS = ['46ff-2a00-f41-80e4-dd-addd-e56f-5618-8db2.eu.ngrok.io', '127.0.0.1', 'localhost']
-CSRF_TRUSTED_ORIGINS = ['https://46ff-2a00-f41-80e4-dd-addd-e56f-5618-8db2.eu.ngrok.io', 'http://127.0.0.1:8000/']
+# To share the app on ngrrok.io
+# ALLOWED_HOSTS = ['46ff-2a00-f41-80e4-dd-addd-e56f-5618-8db2.eu.ngrok.io', '127.0.0.1', 'localhost']
+# CSRF_TRUSTED_ORIGINS = ['https://46ff-2a00-f41-80e4-dd-addd-e56f-5618-8db2.eu.ngrok.io', 'http://127.0.0.1:8000/']
