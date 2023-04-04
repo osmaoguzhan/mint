@@ -18,7 +18,7 @@ class CompanyUser(AbstractBaseUser):
     objects = CompanyUserManager()
 
     def __str__(self):
-        return self.email
+        return self.company_name
 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
