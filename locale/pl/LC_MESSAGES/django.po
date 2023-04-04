@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-04 15:53+0200\n"
+"POT-Creation-Date: 2023-04-04 18:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,31 +14,40 @@ msgstr ""
 "(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && "
 "n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
-#: brand/forms.py:12
+#: brand/forms.py:11
 msgid "label:select_supplier"
 msgstr "Wybierz dostawcę"
 
-#: brand/forms.py:26 brand/views.py:23
+#: brand/forms.py:12
+msgid "label:select_category"
+msgstr "Wybierz kategorię"
+
+#: brand/forms.py:25 brand/views.py:23 product/forms.py:31 product/views.py:28
 msgid "label:brand_name"
 msgstr "Marka"
 
-#: brand/forms.py:27 brand/views.py:24
+#: brand/forms.py:26 brand/views.py:24
 msgid "label:category_name"
 msgstr "Kategoria"
 
-#: brand/forms.py:28 brand/views.py:25
+#: brand/forms.py:27 brand/views.py:25
 msgid "label:supplier_name"
 msgstr "Dostawca"
 
-#: brand/forms.py:34
+#: brand/forms.py:33
 msgid "message:brand_name_length_error"
 msgstr "Nazwa marki musi mieć od 3 do 30 znaków."
 
-#: brand/forms.py:40
+#: brand/forms.py:39
+msgid "message:category_name_error"
+msgstr "Proszę wybrać kategorię."
+
+#: brand/forms.py:45
 msgid "message:supplier_name_error"
 msgstr "Proszę wybrać dostawcę."
 
-#: brand/views.py:26 customer/views.py:28 supplier/views.py:27
+#: brand/views.py:26 customer/views.py:28 product/views.py:29
+#: supplier/views.py:27
 msgid "label:created_date"
 msgstr "Data utworzenia"
 
@@ -58,7 +67,8 @@ msgstr "Dodaj nową markę"
 msgid "message:brand_updated"
 msgstr "Marka została zaktualizowana."
 
-#: brand/views.py:69 customer/views.py:80 supplier/views.py:77
+#: brand/views.py:69 customer/views.py:80 product/views.py:77
+#: supplier/views.py:77
 msgid "label:update_button_text"
 msgstr "Zaktualizuj"
 
@@ -66,7 +76,8 @@ msgstr "Zaktualizuj"
 msgid "label:update_a_brand"
 msgstr "Zaktualizuj markę"
 
-#: brand/views.py:79 customer/views.py:90 supplier/views.py:87
+#: brand/views.py:79 customer/views.py:90 product/views.py:87
+#: supplier/views.py:87
 msgid "label:create_button_text"
 msgstr "Utwórz"
 
@@ -213,17 +224,102 @@ msgstr ""
 "Mint to aplikacja do zarządzania magazynem. Pozwala na zarządzanie "
 "zamówieniami, dostawcami, klientami, produktami i markami."
 
-#: mint/settings.py:104
+#: mint/settings.py:106
 msgid "English"
 msgstr ""
 
-#: mint/settings.py:105
+#: mint/settings.py:107
 msgid "Polish"
 msgstr ""
 
-#: mint/settings.py:106
+#: mint/settings.py:108
 msgid "Turkish"
 msgstr ""
+
+#: product/forms.py:11
+msgid "label:select_brand"
+msgstr "Utwórz markę"
+
+#: product/forms.py:26 product/views.py:23 supplier/forms.py:19
+#: supplier/views.py:23
+msgid "label:name"
+msgstr "Nazwa"
+
+#: product/forms.py:27 product/views.py:24
+msgid "label:description"
+msgstr "Opis"
+
+#: product/forms.py:28 product/views.py:25
+msgid "label:amount"
+msgstr "Ilość"
+
+#: product/forms.py:29 product/views.py:26
+msgid "label:unit"
+msgstr "Jednostka"
+
+#: product/forms.py:30 product/views.py:27
+msgid "label:price"
+msgstr "Cena"
+
+#: product/forms.py:37
+msgid "message:product_name_length_error"
+msgstr "Nazwa produktu musi mieć od 3 do 30 znaków."
+
+#: product/forms.py:39
+msgid "message:product_exists_error"
+msgstr "Produkt o takiej nazwie już istnieje."
+
+#: product/forms.py:45
+msgid "message:product_description_length_error"
+msgstr "Opis produktu musi mieć od 3 do 100 znaków."
+
+#: product/forms.py:51
+msgid "message:product_amount_error"
+msgstr "Ilość musi być większa od 0 i mniejsza od 99999999."
+
+#: product/forms.py:57
+msgid "message:product_unit_length_error"
+msgstr "Jednostka musi mieć od 1 do 10 znaków."
+
+#: product/forms.py:59
+msgid "message:product_unit_error"
+msgstr "Jednostka musi być liczbą."
+
+#: product/forms.py:65
+msgid "message:product_price_error"
+msgstr "Cena musi być większa od 0 i mniejsza od 99999999."
+
+#: product/forms.py:71
+msgid "message:product_brand_error"
+msgstr "Musisz wybrać markę."
+
+#: product/views.py:31 static/templates/base.html:96
+msgid "label:products"
+msgstr "Produkty"
+
+#: product/views.py:35
+msgid "message:no_products_found"
+msgstr "Nie znaleziono żadnych produktów."
+
+#: product/views.py:36
+msgid "label:add_new_product"
+msgstr "Dodaj nowy produkt"
+
+#: product/views.py:75
+msgid "message:product_updated"
+msgstr "Produkt został zaktualizowany."
+
+#: product/views.py:77
+msgid "label:update_a_product"
+msgstr "Edytuj produkt"
+
+#: product/views.py:87
+msgid "label:create_a_product"
+msgstr "Utwórz produkt"
+
+#: product/views.py:99
+msgid "message:product_created"
+msgstr "Produkt został utworzony."
 
 #: static/templates/base.html:62
 msgid "label:welcome"
@@ -241,10 +337,6 @@ msgstr "Wloguj się"
 msgid "label:home"
 msgstr "Strona główna"
 
-#: static/templates/base.html:96
-msgid "label:products"
-msgstr "Produkty"
-
 #: static/templates/base.html:99 supplier/views.py:29
 msgid "label:suppliers"
 msgstr "Dostawcy"
@@ -257,7 +349,7 @@ msgstr "Zamówienia"
 msgid "label:settings"
 msgstr "Ustawienia"
 
-#: static/templates/form_template.html:18
+#: static/templates/form_template.html:19
 msgid "label:back"
 msgstr "Powrót"
 
@@ -280,10 +372,6 @@ msgstr "Edytuj"
 #: static/templates/table_template.html:63
 msgid "label:delete_text"
 msgstr "Usuń"
-
-#: supplier/forms.py:19 supplier/views.py:23
-msgid "label:name"
-msgstr "Nazwa"
 
 #: supplier/forms.py:28
 msgid "message:supplier_name_length"

@@ -9,6 +9,9 @@ class BrandForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["supplier"].empty_label = _("label:select_supplier")
+        self.fields["category"].empty_label = _("label:select_category")
+        self.fields["supplier"].required = False
+        self.fields["category"].required = False
 
     class Meta:
         model = Brand
@@ -33,7 +36,7 @@ class BrandForm(forms.ModelForm):
     def clean_category(self):
         category = self.cleaned_data["category"]
         if category is None:
-            raise ValidationError("Category must be selected")
+            raise ValidationError(_('message:category_name_error'))
         return category
 
     def clean_supplier(self):

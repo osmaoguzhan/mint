@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-04 15:53+0200\n"
+"POT-Creation-Date: 2023-04-04 18:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -12,31 +12,40 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: brand/forms.py:12
+#: brand/forms.py:11
 msgid "label:select_supplier"
 msgstr "Select a supplier"
 
-#: brand/forms.py:26 brand/views.py:23
+#: brand/forms.py:12
+msgid "label:select_category"
+msgstr "Select a category"
+
+#: brand/forms.py:25 brand/views.py:23 product/forms.py:31 product/views.py:28
 msgid "label:brand_name"
 msgstr "Brand Name"
 
-#: brand/forms.py:27 brand/views.py:24
+#: brand/forms.py:26 brand/views.py:24
 msgid "label:category_name"
 msgstr "Category"
 
-#: brand/forms.py:28 brand/views.py:25
+#: brand/forms.py:27 brand/views.py:25
 msgid "label:supplier_name"
 msgstr "Supplier"
 
-#: brand/forms.py:34
+#: brand/forms.py:33
 msgid "message:brand_name_length_error"
 msgstr "Brand name must be between 3 and 30 characters."
 
-#: brand/forms.py:40
+#: brand/forms.py:39
+msgid "message:category_name_error"
+msgstr "Please select a category."
+
+#: brand/forms.py:45
 msgid "message:supplier_name_error"
 msgstr "Please select a supplier."
 
-#: brand/views.py:26 customer/views.py:28 supplier/views.py:27
+#: brand/views.py:26 customer/views.py:28 product/views.py:29
+#: supplier/views.py:27
 msgid "label:created_date"
 msgstr "Created"
 
@@ -56,7 +65,8 @@ msgstr "Add a new brand"
 msgid "message:brand_updated"
 msgstr "%(brand_name)s updated successfully."
 
-#: brand/views.py:69 customer/views.py:80 supplier/views.py:77
+#: brand/views.py:69 customer/views.py:80 product/views.py:77
+#: supplier/views.py:77
 msgid "label:update_button_text"
 msgstr "Update"
 
@@ -64,7 +74,8 @@ msgstr "Update"
 msgid "label:update_a_brand"
 msgstr "Update Brand"
 
-#: brand/views.py:79 customer/views.py:90 supplier/views.py:87
+#: brand/views.py:79 customer/views.py:90 product/views.py:87
+#: supplier/views.py:87
 msgid "label:create_button_text"
 msgstr "Create"
 
@@ -211,17 +222,102 @@ msgstr ""
 "Mint is a simple and easy to use inventory management system. It is a free "
 "and open source software."
 
-#: mint/settings.py:104
+#: mint/settings.py:106
 msgid "English"
 msgstr ""
 
-#: mint/settings.py:105
+#: mint/settings.py:107
 msgid "Polish"
 msgstr ""
 
-#: mint/settings.py:106
+#: mint/settings.py:108
 msgid "Turkish"
 msgstr ""
+
+#: product/forms.py:11
+msgid "label:select_brand"
+msgstr "Select a brand"
+
+#: product/forms.py:26 product/views.py:23 supplier/forms.py:19
+#: supplier/views.py:23
+msgid "label:name"
+msgstr "Name"
+
+#: product/forms.py:27 product/views.py:24
+msgid "label:description"
+msgstr "Description"
+
+#: product/forms.py:28 product/views.py:25
+msgid "label:amount"
+msgstr "Amount"
+
+#: product/forms.py:29 product/views.py:26
+msgid "label:unit"
+msgstr "Unit"
+
+#: product/forms.py:30 product/views.py:27
+msgid "label:price"
+msgstr "Price"
+
+#: product/forms.py:37
+msgid "message:product_name_length_error"
+msgstr "Product name must be between 3 and 30 characters."
+
+#: product/forms.py:39
+msgid "message:product_exists_error"
+msgstr "Product already exists."
+
+#: product/forms.py:45
+msgid "message:product_description_length_error"
+msgstr "Description must be between 3 and 100 characters."
+
+#: product/forms.py:51
+msgid "message:product_amount_error"
+msgstr "Amount must be greater than 0 and less than 99999999."
+
+#: product/forms.py:57
+msgid "message:product_unit_length_error"
+msgstr "Unit must be between 1 and 10 characters."
+
+#: product/forms.py:59
+msgid "message:product_unit_error"
+msgstr "Unit must include only letters."
+
+#: product/forms.py:65
+msgid "message:product_price_error"
+msgstr "Price must be greater than 0 and less than 99999999."
+
+#: product/forms.py:71
+msgid "message:product_brand_error"
+msgstr "Please select a brand."
+
+#: product/views.py:31 static/templates/base.html:96
+msgid "label:products"
+msgstr "Products"
+
+#: product/views.py:35
+msgid "message:no_products_found"
+msgstr "No products found!"
+
+#: product/views.py:36
+msgid "label:add_new_product"
+msgstr "Add a new product"
+
+#: product/views.py:75
+msgid "message:product_updated"
+msgstr "Product updated successfully."
+
+#: product/views.py:77
+msgid "label:update_a_product"
+msgstr "Update Product"
+
+#: product/views.py:87
+msgid "label:create_a_product"
+msgstr "Create Product"
+
+#: product/views.py:99
+msgid "message:product_created"
+msgstr "Producy is created successfully."
 
 #: static/templates/base.html:62
 msgid "label:welcome"
@@ -239,10 +335,6 @@ msgstr "Logout"
 msgid "label:home"
 msgstr "Home"
 
-#: static/templates/base.html:96
-msgid "label:products"
-msgstr "Products"
-
 #: static/templates/base.html:99 supplier/views.py:29
 msgid "label:suppliers"
 msgstr "Suppliers"
@@ -255,7 +347,7 @@ msgstr "Orders"
 msgid "label:settings"
 msgstr "Settings"
 
-#: static/templates/form_template.html:18
+#: static/templates/form_template.html:19
 msgid "label:back"
 msgstr "Back"
 
@@ -278,10 +370,6 @@ msgstr "Edit"
 #: static/templates/table_template.html:63
 msgid "label:delete_text"
 msgstr "Delete"
-
-#: supplier/forms.py:19 supplier/views.py:23
-msgid "label:name"
-msgstr "Name"
 
 #: supplier/forms.py:28
 msgid "message:supplier_name_length"
