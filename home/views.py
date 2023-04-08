@@ -1,9 +1,12 @@
 from django.contrib.messages.views import SuccessMessageMixin
-from django.views.generic import TemplateView, CreateView
+from django.views.generic import TemplateView, CreateView, UserChangeView
 from django.contrib.auth.views import LoginView, LogoutView
 from .admin import UserCreationForm
-from django.shortcuts import redirect
-from .forms import LoginForm
+from django.shortcuts import redirect, render
+from .forms import LoginForm, UserChangeForm
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class LoginPageView(LoginView):
@@ -32,3 +35,11 @@ class SignupView(SuccessMessageMixin, CreateView):
     extra_context = {'title': 'Signup'}
     success_url = '/login/'
     success_message = 'Account created successfully'
+
+
+class CustomUserChangeView(LoginRequiredMixin, SuccessMessageMixin, UserChangeView):
+    login_url = '/login/'
+    form_class = UserChangeForm
+    template_name = 'user_change.html'
+    success_url = reverse_lazy('profile')
+    success_message = "User updated successfully"

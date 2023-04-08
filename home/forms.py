@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import AuthenticationForm, UsernameField, ReadOnlyPasswordHashField
+from django.contrib.auth.forms import AuthenticationForm, UsernameField, ReadOnlyPasswordHashField, UserChangeForm
 from django import forms
 from django.core.exceptions import ValidationError
 from home.models import CompanyUser
@@ -134,9 +134,67 @@ class UserCreationForm(forms.ModelForm):
         return user
 
 
-class UserChangeForm(forms.ModelForm):
-    password = ReadOnlyPasswordHashField()
+class CustomUserChangeForm(forms.ModelForm):
+    email = forms.EmailField(
+        label='Email',
+        widget=forms.EmailInput(attrs={'placeholder': 'Email Address'})
+    )
+    company_name = forms.CharField(
+        label='Company Name',
+        widget=forms.TextInput(attrs={'placeholder': 'Company Name'})
+    )
+    phone_number = forms.CharField(
+        label='Phone Number',
+        widget=forms.TextInput(attrs={'placeholder': 'Phone Number'})
+    )
+    website = forms.CharField(
+        label='Website',
+        widget=forms.TextInput(attrs={'placeholder': 'Website (Optional)'}),
+        required=False
+    )
+    address = forms.CharField(
+        label='Address',
+        widget=forms.Textarea(attrs={'placeholder': 'Address', 'rows': 5})
+    )
 
     class Meta:
         model = CompanyUser
-        fields = ('email', 'password', 'company_name', 'phone_number', 'website', 'address', 'is_active', 'is_admin')
+        fields = ('email', 'company_name', 'phone_number', 'website', 'address')
+
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        if CompanyUser.objects.filter(email=email).exclude(id=self.instance.id).exists():
+            raise ValidationError("Email already exists")
+        return email
+
+    def clean_company_name(self):
+        company_name = self.cleaned_data.get("company_name")
+        if CompanyUser.objects.filter(company_name=company_name).exclude(id=self.instance.id).exists():
+            raise ValidationError("Company name already exists")
+        elif len(company_name) < 3 or len(company_name) > 255:
+            raise ValidationError("Company name must be between 3 and 255 characters")
+        return company_name
+
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data.get("phone_number")
+        if CompanyUser.objects.filter(phone_number=phone_number).exclude(id=self.instance.id).exists():
+            raise ValidationError("Phone number already exists")
+        return phone_number
+
+    def clean_website(self):
+        website = self.cleaned_data.get("website")
+        if website != "":
+            regex = re.compile(r"^(http|https)://[a-zA-Z0-9]+.[a-zA-Z0-9]+.[a-zA-Z0-9]+")
+            if not re.fullmatch(regex, website):
+                raise ValidationError("Website format is not valid.")
+            elif CompanyUser.objects.filter(website=website).exclude(id=self.instance.id).exists():
+                raise ValidationError("Website already exists")
+        return website
+
+    def clean_address(self):
+        address = self.cleaned_data.get("address")
+        if address == "":
+            raise ValidationError("Address is required")
+        elif len(address) < 3 or len(address) > 255:
+            raise ValidationError("Address must be between 3 and 255 characters")
+        return address
