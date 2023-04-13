@@ -3,11 +3,12 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
+from django.utils.formats import date_format
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-
 from utils import queryParser
 from .forms import ProductForm
 from .models import Product
+from django.utils.translation import gettext_lazy as _
 
 LIST_PATH = '/products/'
 
@@ -19,20 +20,20 @@ class ProductListView(LoginRequiredMixin, ListView):
     extra_context = {
         'header_data': [
             {'id': 'id', 'header': 'ID'},
-            {'id': 'name', 'header': 'Name'},
-            {'id': 'description', 'header': 'Description'},
-            {'id': 'amount', 'header': 'Amount'},
-            {'id': 'unit', 'header': 'Unit'},
-            {'id': 'price', 'header': 'Price'},
-            {'id': 'brand', 'header': 'Brand'},
-            {'id': 'created', 'header': 'Created'}
+            {'id': 'name', 'header': _('label:name')},
+            {'id': 'description', 'header': _('label:description')},
+            {'id': 'amount', 'header': _('label:amount')},
+            {'id': 'unit', 'header': _('label:unit')},
+            {'id': 'price', 'header': _('label:price')},
+            {'id': 'brand', 'header': _('label:brand_name')},
+            {'id': 'created', 'header': _('label:created_date')},
         ],
-        'title': 'Products',
+        'title': _('label:products'),
         'create_path': 'create/',
         'update_path': 'update/',
         'delete_action': 'product',
-        'not_found_text': 'No products found!',
-        'add_new_text': 'Add a new product'
+        'not_found_text': _('message:no_products_found'),
+        'add_new_text': _('label:add_new_product'),
     }
     login_url = settings.LOGIN_URL
 
@@ -49,22 +50,33 @@ class ProductListView(LoginRequiredMixin, ListView):
                 created__icontains=query).order_by(order_by)
         return self.request.user.products.all().order_by(order_by)
 
+    def get_context_data(self, **kwargs):
+        context = super(ProductListView, self).get_context_data(**kwargs)
+        new_context = dict()
+        for item in context['table_data']:
+            new_context[item.id] = {
+                'id': item.id,
+                'name': item.name,
+                'description': item.description,
+                'amount': item.amount,
+                'unit': item.unit,
+                'price': item.price,
+                'brand': item.brand,
+                'created': date_format(item.created, 'd/m/Y', use_l10n=True)
+            }
+        context['table_data'] = new_context
+        return context
+
 
 class ProductUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Product
     success_url = LIST_PATH
     template_name = 'form_template.html'
-    success_message = '%(name)s is successfully updated!'
+    success_message = _("message:product_updated")
     form_class = ProductForm
-    extra_context = {'submit_btn': 'Update', 'title': 'Update Product', 'list_path': LIST_PATH}
+    extra_context = {'submit_btn': _('label:update_button_text'), 'title': _('label:update_a_product'),
+                     'list_path': LIST_PATH}
     login_url = settings.LOGIN_URL
-
-    def get_success_message(self, cleaned_data):
-        return self.success_message % dict(
-            cleaned_data,
-            name=self.object.name,
-            brand=self.object.brand
-        )
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
@@ -72,7 +84,8 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     success_url = LIST_PATH
     template_name = 'form_template.html'
     form_class = ProductForm
-    extra_context = {'submit_btn': 'Create', 'title': 'Create a Product', 'list_path': LIST_PATH}
+    extra_context = {'submit_btn': _('label:create_button_text'), 'title': _('label:create_a_product'),
+                     'list_path': LIST_PATH}
     login_url = settings.LOGIN_URL
 
     def __init__(self, **kwargs):
@@ -83,8 +96,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         self.object = form.save(commit=False)
         self.object.company = self.request.user
         self.object.save()
-        messages.success(self.request,
-                         f"{self.object.name} is successfully added with the brand {self.object.brand}!")
+        messages.success(self.request, _("message:product_created"))
         return HttpResponseRedirect(self.get_success_url())
 
 

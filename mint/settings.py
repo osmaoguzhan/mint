@@ -1,10 +1,10 @@
 from pathlib import Path
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-xkn3k*ilf1u)3sl!7uxdy_c4i=@z_3+8r4ud2ipp5zv&mdh$pz'
@@ -40,6 +40,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware'
 ]
 
 ROOT_URLCONF = 'mint.urls'
@@ -66,7 +67,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'mint.wsgi.application'
 
 # Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
     'default': {
@@ -76,7 +76,6 @@ DATABASES = {
 }
 
 # Password validation
-# https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -94,27 +93,32 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Internationalization
-# https://docs.djangoproject.com/en/4.1/topics/i18n/
-
-LANGUAGE_CODE = 'en-us'
-
+LANGUAGE_CODE = 'tr'
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
+USE_L10N = True
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.i18n',
+)
+
+LANGUAGES = [
+    ('en', _('English')),
+    ('pl', _('Polish')),
+    ('tr', _('Turkish')),
+]
+LOCALE_PATHS = [
+    BASE_DIR / 'locale'
+]
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.1/howto/static-files/
-
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/dashboard/'
@@ -122,3 +126,8 @@ LOGIN_URL = '/login/'
 LOGOUT_REDIRECT_URL = '/login/'
 
 AUTH_USER_MODEL = 'home.CompanyUser'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# To share the app on ngrrok.io
+# ALLOWED_HOSTS = ['46ff-2a00-f41-80e4-dd-addd-e56f-5618-8db2.eu.ngrok.io', '127.0.0.1', 'localhost']
+# CSRF_TRUSTED_ORIGINS = ['https://46ff-2a00-f41-80e4-dd-addd-e56f-5618-8db2.eu.ngrok.io', 'http://127.0.0.1:8000/']

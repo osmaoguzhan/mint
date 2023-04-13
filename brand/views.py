@@ -7,6 +7,8 @@ from .forms import BrandForm
 from django.contrib import messages
 from utils import queryParser
 from django.conf import settings
+from django.utils.translation import gettext_lazy as _
+from django.utils.formats import date_format
 
 LIST_PATH = '/brands/'
 
@@ -18,17 +20,17 @@ class BrandListView(LoginRequiredMixin, ListView):
     extra_context = {
         'header_data': [
             {'id': 'id', 'header': 'ID'},
-            {'id': 'name', 'header': 'Brand Name'},
-            {'id': 'category', 'header': 'Category'},
-            {'id': 'supplier', 'header': 'Supplier'},
-            {'id': 'created', 'header': 'Created'}
+            {'id': 'name', 'header': _('label:brand_name')},
+            {'id': 'category', 'header': _('label:category_name')},
+            {'id': 'supplier', 'header': _('label:supplier_name')},
+            {'id': 'created', 'header': _('label:created_date')},
         ],
-        'title': 'Brands',
+        'title': _('label:brands'),
         'create_path': 'create/',
         'update_path': 'update/',
         'delete_action': 'brand',
-        'not_found_text': 'No brands found!',
-        'add_new_text': 'Add a new brand'
+        'not_found_text': _('message:no_brands_found'),
+        'add_new_text': _('label:add_new_brand'),
     }
     login_url = settings.LOGIN_URL
 
@@ -42,30 +44,40 @@ class BrandListView(LoginRequiredMixin, ListView):
                 created__icontains=query).order_by(order_by)
         return self.request.user.brands.all().order_by(order_by)
 
+    def get_context_data(self, **kwargs):
+        context = super(BrandListView, self).get_context_data(**kwargs)
+        new_context = dict()
+
+        for item in context['table_data']:
+            new_context[item.id] = {
+                'id': item.id,
+                'name': item.name,
+                'category': item.category,
+                'supplier': item.supplier,
+                'created': date_format(item.created, 'd/m/Y', use_l10n=True)
+            }
+        context['table_data'] = new_context
+        return context
+
 
 class BrandUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Brand
     success_url = LIST_PATH
     template_name = 'form_template.html'
-    success_message = '%(name)s is successfully updated!'
+    success_message = _("message:brand_updated")
     form_class = BrandForm
-    extra_context = {'submit_btn': 'Update', 'title': 'Update Brand', 'list_path': LIST_PATH}
+    extra_context = {'submit_btn': _('label:update_button_text'), 'title': _('label:update_a_brand'),
+                     'list_path': LIST_PATH}
     login_url = settings.LOGIN_URL
-
-    def get_success_message(self, cleaned_data):
-        return self.success_message % dict(
-            cleaned_data,
-            name=self.object.name,
-            category=self.object.category,
-        )
 
 
 class BrandCreateView(LoginRequiredMixin, CreateView):
     model = Brand
     success_url = LIST_PATH
-    template_name = 'form_template.html'
     form_class = BrandForm
-    extra_context = {'submit_btn': 'Create', 'title': 'Create a Brand', 'list_path': LIST_PATH}
+    template_name = 'form_template.html'
+    extra_context = {'submit_btn': _('label:create_button_text'), 'title': _('label:create_a_brand'),
+                     'list_path': LIST_PATH}
     login_url = settings.LOGIN_URL
 
     def __init__(self, **kwargs):
@@ -76,9 +88,13 @@ class BrandCreateView(LoginRequiredMixin, CreateView):
         self.object = form.save(commit=False)
         self.object.company = self.request.user
         self.object.save()
-        messages.success(self.request,
-                         f"{self.object.name} is successfully added with the category {self.object.category}!")
+        messages.success(self.request, _("message:brand_created"))
         return HttpResponseRedirect(self.get_success_url())
+
+    def get_form(self, form_class=None):
+        form = super(BrandCreateView, self).get_form(form_class)
+        form.fields['supplier'].queryset = self.request.user.suppliers.all()
+        return form
 
 
 class BrandDeleteView(LoginRequiredMixin, DeleteView):

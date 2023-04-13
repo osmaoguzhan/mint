@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
@@ -41,8 +42,7 @@
                                             </a>
                                         </span>
                                     </div>
-                                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your
-                                        account</h5>
+                                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">{% trans 'label:sign_into_your_account' %}</h5>
                                     <div class="form-outline mb-4">
                                         {{ form.username }}
                                     </div>
@@ -50,9 +50,9 @@
                                         {{ form.password }}
                                     </div>
                                     <div class="pt-1 mb-4">
-                                        <button class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
+                                        <button class="btn btn-dark btn-lg btn-block" type="submit">{% trans 'label:login' %}</button>
                                     </div>
-                                    <a href="{% url "signup" %}" style="color: #393f81;">Don't have an account?</a>
+                                    <a href="{% url "signup" %}" style="color: #393f81;">{% trans 'label:dont_you_have_account' %}</a>
                                 </form>
                             </div>
                         </div>

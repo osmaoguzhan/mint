@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block title %}
     {{ title }}
@@ -28,18 +29,19 @@
                 </a>
                 <a onclick="exportTable()" class="btn btn-primary btn-sm active"
                    role="button"
-                   aria-pressed="true">Export
+                   aria-pressed="true">{% trans 'label:export_button' %}
                     <i class="fas fa-file-export"></i>
                 </a>
                 <a href="{{ request.path }}" class="btn btn-primary btn-sm active"
                    role="button" style="display: none" id="clearFilters"
-                   aria-pressed="true">Clear Filters
+                   aria-pressed="true"> {% trans 'label:clear_filters' %}
                     <i class="fas fa-arrows-rotate"></i>
                 </a>
             </div>
             <div class="col-4" style="text-align: right">
                 <form method="get">
-                    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+                    <input type="search" class="form-control rounded" placeholder="{% trans 'label:search' %}"
+                           aria-label="Search"
                            aria-describedby="search-addon" name="query"/>
                 </form>
             </div>
@@ -57,8 +59,8 @@
                                     class="fa fa-sort"></i>
                             </th>
                         {% endfor %}
-                        <th scope="col">Edit</th>
-                        <th scope="col">Delete</th>
+                        <th scope="col">{% trans 'label:edit_text' %}</th>
+                        <th scope="col">{% trans 'label:delete_text' %}</th>
                     </tr>
                     </thead>
                     <tbody>
