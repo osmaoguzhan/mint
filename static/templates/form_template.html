@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load i18n %}
+{% load custom_tags %}
 
 {% block title %}{{ title }}{% endblock %}
 
@@ -11,19 +13,13 @@
             <hr/>
         </div>
         <div class="row">
+            {% get_current_language as LANGUAGE_CODE %}
             <div class="col-4" style="text-align: left">
-                <a href="{{ list_path }}" class="btn btn-secondary" style="margin-bottom: 10px">
-                    <i class="fa fa-arrow-left"></i> Back
+                <a href="/{{ LANGUAGE_CODE }}{{ list_path }}" class="btn btn-secondary" style="margin-bottom: 10px">
+                    <i class="fa fa-arrow-left"></i> {% trans 'label:back' %}
                 </a>
             </div>
         </div>
-        {% for field in form %}
-            {% if field.errors %}
-                <div class="alert alert-danger alert-dismissible fade show" role="alert" style="text-align: start">
-                    <strong>{{ field.label }}: </strong> {{ field.errors|first }}
-                </div>
-            {% endif %}
-        {% endfor %}
         <form method="POST"> {% csrf_token %}
             {% for field in form %}
                 <div class="form-group">
@@ -33,7 +29,14 @@
                                    for="{{ field.id }}"><b>{{ field.label }}:</b></label>
                         </div>
                         <div class="col-12">
-                            {{ field }}
+                            {% if field.errors %}
+                                {{ field|add_attr:"form-control form-control-lg is-invalid" }}
+                                <span class="text-danger d-flex justify-content-start mt-1">
+                                                {{ field.errors|first }}
+                                            </span>
+                            {% else %}
+                                {{ field|add_attr:"form-control form-control-lg" }}
+                            {% endif %}
                         </div>
                     </div>
                 </div>

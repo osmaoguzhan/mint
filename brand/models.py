@@ -1,5 +1,4 @@
 from django.db import models
-
 from category.models import Category
 from home.models import CompanyUser
 from supplier.models import Supplier
