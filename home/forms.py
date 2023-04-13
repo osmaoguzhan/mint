@@ -134,7 +134,7 @@ class UserCreationForm(forms.ModelForm):
         return user
 
 
-class CustomUserChangeForm(forms.ModelForm):
+class CustomUserChangeForm(UserChangeForm):
     email = forms.EmailField(
         label='Email',
         widget=forms.EmailInput(attrs={'placeholder': 'Email Address'})

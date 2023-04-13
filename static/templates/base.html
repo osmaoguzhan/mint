@@ -47,7 +47,7 @@
                         Welcome {{ user.company_name }}
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="{% url "user_change" %}">Profile</a></li>
                         <li><a class="dropdown-item" href="{% url "logout" %}">Logout</a></li>
                     </ul>
                 </div>
