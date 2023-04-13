@@ -2,9 +2,7 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-    <!-- dashboard -->
     <div class="container">
-        <!-- create a card with icon -->
         <div class="row my-2">
             <div class="col-lg-4 col-md-4 col-sm-12">
                 <div class="card bg-danger text-white mb-3">
@@ -28,19 +26,29 @@
                 <div class="card bg-success text-white mb-3">
                     <div class="card-body">
                         <h5 class="card-title">Total Suppliers</h5>
-                        <p class="card-text h3">12</p>
+                        <p class="card-text h3">{{ request.user.suppliers.count }}</p>
                         <i class="fas  fa-2x fa-truck-field"></i></div>
                 </div>
             </div>
+            <div class="row my-2 d-flex justify-content-end">
+                <div class="col-md-6 col-sm-12">
+                    <label for="start">From</label>
+                    <input type="date" id="start" class="form-control" value="2023-04-13"/>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <label for="end">To</label>
+                    <input type="date" id="end" class="form-control" value="2023-04-13"/>
+                </div>
+            </div>
             <div class="row my-2">
-                <div class="col-lg-6 col-md-12 col-sm-12 mt-3">
+                <div class="col-lg-6 col-md-12 col-sm-12 mt-3" id="char-line-div">
                     <div class="card shadow-lg">
                         <div class="card-body">
                             <canvas id="chart-line"></canvas>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-12 col-sm-12 mt-3">
+                <div class="col-lg-6 col-md-12 col-sm-12 mt-3" id="bar-chart-div">
                     <div class="card shadow-lg">
                         <div class="card-body">
                             <canvas id="bar-chart"></canvas>
@@ -51,12 +59,14 @@
         </div>
     </div>
     <script>
-        console.log({{ analytics.0 }})
-    </script>
-    <script>
         let count = {{ analytics.categories.count }};
         if (count === 0) {
-            let element = document.getElementById("chart-line").css('display', 'none');
+            let element = document.getElementById("chart-line");
+            let div = document.getElementById("char-line-div");
+            let barDiv = document.getElementById("bar-chart-div");
+            element.style.display = "none";
+            div.style.display = "none";
+            barDiv.classList.replace("col-lg-6", "col-lg-12");
         }
         let categories = {};
         {% for category in analytics.categories %}
@@ -115,5 +125,40 @@
                 }
             }
         });
+    </script>
+    <script>
+        let start = document.getElementById("start");
+        let end = document.getElementById("end");
+        let today = new Date();
+        let dd = String(today.getDate()).padStart(2, '0');
+        let mm = String(today.getMonth() + 1).padStart(2, '0');
+        let yyyy = today.getFullYear();
+        today = yyyy + '-' + mm + '-' + dd;
+        start.addEventListener("change", () => {
+                if (start.value > end.value) {
+                    Swal.fire("Error", "Start date must be before end date.", "error");
+                    start.value = end.value;
+                    return;
+                }
+                if (start.value > today) {
+                    Swal.fire("Error", "Start date must be at least a week before today.", "error");
+                    start.value = today - 7;
+                    return;
+                }
+            }
+        )
+        ;
+        end.addEventListener("change", () => {
+                if (start.value > end.value) {
+                    Swal.fire("Error", "End date must be after start date.", "error");
+                    end.value = start.value;
+                }
+                if (end.value > today) {
+                    Swal.fire("Error", "End date must be today or before today.", "error");
+                    end.value = today;
+                }
+            }
+        )
+        ;
     </script>
 {% endblock %}
