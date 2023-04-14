@@ -11,5 +11,6 @@ urlpatterns += i18n_patterns(
     path('', include('brand.urls')),
     path('', include('supplier.urls')),
     path('', include('product.urls')),
+    path('', include('order.urls')),
     re_path(r'^i18n/', include('django.conf.urls.i18n')),
 )
