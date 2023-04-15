@@ -8,9 +8,9 @@ class OrderForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["product"].empty_label = _("label:select_brand")
+        self.fields["product"].empty_label = _("label:select_product")
         self.fields["product"].required = False
-        self.fields["customer"].empty_label = _("label:select_brand")
+        self.fields["customer"].empty_label = _("label:select_customer")
         self.fields["customer"].required = False
 
     class Meta:
@@ -29,42 +29,44 @@ class OrderForm(forms.ModelForm):
             "description": _('label:description'),
             "amount": _('label:amount'),
             "price": _('label:price'),
-            "product": 'Product',
-            "customer": 'Customer'
+            "product": _('label:product_name'),
+            "customer": _('label:customer_name'),
         }
 
     def clean_name(self):
         name = self.cleaned_data["name"]
         if len(name) < 3 or len(name) > 30:
-            raise ValidationError('Order name should be between 3 and 30 characters')
+            raise ValidationError(_('message:order_name_error'))
         return name
 
     def clean_description(self):
         description = self.cleaned_data["description"]
         if len(description) < 3 or len(description) > 100:
-            raise ValidationError('Order description should be between 3 and 100 characters')
+            raise ValidationError(_('message:order_description_error'))
         return description
+
     #
     def clean_amount(self):
         amount = self.cleaned_data["amount"]
         if amount <= 0 or amount > 99999999 or amount is None:
-            raise ValidationError('Order amount should be between 1 and 99999999')
+            raise ValidationError(_('message:order_amount_error'))
         return amount
 
     def clean_price(self):
         price = self.cleaned_data["price"]
         if price <= 0 or price > 99999999:
-            raise ValidationError('Order price should be between 1 and 99999999')
+            raise ValidationError(_('message:order_price_error'))
         return price
+
     #
     def clean_product(self):
         product = self.cleaned_data["product"]
         if product is None:
-            raise ValidationError('Order product should be selected')
+            raise ValidationError(_('message:order_product_error'))
         return product
 
     def clean_customer(self):
         customer = self.cleaned_data["customer"]
         if customer is None:
-            raise ValidationError('Order customer should be selected')
+            raise ValidationError(_('message:order_customer_error'))
         return customer

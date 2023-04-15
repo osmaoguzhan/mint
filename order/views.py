@@ -8,7 +8,6 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from utils import queryParser
 from .forms import OrderForm
 from .models import Order
-from  product.models import Product
 from django.utils.translation import gettext_lazy as _
 
 LIST_PATH = '/orders/'
@@ -33,10 +32,23 @@ class OrderListView(LoginRequiredMixin, ListView):
         'create_path': 'create/',
         'update_path': 'update/',
         'delete_action': 'order',
-        'not_found_text': _('message:no_products_found'),
-        'add_new_text': 'add a new order'
+        'not_found_text': _('message:order_not_found'),
+        'add_new_text': _('label:add_new_order'),
     }
     login_url = settings.LOGIN_URL
+
+    def get_queryset(self):
+        query, order_by, value = queryParser.queryParser(self, 'name')
+        products = self.request.user.products.all()
+        if query and query != '':
+            return Order.objects.filter(product__in=products, name__icontains=query).order_by(
+                order_by) or Order.objects.filter(
+                product__in=products, description__icontains=query).order_by(order_by) or Order.objects.filter(
+                product__in=products, amount__icontains=query).order_by(order_by) or Order.objects.filter(
+                product__in=products, price__icontains=query).order_by(order_by) or Order.objects.filter(
+                product__in=products, created__icontains=query).order_by(order_by)
+        else:
+            return Order.objects.filter(product__in=products).order_by(order_by)
 
     def get_context_data(self, **kwargs):
         context = super(OrderListView, self).get_context_data(**kwargs)
@@ -55,22 +67,24 @@ class OrderListView(LoginRequiredMixin, ListView):
         context['table_data'] = new_context
         return context
 
+
 class OrderUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Order
     success_url = LIST_PATH
     template_name = 'form_template.html'
-    success_message = 'order is updated successfully.'
+    success_message = _('message:order_updated_successfully')
     form_class = OrderForm
-    extra_context = {'submit_btn': 'update order', 'title': 'Update Order',
+    extra_context = {'submit_btn': _('label:update_button_text'), 'title': _('label:update_order'),
                      'list_path': LIST_PATH}
     login_url = settings.LOGIN_URL
+
 
 class OrderCreateView(LoginRequiredMixin, CreateView):
     model = Order
     success_url = LIST_PATH
     template_name = 'form_template.html'
     form_class = OrderForm
-    extra_context = {'submit_btn': 'Create Order', 'title': 'Create Order',
+    extra_context = {'submit_btn': _('label:create_button_text'), 'title': _('label:create_order'),
                      'list_path': LIST_PATH}
     login_url = settings.LOGIN_URL
 
@@ -81,8 +95,9 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.save()
-        messages.success(self.request, 'order is created successfully.')
+        messages.success(self.request, _('message:order_created_successfully'))
         return HttpResponseRedirect(self.get_success_url())
+
 
 class OrderDeleteView(LoginRequiredMixin, DeleteView):
     model = Order

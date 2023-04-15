@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-04 18:46+0200\n"
+"POT-Creation-Date: 2023-04-15 20:14+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,7 +46,7 @@ msgstr "Proszę wybrać kategorię."
 msgid "message:supplier_name_error"
 msgstr "Proszę wybrać dostawcę."
 
-#: brand/views.py:26 customer/views.py:28 product/views.py:29
+#: brand/views.py:26 customer/views.py:28 order/views.py:29 product/views.py:29
 #: supplier/views.py:27
 msgid "label:created_date"
 msgstr "Data utworzenia"
@@ -67,7 +67,7 @@ msgstr "Dodaj nową markę"
 msgid "message:brand_updated"
 msgstr "Marka została zaktualizowana."
 
-#: brand/views.py:69 customer/views.py:80 product/views.py:77
+#: brand/views.py:69 customer/views.py:80 order/views.py:64 product/views.py:77
 #: supplier/views.py:77
 msgid "label:update_button_text"
 msgstr "Zaktualizuj"
@@ -76,7 +76,7 @@ msgstr "Zaktualizuj"
 msgid "label:update_a_brand"
 msgstr "Zaktualizuj markę"
 
-#: brand/views.py:79 customer/views.py:90 product/views.py:87
+#: brand/views.py:79 customer/views.py:90 order/views.py:74 product/views.py:87
 #: supplier/views.py:87
 msgid "label:create_button_text"
 msgstr "Utwórz"
@@ -224,42 +224,110 @@ msgstr ""
 "Mint to aplikacja do zarządzania magazynem. Pozwala na zarządzanie "
 "zamówieniami, dostawcami, klientami, produktami i markami."
 
-#: mint/settings.py:106
+#: mint/settings.py:107
 msgid "English"
 msgstr ""
 
-#: mint/settings.py:107
+#: mint/settings.py:108
 msgid "Polish"
 msgstr ""
 
-#: mint/settings.py:108
+#: mint/settings.py:109
 msgid "Turkish"
 msgstr ""
+
+#: order/forms.py:11
+msgid "label:select_product"
+msgstr "Wybierz produkt"
+
+#: order/forms.py:13
+msgid "label:select_customer"
+msgstr "Wybierz klienta"
+
+#: order/forms.py:28 order/views.py:23 product/forms.py:26 product/views.py:23
+#: supplier/forms.py:19 supplier/views.py:23
+msgid "label:name"
+msgstr "Nazwa"
+
+#: order/forms.py:29 order/views.py:24 product/forms.py:27 product/views.py:24
+msgid "label:description"
+msgstr "Opis"
+
+#: order/forms.py:30 order/views.py:25 product/forms.py:28 product/views.py:25
+msgid "label:amount"
+msgstr "Ilość"
+
+#: order/forms.py:31 order/views.py:26 product/forms.py:30 product/views.py:27
+msgid "label:price"
+msgstr "Cena"
+
+#: order/forms.py:32 order/views.py:27
+msgid "label:product_name"
+msgstr "Produkt"
+
+#: order/forms.py:33 order/views.py:28
+msgid "label:customer_name"
+msgstr "Klient"
+
+#: order/forms.py:39
+msgid "message:order_name_error"
+msgstr "Nazwa musi mieć od 3 do 30 znaków."
+
+#: order/forms.py:45
+msgid "message:order_description_error"
+msgstr "Opis musi mieć od 3 do 100 znaków."
+
+#: order/forms.py:52
+msgid "message:order_amount_error"
+msgstr "Ilość musi być większa od 0 i mniejsza od 99999999."
+
+#: order/forms.py:58
+msgid "message:order_price_error"
+msgstr "Cena musi być większa od 0 i mniejsza od 99999999."
+
+#: order/forms.py:65
+msgid "message:order_product_error"
+msgstr "Prosze wybrać produkt."
+
+#: order/forms.py:71
+msgid "message:order_customer_error"
+msgstr "Prosze wybrać klienta."
+
+#: order/views.py:31 static/templates/base.html:105
+msgid "label:orders"
+msgstr "Zamówienia"
+
+#: order/views.py:35
+msgid "message:order_not_found"
+msgstr "Nie znaleziono zamówienia."
+
+#: order/views.py:36
+msgid "label:add_new_order"
+msgstr "Dodaj nowe zamówienie"
+
+#: order/views.py:62
+msgid "message:order_updated_successfully"
+msgstr "Zamówienie zostało zaktualizowane."
+
+#: order/views.py:64
+msgid "label:update_order"
+msgstr "Aktualizuj zamówienie"
+
+#: order/views.py:74
+msgid "label:create_order"
+msgstr "Utwórz zamówienie"
+
+#: order/views.py:85
+msgid "message:order_created_successfully"
+msgstr "Klient został utworzony."
 
 #: product/forms.py:11
 msgid "label:select_brand"
 msgstr "Utwórz markę"
 
-#: product/forms.py:26 product/views.py:23 supplier/forms.py:19
-#: supplier/views.py:23
-msgid "label:name"
-msgstr "Nazwa"
-
-#: product/forms.py:27 product/views.py:24
-msgid "label:description"
-msgstr "Opis"
-
-#: product/forms.py:28 product/views.py:25
-msgid "label:amount"
-msgstr "Ilość"
-
 #: product/forms.py:29 product/views.py:26
 msgid "label:unit"
 msgstr "Jednostka"
-
-#: product/forms.py:30 product/views.py:27
-msgid "label:price"
-msgstr "Cena"
 
 #: product/forms.py:37
 msgid "message:product_name_length_error"
@@ -340,14 +408,6 @@ msgstr "Strona główna"
 #: static/templates/base.html:99 supplier/views.py:29
 msgid "label:suppliers"
 msgstr "Dostawcy"
-
-#: static/templates/base.html:105
-msgid "label:orders"
-msgstr "Zamówienia"
-
-#: static/templates/base.html:111
-msgid "label:settings"
-msgstr "Ustawienia"
 
 #: static/templates/form_template.html:19
 msgid "label:back"
@@ -1603,3 +1663,6 @@ msgstr ""
 #: venv/lib/python3.11/site-packages/django/views/templates/default_urlconf.html:249
 msgid "Connect, get help, or contribute"
 msgstr ""
+
+#~ msgid "label:settings"
+#~ msgstr "Ustawienia"
