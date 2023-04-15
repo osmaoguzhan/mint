@@ -3,6 +3,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from home.models import CompanyUser
 import re
+from django.utils.translation import gettext_lazy as _
 
 
 class LoginForm(AuthenticationForm):
@@ -10,15 +11,15 @@ class LoginForm(AuthenticationForm):
         attrs={
             'id': 'email',
             'class': 'form-control form-control-lg',
-            'placeholder': 'Email Address',
-            # 'type': 'email', # TODO - after signup form is done, type email
+            'placeholder': _('label:email_address'),
+            'type': 'email'
         }
     ))
     password = forms.CharField(widget=forms.PasswordInput(
         attrs={
             'id': 'password',
             'class': 'form-control form-control-lg',
-            'placeholder': 'Password',
+            'placeholder': _('label:password'),
         }
     ))
 
@@ -26,33 +27,33 @@ class LoginForm(AuthenticationForm):
 class UserCreationForm(forms.ModelForm):
     email = forms.EmailField(
         label='Email',
-        widget=forms.EmailInput(attrs={'placeholder': 'Email Address'})
+        widget=forms.EmailInput(attrs={'placeholder': _('label:email_address')})
     )
     company_name = forms.CharField(
         label='Company Name',
-        widget=forms.TextInput(attrs={'placeholder': 'Company Name'})
+        widget=forms.TextInput(attrs={'placeholder': _('label:company_name')})
     )
     phone_number = forms.CharField(
         label='Phone Number',
-        widget=forms.TextInput(attrs={'placeholder': 'Phone Number'})
+        widget=forms.TextInput(attrs={'placeholder': _('label:phone_number')})
     )
     website = forms.CharField(
         label='Website',
-        widget=forms.TextInput(attrs={'placeholder': 'Website (Optional)'}),
+        widget=forms.TextInput(attrs={'placeholder': _('label:website_optional')}),
         required=False
     )
     address = forms.CharField(
         label='Address',
-        widget=forms.Textarea(attrs={'placeholder': 'Address', 'rows': 5})
+        widget=forms.Textarea(attrs={'placeholder': _('label:address'), 'rows': 5})
     )
     password1 = forms.CharField(
         label='Password',
-        widget=forms.PasswordInput(attrs={'placeholder': 'Password'})
+        widget=forms.PasswordInput(attrs={'placeholder': _('label:password')})
     )
     password2 = forms.CharField(
         label='Password confirmation',
         widget=forms.PasswordInput(
-            attrs={'placeholder': 'Password Confirmation'})
+            attrs={'placeholder': _('label:password_confirmation')})
     )
 
     class Meta:

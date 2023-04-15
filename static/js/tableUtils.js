@@ -1,7 +1,14 @@
+const exportTableMessages = {
+    'en': 'You can export the table to PDF or Excel',
+    'pl': 'Możesz wyeksportować tabelę do PDF lub Excela.',
+    'tr': 'Tabloyu PDF veya Excel olarak dışa aktarabilirsiniz.'
+}
+
 const exportTable = () => {
+    let lang = getCookie('django_language');
     Swal.fire({
         icon: 'info',
-        text: 'You can export the table to PDF or Excel',
+        text: exportTableMessages[lang],
         showCloseButton: true,
         showCancelButton: true,
         focusConfirm: false,

@@ -3,7 +3,7 @@ from . import models
 
 
 class SupplierAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'phone', 'address', 'created')
+    list_display = ('name', 'email', 'phone', 'address', 'company', 'created')
 
 
 admin.site.register(models.Supplier, SupplierAdmin)
