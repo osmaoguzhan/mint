@@ -8,7 +8,7 @@
                 <div class="card bg-danger text-white mb-3">
                     <div class="card-body">
                         <h5 class="card-title">Total Products</h5>
-                        <p class="card-text h3">{{ request.user.brands.count }}</p>
+                        <p class="card-text h3">{{ analytics.product_count }}</p>
                         <i class="fas fa-2x fa-chart-line"></i>
                     </div>
                 </div>
@@ -17,7 +17,7 @@
                 <div class="card bg-primary text-white mb-3">
                     <div class="card-body">
                         <h5 class="card-title">Total Customers</h5>
-                        <p class="card-text h3">{{ request.user.customers.count }}</p>
+                        <p class="card-text h3">{{ analytics.customer_count }}</p>
                         <i class="fas fa-2x fa-person"></i>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
                 <div class="card bg-success text-white mb-3">
                     <div class="card-body">
                         <h5 class="card-title">Total Suppliers</h5>
-                        <p class="card-text h3">{{ request.user.suppliers.count }}</p>
+                        <p class="card-text h3">{{ analytics.supplier_count }}</p>
                         <i class="fas  fa-2x fa-truck-field"></i></div>
                 </div>
             </div>
@@ -43,13 +43,31 @@
             <div class="row my-2">
                 <div class="col-lg-6 col-md-12 col-sm-12 mt-3" id="char-line-div">
                     <div class="card shadow-lg">
+                        <div class="card-title">
+                            <h5 class="text-center">Categories</h5>
+                        </div>
                         <div class="card-body">
                             <canvas id="chart-line"></canvas>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-12 col-sm-12 mt-3" id="bar-chart-div">
+                <div class="col-lg-6 col-md-12 col-sm-12 mt-3" id="char-line-div">
                     <div class="card shadow-lg">
+                        <div class="card-title">
+                            <h5 class="text-center">Brands</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="chart-line-brands"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row my-2">
+                <div class="col-12 mt-3" id="bar-chart-div">
+                    <div class="card shadow-lg">
+                        <div class="card-title">
+                            <h5 class="text-center">Incoming vs Outgoing</h5>
+                        </div>
                         <div class="card-body">
                             <canvas id="bar-chart"></canvas>
                         </div>
@@ -60,7 +78,7 @@
     </div>
     <script>
         let count = {{ analytics.categories.count }};
-        if (count === 0) {
+        if (count === 0 || count === undefined) {
             let element = document.getElementById("chart-line");
             let div = document.getElementById("char-line-div");
             let barDiv = document.getElementById("bar-chart-div");
@@ -71,9 +89,9 @@
         let categories = {};
         {% for category in analytics.categories %}
             if (categories["{{ category.category }}"] === undefined) {
-                categories["{{ category.category }}"] = 1;
+                categories["{{ category }}"] = 1;
             } else {
-                categories["{{ category.category }}"] += 1;
+                categories["{{ category }}"] += 1;
             }
         {% endfor %}
         let colors = [];
@@ -92,10 +110,22 @@
                     }]
             },
             options: {
-                title: {
-                    display: true,
-                    text: 'Categories'
-                }
+                maintainAspectRatio: false,
+            }
+        });
+        let brandCharLine = $("#chart-line-brands");
+        let brandLineChart = new Chart(brandCharLine, {
+            type: 'pie',
+            data: {
+                labels: Object.keys(categories),
+                datasets:
+                    [{
+                        data: Object.values(categories),
+                        backgroundColor: colors
+                    }]
+            },
+            options: {
+                maintainAspectRatio: false,
             }
         });
         let barchart = $("#bar-chart");
@@ -108,7 +138,7 @@
                     label: "Incoming",
                     borderColor: "#458af7",
                     backgroundColor: '#458af7',
-                    fill: false
+                    fill: true
                 }, {
                     data: [282, 350, 411, 502, 635, 809, 1100],
                     label: "Outgoing",
@@ -117,12 +147,6 @@
                     backgroundColor: '#8e5ea2'
 
                 }]
-            },
-            options: {
-                title: {
-                    display: true,
-                    text: 'Income/Outcome'
-                }
             }
         });
     </script>

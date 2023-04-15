@@ -2,6 +2,8 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.translation import activate
 from django.views.generic import TemplateView, CreateView
 from django.contrib.auth.views import LoginView, LogoutView
+
+from category.models import Category
 from .admin import UserCreationForm
 from django.shortcuts import redirect
 from .forms import LoginForm
@@ -41,10 +43,13 @@ class DashboardView(TemplateView):
     extra_context = {'title': 'Dashboard'}
 
     def get(self, request, *args, **kwargs):
+        # get categories with name
         self.extra_context['analytics'] = {
             'customer_count': self.request.user.customers.count(),
-            'brand_count': self.request.user.brands.count(),
-            'categories': self.request.user.brands.all().values('category'),
+            'product_count': self.request.user.products.count(),
+            'supplier_count': self.request.user.suppliers.count(),
+            'brands': self.request.user.brands.all(),
+            'categories': Category.objects.filter(company=self.request.user)
         }
         if not self.request.user.is_authenticated:
             return redirect('/login/')
