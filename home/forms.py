@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import AuthenticationForm, UsernameField, UserChangeForm
+from django.contrib.auth.forms import AuthenticationForm, UsernameField
 from django import forms
 from django.core.exceptions import ValidationError
 from home.models import CompanyUser
