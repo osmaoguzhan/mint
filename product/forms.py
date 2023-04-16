@@ -7,9 +7,9 @@ from .models import Product
 class ProductForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop("user")
         super().__init__(*args, **kwargs)
         self.fields["brand"].empty_label = _("label:select_brand")
-        self.fields["brand"].required = False
 
     class Meta:
         model = Product
@@ -35,8 +35,13 @@ class ProductForm(forms.ModelForm):
         name = self.cleaned_data["name"]
         if len(name) < 3 or len(name) > 30:
             raise ValidationError(_('message:product_name_length_error'))
-        elif Product.objects.filter(name=name).exists():
-            raise ValidationError(_('message:product_exists_error'))
+        if self.instance.pk:
+            if self.user.products.filter(name=name).exclude(
+                    pk=self.instance.pk).exists():
+                raise ValidationError(_('message:product_exists_error'))
+        else:
+            if self.user.products.filter(name=name).exists():
+                raise ValidationError(_('message:product_exists_error'))
         return name
 
     def clean_description(self):

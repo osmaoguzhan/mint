@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
 from django.utils.formats import date_format
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from utils import queryParser
@@ -10,7 +11,7 @@ from .forms import ProductForm
 from .models import Product
 from django.utils.translation import gettext_lazy as _
 
-LIST_PATH = '/products/'
+LIST_PATH = reverse_lazy('products.list')
 
 
 class ProductListView(LoginRequiredMixin, ListView):
@@ -77,6 +78,11 @@ class ProductUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     extra_context = {'submit_btn': _('label:update_button_text'), 'title': _('label:update_a_product'),
                      'list_path': LIST_PATH}
     login_url = settings.LOGIN_URL
+
+    def get_form_kwargs(self):
+        kwargs = super(ProductUpdateView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):

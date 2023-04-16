@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-15 20:14+0200\n"
+"POT-Creation-Date: 2023-04-16 10:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,7 +49,7 @@ msgstr "Please select a supplier."
 msgid "label:created_date"
 msgstr "Created"
 
-#: brand/views.py:28 static/templates/base.html:102
+#: brand/views.py:28 static/templates/base.html:104
 msgid "label:brands"
 msgstr "Brands"
 
@@ -65,8 +65,8 @@ msgstr "Add a new brand"
 msgid "message:brand_updated"
 msgstr "%(brand_name)s updated successfully."
 
-#: brand/views.py:69 customer/views.py:80 order/views.py:64 product/views.py:77
-#: supplier/views.py:77
+#: brand/views.py:69 customer/views.py:80 home/views.py:46 order/views.py:77
+#: product/views.py:77 supplier/views.py:77
 msgid "label:update_button_text"
 msgstr "Update"
 
@@ -74,7 +74,7 @@ msgstr "Update"
 msgid "label:update_a_brand"
 msgstr "Update Brand"
 
-#: brand/views.py:79 customer/views.py:90 order/views.py:74 product/views.py:87
+#: brand/views.py:79 customer/views.py:90 order/views.py:87 product/views.py:87
 #: supplier/views.py:87
 msgid "label:create_button_text"
 msgstr "Create"
@@ -95,18 +95,20 @@ msgstr "First Name"
 msgid "label:surname"
 msgstr "Surname"
 
-#: customer/forms.py:22 customer/views.py:25 supplier/forms.py:20
-#: supplier/views.py:24
+#: customer/forms.py:22 customer/views.py:25 home/forms.py:147
+#: home/forms.py:149 supplier/forms.py:20 supplier/views.py:24
 msgid "label:email"
 msgstr "Email"
 
-#: customer/forms.py:23 customer/views.py:26 home/forms.py:38
-#: supplier/forms.py:21 supplier/views.py:25
+#: customer/forms.py:23 customer/views.py:26 home/forms.py:37 home/forms.py:38
+#: home/forms.py:159 home/forms.py:161 supplier/forms.py:21
+#: supplier/views.py:25
 msgid "label:phone_number"
 msgstr "Phone Number"
 
-#: customer/forms.py:24 customer/views.py:27 home/forms.py:47
-#: supplier/forms.py:22 supplier/views.py:26
+#: customer/forms.py:24 customer/views.py:27 home/forms.py:46 home/forms.py:47
+#: home/forms.py:170 home/forms.py:172 supplier/forms.py:22
+#: supplier/views.py:26
 msgid "label:address"
 msgstr "Address"
 
@@ -126,7 +128,7 @@ msgstr "Surname must be between 3 and 30 characters."
 msgid "message:surname_letters_include"
 msgstr "Surname must include only letters."
 
-#: customer/forms.py:47 supplier/forms.py:35
+#: customer/forms.py:47 home/forms.py:97 supplier/forms.py:35
 msgid "message:email_format"
 msgstr "Email format is not valid."
 
@@ -138,7 +140,7 @@ msgstr "Phone number format is not valid."
 msgid "message:address_length"
 msgstr "Address must be between 15 and 100 characters."
 
-#: customer/views.py:30 static/templates/base.html:108
+#: customer/views.py:30 static/templates/base.html:110
 msgid "label:customers"
 msgstr "Customers"
 
@@ -166,32 +168,112 @@ msgstr "Create Customer"
 msgid "message:customer_created"
 msgstr "Customer is created successfully."
 
-#: home/forms.py:14 home/forms.py:30
+#: home/forms.py:14 home/forms.py:29 home/forms.py:30
 msgid "label:email_address"
 msgstr "Email Address"
 
-#: home/forms.py:22 home/forms.py:51
+#: home/forms.py:22 home/forms.py:50 home/forms.py:51
 msgid "label:password"
 msgstr "Password"
 
-#: home/forms.py:34
+#: home/forms.py:33 home/forms.py:34 home/forms.py:153 home/forms.py:155
 msgid "label:company_name"
 msgstr "Company Name"
 
-#: home/forms.py:42
+#: home/forms.py:41 home/forms.py:42 home/forms.py:164 home/forms.py:166
 msgid "label:website_optional"
 msgstr "Website (Optional)"
 
-#: home/forms.py:56
+#: home/forms.py:54 home/forms.py:56
 msgid "label:password_confirmation"
 msgstr "Password Confirmation"
+
+#: home/forms.py:66
+msgid "message:password_length_error"
+msgstr "Password must be between 6 and 20 characters."
+
+#: home/forms.py:69
+msgid "message:password_at_least_one_letter"
+msgstr "Password must include at least one letter."
+
+#: home/forms.py:72
+msgid "message:password_at_least_one_number"
+msgstr "Password must include at least one number."
+
+#: home/forms.py:75
+msgid "message:password_at_least_one_uppercase"
+msgstr "Password must include at least one uppercase letter."
+
+#: home/forms.py:78
+msgid "message:password_at_least_one_lowercase"
+msgstr "Password must include at least one lowercase letter."
+
+#: home/forms.py:81
+msgid "message:password_at_least_one_special_character"
+msgstr "Password must include at least one special character."
+
+#: home/forms.py:89
+msgid "message:passwords_do_not_match"
+msgstr "Order not found!"
+
+#: home/forms.py:99
+msgid "message:email_already_exists"
+msgstr "Email already exists."
+
+#: home/forms.py:105
+msgid "message:company_name_already_exists"
+msgstr "Company name already exists."
+
+#: home/forms.py:107
+msgid "message:company_name_length_error"
+msgstr "Company name must be between 3 and 255 characters."
+
+#: home/forms.py:114 home/forms.py:195
+msgid "message:phone_number_format"
+msgstr "Phone number format is not valid."
+
+#: home/forms.py:116 home/forms.py:197
+msgid "message:phone_number_already_exists"
+msgstr "Phone number already exists."
+
+#: home/forms.py:124 home/forms.py:205
+msgid "message:website_format_is_not_valid"
+msgstr "Website format is not valid."
+
+#: home/forms.py:126 home/forms.py:207
+msgid "message:website_already_exists"
+msgstr "Website already exists."
+
+#: home/forms.py:132 home/forms.py:213
+msgid "message:address_is_required"
+msgstr "Address is required."
+
+#: home/forms.py:134 home/forms.py:215
+msgid "message:company_address_length_error"
+msgstr "Address must be between 3 and 255 characters."
+
+#: home/forms.py:150
+msgid "message:please_contact_admin_to_change_email."
+msgstr "Please contact admin to change email."
+
+#: home/forms.py:156
+msgid "message:please_contact_admin_to_change_company_name"
+msgstr "Please contact admin to change company name."
+
+#: home/forms.py:182
+msgid "message:email_cannot_be_changed"
+msgstr "Email cannot be changed."
+
+#: home/forms.py:188
+msgid "message:company_name_cannot_be_changed"
+msgstr "Company name cannot be changed."
 
 #: home/templates/home/login.html:45
 msgid "label:sign_into_your_account"
 msgstr "Sign in to your account"
 
-#: home/templates/home/login.html:53 static/templates/base.html:76
-#: static/templates/base.html:81
+#: home/templates/home/login.html:53 home/views.py:15
+#: static/templates/base.html:78 static/templates/base.html:83
 msgid "label:login"
 msgstr "Login"
 
@@ -203,8 +285,8 @@ msgstr "Don't you have an account?"
 msgid "label_create_your_account"
 msgstr "Create your account"
 
-#: home/templates/home/signup.html:43 static/templates/base.html:72
-#: static/templates/base.html:84
+#: home/templates/home/signup.html:43 home/views.py:35
+#: static/templates/base.html:74 static/templates/base.html:86
 msgid "label:signup"
 msgstr "Sign up"
 
@@ -221,6 +303,22 @@ msgid "label:mint_description"
 msgstr ""
 "Mint is a simple and easy to use inventory management system. It is a free "
 "and open source software."
+
+#: home/views.py:29 static/templates/base.html:95
+msgid "label:home"
+msgstr "Home"
+
+#: home/views.py:37
+msgid "message:company_created_successfully"
+msgstr "Company created successfully."
+
+#: home/views.py:45
+msgid "message:company_updated_successfully"
+msgstr "Company updated successfully."
+
+#: home/views.py:46 static/templates/base.html:66
+msgid "label:company_settings"
+msgstr "Company Settings"
 
 #: mint/settings.py:107
 msgid "English"
@@ -291,7 +389,7 @@ msgstr "Please select a product."
 msgid "message:order_customer_error"
 msgstr "Please select a customer."
 
-#: order/views.py:31 static/templates/base.html:105
+#: order/views.py:31 static/templates/base.html:107
 msgid "label:orders"
 msgstr "Orders"
 
@@ -303,19 +401,19 @@ msgstr "Order not found!"
 msgid "label:add_new_order"
 msgstr "Add a new order"
 
-#: order/views.py:62
+#: order/views.py:75
 msgid "message:order_updated_successfully"
 msgstr "Order updated successfully."
 
-#: order/views.py:64
+#: order/views.py:77
 msgid "label:update_order"
 msgstr "Update Order"
 
-#: order/views.py:74
+#: order/views.py:87
 msgid "label:create_order"
 msgstr "Create Order"
 
-#: order/views.py:85
+#: order/views.py:98
 msgid "message:order_created_successfully"
 msgstr "Order is created successfully."
 
@@ -359,7 +457,7 @@ msgstr "Price must be greater than 0 and less than 99999999."
 msgid "message:product_brand_error"
 msgstr "Please select a brand."
 
-#: product/views.py:31 static/templates/base.html:96
+#: product/views.py:31 static/templates/base.html:98
 msgid "label:products"
 msgstr "Products"
 
@@ -391,23 +489,15 @@ msgstr "Producy is created successfully."
 msgid "label:welcome"
 msgstr "Welcome"
 
-#: static/templates/base.html:65
-msgid "label:profile"
-msgstr "Profile"
-
-#: static/templates/base.html:66
+#: static/templates/base.html:68
 msgid "label:logout"
 msgstr "Logout"
 
-#: static/templates/base.html:93
-msgid "label:home"
-msgstr "Home"
-
-#: static/templates/base.html:99 supplier/views.py:29
+#: static/templates/base.html:101 supplier/views.py:29
 msgid "label:suppliers"
 msgstr "Suppliers"
 
-#: static/templates/form_template.html:19
+#: static/templates/form_template.html:31
 msgid "label:back"
 msgstr "Back"
 
@@ -1662,5 +1752,5 @@ msgstr ""
 msgid "Connect, get help, or contribute"
 msgstr ""
 
-#~ msgid "label:settings"
-#~ msgstr "Settings"
+#~ msgid "label:profile"
+#~ msgstr "Profile"
