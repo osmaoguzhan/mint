@@ -1,5 +1,6 @@
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Brand
@@ -10,7 +11,7 @@ from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from django.utils.formats import date_format
 
-LIST_PATH = '/brands/'
+LIST_PATH = reverse_lazy('brands.list')
 
 
 class BrandListView(LoginRequiredMixin, ListView):

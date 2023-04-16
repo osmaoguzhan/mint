@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
 from django.utils.formats import date_format
 from django.views.generic import ListView, DeleteView, UpdateView, CreateView
 from utils import queryParser
@@ -10,7 +11,7 @@ from .forms import SupplierForm
 from .models import Supplier
 from django.utils.translation import gettext_lazy as _
 
-LIST_PATH = '/suppliers/'
+LIST_PATH = reverse_lazy('supplier')
 
 
 class SupplierListView(LoginRequiredMixin, ListView):

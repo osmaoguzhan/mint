@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-04 18:46+0200\n"
+"POT-Creation-Date: 2023-04-16 10:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,12 +46,12 @@ msgstr "Proszę wybrać kategorię."
 msgid "message:supplier_name_error"
 msgstr "Proszę wybrać dostawcę."
 
-#: brand/views.py:26 customer/views.py:28 product/views.py:29
+#: brand/views.py:26 customer/views.py:28 order/views.py:29 product/views.py:29
 #: supplier/views.py:27
 msgid "label:created_date"
 msgstr "Data utworzenia"
 
-#: brand/views.py:28 static/templates/base.html:102
+#: brand/views.py:28 static/templates/base.html:104
 msgid "label:brands"
 msgstr "Marki"
 
@@ -67,8 +67,8 @@ msgstr "Dodaj nową markę"
 msgid "message:brand_updated"
 msgstr "Marka została zaktualizowana."
 
-#: brand/views.py:69 customer/views.py:80 product/views.py:77
-#: supplier/views.py:77
+#: brand/views.py:69 customer/views.py:80 home/views.py:46 order/views.py:77
+#: product/views.py:77 supplier/views.py:77
 msgid "label:update_button_text"
 msgstr "Zaktualizuj"
 
@@ -76,7 +76,7 @@ msgstr "Zaktualizuj"
 msgid "label:update_a_brand"
 msgstr "Zaktualizuj markę"
 
-#: brand/views.py:79 customer/views.py:90 product/views.py:87
+#: brand/views.py:79 customer/views.py:90 order/views.py:87 product/views.py:87
 #: supplier/views.py:87
 msgid "label:create_button_text"
 msgstr "Utwórz"
@@ -97,18 +97,20 @@ msgstr "Nazwa"
 msgid "label:surname"
 msgstr "Nazwisko"
 
-#: customer/forms.py:22 customer/views.py:25 supplier/forms.py:20
-#: supplier/views.py:24
+#: customer/forms.py:22 customer/views.py:25 home/forms.py:147
+#: home/forms.py:149 supplier/forms.py:20 supplier/views.py:24
 msgid "label:email"
 msgstr "Email"
 
-#: customer/forms.py:23 customer/views.py:26 home/forms.py:38
-#: supplier/forms.py:21 supplier/views.py:25
+#: customer/forms.py:23 customer/views.py:26 home/forms.py:37 home/forms.py:38
+#: home/forms.py:159 home/forms.py:161 supplier/forms.py:21
+#: supplier/views.py:25
 msgid "label:phone_number"
 msgstr "Numer telefonu"
 
-#: customer/forms.py:24 customer/views.py:27 home/forms.py:47
-#: supplier/forms.py:22 supplier/views.py:26
+#: customer/forms.py:24 customer/views.py:27 home/forms.py:46 home/forms.py:47
+#: home/forms.py:170 home/forms.py:172 supplier/forms.py:22
+#: supplier/views.py:26
 msgid "label:address"
 msgstr "Adres"
 
@@ -128,7 +130,7 @@ msgstr "Nazwisko musi mieć od 3 do 30 znaków."
 msgid "message:surname_letters_include"
 msgstr "Nazwisko może zawierać tylko litery."
 
-#: customer/forms.py:47 supplier/forms.py:35
+#: customer/forms.py:47 home/forms.py:97 supplier/forms.py:35
 msgid "message:email_format"
 msgstr "Niepoprawny format adresu email."
 
@@ -140,7 +142,7 @@ msgstr "Niepoprawny format numeru telefonu."
 msgid "message:address_length"
 msgstr "Adres musi mieć od 15 do 100 znaków."
 
-#: customer/views.py:30 static/templates/base.html:108
+#: customer/views.py:30 static/templates/base.html:110
 msgid "label:customers"
 msgstr "Klienci"
 
@@ -168,32 +170,112 @@ msgstr "Utwórz klienta"
 msgid "message:customer_created"
 msgstr "Klient został utworzony."
 
-#: home/forms.py:14 home/forms.py:30
+#: home/forms.py:14 home/forms.py:29 home/forms.py:30
 msgid "label:email_address"
 msgstr "Adres email"
 
-#: home/forms.py:22 home/forms.py:51
+#: home/forms.py:22 home/forms.py:50 home/forms.py:51
 msgid "label:password"
 msgstr "Hasło"
 
-#: home/forms.py:34
+#: home/forms.py:33 home/forms.py:34 home/forms.py:153 home/forms.py:155
 msgid "label:company_name"
 msgstr "Nazwa firmy"
 
-#: home/forms.py:42
+#: home/forms.py:41 home/forms.py:42 home/forms.py:164 home/forms.py:166
 msgid "label:website_optional"
 msgstr "Strona internetowa (opcjonalnie)"
 
-#: home/forms.py:56
+#: home/forms.py:54 home/forms.py:56
 msgid "label:password_confirmation"
 msgstr "Potwierdź hasło"
+
+#: home/forms.py:66
+msgid "message:password_length_error"
+msgstr "Hasło musi mieć od 8 do 20 znaków."
+
+#: home/forms.py:69
+msgid "message:password_at_least_one_letter"
+msgstr "Hasło musi zawierać co najmniej jedną literę."
+
+#: home/forms.py:72
+msgid "message:password_at_least_one_number"
+msgstr "Hasło musi zawierać co najmniej jedną cyfrę."
+
+#: home/forms.py:75
+msgid "message:password_at_least_one_uppercase"
+msgstr "Hasło musi zawierać co najmniej jedną wielką literę."
+
+#: home/forms.py:78
+msgid "message:password_at_least_one_lowercase"
+msgstr "Hasło musi zawierać co najmniej jedną małą literę."
+
+#: home/forms.py:81
+msgid "message:password_at_least_one_special_character"
+msgstr "Hasło musi zawierać co najmniej jeden znak specjalny."
+
+#: home/forms.py:89
+msgid "message:passwords_do_not_match"
+msgstr "Hasła nie są identyczne."
+
+#: home/forms.py:99
+msgid "message:email_already_exists"
+msgstr "Adres email jest już zajęty."
+
+#: home/forms.py:105
+msgid "message:company_name_already_exists"
+msgstr "Nazwa firmy jest już zajęta."
+
+#: home/forms.py:107
+msgid "message:company_name_length_error"
+msgstr "Nazwa firmy musi mieć od 3 do 255 znaków."
+
+#: home/forms.py:114 home/forms.py:195
+msgid "message:phone_number_format"
+msgstr "Niepoprawny format numeru telefonu."
+
+#: home/forms.py:116 home/forms.py:197
+msgid "message:phone_number_already_exists"
+msgstr "Numer telefonu jest już zajęty."
+
+#: home/forms.py:124 home/forms.py:205
+msgid "message:website_format_is_not_valid"
+msgstr "Niepoprawny format strony internetowej."
+
+#: home/forms.py:126 home/forms.py:207
+msgid "message:website_already_exists"
+msgstr "Strona internetowa jest już zajęta."
+
+#: home/forms.py:132 home/forms.py:213
+msgid "message:address_is_required"
+msgstr "Adres jest wymagany."
+
+#: home/forms.py:134 home/forms.py:215
+msgid "message:company_address_length_error"
+msgstr "Adres musi mieć od 3 do 255 znaków."
+
+#: home/forms.py:150
+msgid "message:please_contact_admin_to_change_email."
+msgstr "Proszę skontaktować się z administratorem, aby zmienić adres email."
+
+#: home/forms.py:156
+msgid "message:please_contact_admin_to_change_company_name"
+msgstr "Proszę skontaktować się z administratorem, aby zmienić nazwę firmy."
+
+#: home/forms.py:182
+msgid "message:email_cannot_be_changed"
+msgstr "Adres email nie może zostać zmieniony."
+
+#: home/forms.py:188
+msgid "message:company_name_cannot_be_changed"
+msgstr "Nazwa firmy nie może zostać zmieniona."
 
 #: home/templates/home/login.html:45
 msgid "label:sign_into_your_account"
 msgstr "Zaloguj się do swojego konta"
 
-#: home/templates/home/login.html:53 static/templates/base.html:76
-#: static/templates/base.html:81
+#: home/templates/home/login.html:53 home/views.py:15
+#: static/templates/base.html:78 static/templates/base.html:83
 msgid "label:login"
 msgstr "Zaloguj się"
 
@@ -205,8 +287,8 @@ msgstr "Nie masz konta?"
 msgid "label_create_your_account"
 msgstr "Zaloguj się do swojego konta"
 
-#: home/templates/home/signup.html:43 static/templates/base.html:72
-#: static/templates/base.html:84
+#: home/templates/home/signup.html:43 home/views.py:35
+#: static/templates/base.html:74 static/templates/base.html:86
 msgid "label:signup"
 msgstr "Zarejestruj się"
 
@@ -224,42 +306,126 @@ msgstr ""
 "Mint to aplikacja do zarządzania magazynem. Pozwala na zarządzanie "
 "zamówieniami, dostawcami, klientami, produktami i markami."
 
-#: mint/settings.py:106
+#: home/views.py:29 static/templates/base.html:95
+msgid "label:home"
+msgstr "Strona główna"
+
+#: home/views.py:37
+msgid "message:company_created_successfully"
+msgstr "Firma została utworzona."
+
+#: home/views.py:45
+msgid "message:company_updated_successfully"
+msgstr "Firma została zaktualizowana."
+
+#: home/views.py:46 static/templates/base.html:66
+msgid "label:company_settings"
+msgstr "Ustawienia firmy"
+
+#: mint/settings.py:107
 msgid "English"
 msgstr ""
 
-#: mint/settings.py:107
+#: mint/settings.py:108
 msgid "Polish"
 msgstr ""
 
-#: mint/settings.py:108
+#: mint/settings.py:109
 msgid "Turkish"
 msgstr ""
+
+#: order/forms.py:11
+msgid "label:select_product"
+msgstr "Wybierz produkt"
+
+#: order/forms.py:13
+msgid "label:select_customer"
+msgstr "Wybierz klienta"
+
+#: order/forms.py:28 order/views.py:23 product/forms.py:26 product/views.py:23
+#: supplier/forms.py:19 supplier/views.py:23
+msgid "label:name"
+msgstr "Nazwa"
+
+#: order/forms.py:29 order/views.py:24 product/forms.py:27 product/views.py:24
+msgid "label:description"
+msgstr "Opis"
+
+#: order/forms.py:30 order/views.py:25 product/forms.py:28 product/views.py:25
+msgid "label:amount"
+msgstr "Ilość"
+
+#: order/forms.py:31 order/views.py:26 product/forms.py:30 product/views.py:27
+msgid "label:price"
+msgstr "Cena"
+
+#: order/forms.py:32 order/views.py:27
+msgid "label:product_name"
+msgstr "Produkt"
+
+#: order/forms.py:33 order/views.py:28
+msgid "label:customer_name"
+msgstr "Klient"
+
+#: order/forms.py:39
+msgid "message:order_name_error"
+msgstr "Nazwa musi mieć od 3 do 30 znaków."
+
+#: order/forms.py:45
+msgid "message:order_description_error"
+msgstr "Opis musi mieć od 3 do 100 znaków."
+
+#: order/forms.py:52
+msgid "message:order_amount_error"
+msgstr "Ilość musi być większa od 0 i mniejsza od 99999999."
+
+#: order/forms.py:58
+msgid "message:order_price_error"
+msgstr "Cena musi być większa od 0 i mniejsza od 99999999."
+
+#: order/forms.py:65
+msgid "message:order_product_error"
+msgstr "Prosze wybrać produkt."
+
+#: order/forms.py:71
+msgid "message:order_customer_error"
+msgstr "Prosze wybrać klienta."
+
+#: order/views.py:31 static/templates/base.html:107
+msgid "label:orders"
+msgstr "Zamówienia"
+
+#: order/views.py:35
+msgid "message:order_not_found"
+msgstr "Nie znaleziono zamówienia."
+
+#: order/views.py:36
+msgid "label:add_new_order"
+msgstr "Dodaj nowe zamówienie"
+
+#: order/views.py:75
+msgid "message:order_updated_successfully"
+msgstr "Zamówienie zostało zaktualizowane."
+
+#: order/views.py:77
+msgid "label:update_order"
+msgstr "Aktualizuj zamówienie"
+
+#: order/views.py:87
+msgid "label:create_order"
+msgstr "Utwórz zamówienie"
+
+#: order/views.py:98
+msgid "message:order_created_successfully"
+msgstr "Klient został utworzony."
 
 #: product/forms.py:11
 msgid "label:select_brand"
 msgstr "Utwórz markę"
 
-#: product/forms.py:26 product/views.py:23 supplier/forms.py:19
-#: supplier/views.py:23
-msgid "label:name"
-msgstr "Nazwa"
-
-#: product/forms.py:27 product/views.py:24
-msgid "label:description"
-msgstr "Opis"
-
-#: product/forms.py:28 product/views.py:25
-msgid "label:amount"
-msgstr "Ilość"
-
 #: product/forms.py:29 product/views.py:26
 msgid "label:unit"
 msgstr "Jednostka"
-
-#: product/forms.py:30 product/views.py:27
-msgid "label:price"
-msgstr "Cena"
 
 #: product/forms.py:37
 msgid "message:product_name_length_error"
@@ -293,7 +459,7 @@ msgstr "Cena musi być większa od 0 i mniejsza od 99999999."
 msgid "message:product_brand_error"
 msgstr "Musisz wybrać markę."
 
-#: product/views.py:31 static/templates/base.html:96
+#: product/views.py:31 static/templates/base.html:98
 msgid "label:products"
 msgstr "Produkty"
 
@@ -325,31 +491,15 @@ msgstr "Produkt został utworzony."
 msgid "label:welcome"
 msgstr "Witaj"
 
-#: static/templates/base.html:65
-msgid "label:profile"
-msgstr "Profil"
-
-#: static/templates/base.html:66
+#: static/templates/base.html:68
 msgid "label:logout"
 msgstr "Wloguj się"
 
-#: static/templates/base.html:93
-msgid "label:home"
-msgstr "Strona główna"
-
-#: static/templates/base.html:99 supplier/views.py:29
+#: static/templates/base.html:101 supplier/views.py:29
 msgid "label:suppliers"
 msgstr "Dostawcy"
 
-#: static/templates/base.html:105
-msgid "label:orders"
-msgstr "Zamówienia"
-
-#: static/templates/base.html:111
-msgid "label:settings"
-msgstr "Ustawienia"
-
-#: static/templates/form_template.html:19
+#: static/templates/form_template.html:31
 msgid "label:back"
 msgstr "Powrót"
 
@@ -1603,3 +1753,6 @@ msgstr ""
 #: venv/lib/python3.11/site-packages/django/views/templates/default_urlconf.html:249
 msgid "Connect, get help, or contribute"
 msgstr ""
+
+#~ msgid "label:profile"
+#~ msgstr "Profil"
