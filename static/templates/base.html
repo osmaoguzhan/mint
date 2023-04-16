@@ -62,7 +62,9 @@
                     {% trans 'label:welcome' %} {{ user.company_name }}
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="{% url "user_change" %}">Profile</a></li>
+                    <li><a class="dropdown-item"
+                           href="{% url "company_settings" %}">{% trans 'label:company_settings' %}</a>
+                    </li>
                     <li><a class="dropdown-item" href="{% url "logout" %}">{% trans 'label:logout' %}</a></li>
                 </ul>
             </div>
