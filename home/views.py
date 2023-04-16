@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import TemplateView, CreateView, UpdateView
 from django.contrib.auth.views import LoginView, LogoutView
@@ -16,7 +17,7 @@ class LoginPageView(LoginView):
 
     def get(self, request, *args, **kwargs):
         if self.request.user.is_authenticated:
-            return redirect('/home/')
+            return redirect(reverse_lazy('home'))
         return super().get(request, *args, **kwargs)
 
 
@@ -38,7 +39,7 @@ class SignupView(SuccessMessageMixin, CreateView):
 
 
 class CustomUserChangeView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
-    login_url = '/login/'
+    login_url = settings.LOGIN_URL
     form_class = CustomUserChangeForm
     template_name = 'form_template.html'
     success_url = reverse_lazy('company_settings')

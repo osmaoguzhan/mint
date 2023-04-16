@@ -64,22 +64,16 @@ class UserCreationForm(forms.ModelForm):
         password1 = self.cleaned_data.get("password1")
         if len(password1) < 6 or len(password1) > 20:
             raise ValidationError(_("message:password_length_error"))
-            # raise ValidationError("Password must be between 6 and 20 characters")
         if password1.isdigit():
             raise ValidationError(_("message:password_at_least_one_letter"))
-            # raise ValidationError("Password must contain at least one letter")
         if password1.isalpha():
             raise ValidationError(_("message:password_at_least_one_number"))
-            # raise ValidationError("Password must contain at least one number")
         if password1.islower():
             raise ValidationError(_("message:password_at_least_one_uppercase"))
-            # raise ValidationError("Password must contain at least one uppercase letter")
         if password1.isupper():
             raise ValidationError(_("message:password_at_least_one_lowercase"))
-            # raise ValidationError("Password must contain at least one lowercase letter")
         if password1.isalnum():
             raise ValidationError(_("message:password_at_least_one_special_character"))
-            # raise ValidationError("Password must contain at least one special character")
         return password1
 
     def clean_password2(self):
@@ -87,7 +81,6 @@ class UserCreationForm(forms.ModelForm):
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
             raise ValidationError(_("message:passwords_do_not_match"))
-            # raise ValidationError("Passwords don't match")
         return password2
 
     def clean_email(self):

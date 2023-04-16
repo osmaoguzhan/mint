@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
 from django.utils.formats import date_format
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from utils import queryParser
@@ -10,7 +11,7 @@ from .forms import OrderForm
 from .models import Order
 from django.utils.translation import gettext_lazy as _
 
-LIST_PATH = '/orders/'
+LIST_PATH = reverse_lazy('orders.list')
 
 
 class OrderListView(LoginRequiredMixin, ListView):

@@ -1,4 +1,5 @@
 from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
 from django.utils.formats import date_format
 from django.views.generic import ListView, DeleteView, UpdateView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -10,7 +11,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
-LIST_PATH = '/customers/'
+LIST_PATH = reverse_lazy('customers.list')
 
 
 class CustomerListView(LoginRequiredMixin, ListView):
