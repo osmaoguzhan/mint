@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% load i18n %}
+
+{% block content %}
+    <div class="container">
+        <div class="row my-2">
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="card bg-danger text-white mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{% trans 'label:total' %} {% trans 'label:products' %}</h5>
+                        <p class="card-text h3">{{ analytics.product_count }}</p>
+                        <i class="fas fa-2x fa-chart-line"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="card bg-primary text-white mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{% trans 'label:total' %} {% trans 'label:customers' %}</h5>
+                        <p class="card-text h3">{{ analytics.customer_count }}</p>
+                        <i class="fas fa-2x fa-person"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="card bg-success text-white mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{% trans 'label:total' %} {% trans 'label:suppliers' %}</h5>
+                        <p class="card-text h3">{{ analytics.supplier_count }}</p>
+                        <i class="fas  fa-2x fa-truck-field"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="row my-2">
+            <div class="col-lg-6 col-md-12 col-sm-12 mt-3" id="char-line-div">
+                <div class="card shadow-lg">
+                    <div class="card-title">
+                        <h5 class="text-center">{% trans 'label:categories' %}</h5>
+                    </div>
+                    <div class="card-body">
+                        <div
+                                style="display: none;text-align: center; width: 100%; height: 100%; position: absolute; left: 0; top: 100px; z-index: 20;"
+                                id="no-category"
+                        >
+                            <b>No category!</b>
+                        </div>
+                        <canvas id="chart-line"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 col-sm-12 mt-3" id="char-line-div">
+                <div class="card shadow-lg">
+                    <div class="card-title">
+                        <h5 class="text-center">{% trans 'label:brands' %}</h5>
+                    </div>
+                    <div class="card-body">
+                        <div
+                                style="display: none;text-align: center; width: 100%; height: 100%; position: absolute; left: 0; top: 100px; z-index: 20;"
+                                id="no-brands"
+                        >
+                            <b>{% trans 'message:no_brands_found' %}</b>
+                        </div>
+                        <canvas id="chart-line-brands"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row my-2">
+            <div class="col-12 mt-3" id="bar-chart-div">
+                <div class="card shadow-lg">
+                    <div class="card-title">
+                        <h5 class="text-center">{% trans 'label:income_last_week' %}</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="bar-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let categoriesCount = {{ analytics.categories.count }};
+        if (categoriesCount === undefined || categoriesCount === 0) {
+            let div = document.getElementById("no-category");
+            div.style.display = "block";
+        } else {
+            let categories = {};
+            {% for category in analytics.categories %}
+                let category = {{ category|safe }}['category__name'];
+                if (categories[category] === undefined) {
+                    categories[category] = 1;
+                } else {
+                    categories[category] += 1;
+                }
+            {% endfor %}
+            let categoryPieCtx = $("#chart-line");
+            new Chart(categoryPieCtx, {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(categories),
+                    datasets:
+                        [{
+                            data: Object.values(categories),
+                            backgroundColor: randomColors(Object.keys(categories).length)
+                        }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                }
+            });
+        }
+
+        let brandsCount = {{ analytics.brands.count }};
+        if (brandsCount === undefined || brandsCount === 0) {
+            let div = document.getElementById("no-brands");
+            div.style.display = "block";
+        } else {
+            let brands = {};
+            {% for brand in analytics.brands %}
+                if (brands["{{ brand }}"] === undefined) {
+                    brands["{{ brand }}"] = 1;
+                } else {
+                    brands["{{ brand }}"] += 1;
+                }
+            {% endfor %}
+            let brandPieCtx = $("#chart-line-brands");
+            new Chart(brandPieCtx, {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(brands),
+                    datasets:
+                        [{
+                            data: Object.values(brands),
+                            backgroundColor: randomColors(Object.keys(brands).length)
+                        }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                }
+            });
+        }
+        let dates = createDatesForLabels();
+        let income = {};
+        dates.forEach((date) => {
+            income[date] = 0;
+        });
+        let incomeCount = {{ analytics.income.count }};
+        if (incomeCount !== undefined || incomeCount > 0) {
+            let item = null;
+            {% for i in analytics.income %}
+                item = {{ i|safe }};
+                income[item.created] = item.total_price * item.total_amount;
+            {% endfor %}
+            let barchart = $("#bar-chart");
+            new Chart(barchart, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        data: Object.values(income),
+                        label: "{% trans 'label:incomes' %}",
+                        borderColor: "#458af7",
+                        backgroundColor: '#458af7',
+                        fill: true
+                    }]
+                }
+            });
+        }
+
+
+        function randomColors(count) {
+            let colors = [];
+            for (let i = 0; i < count; i++) {
+                colors.push('#' + Math.floor(Math.random() * 16777215).toString(16));
+            }
+            return colors;
+        }
+
+        function createDatesForLabels() {
+            let dates = [];
+            let date = new Date();
+            for (let i = 0; i < 7; i++) {
+                let day = date.getDate();
+                let month = date.getMonth() + 1;
+                let year = date.getFullYear();
+                month = month < 10 ? '0' + month : month;
+                dates.push(day + "/" + month + "/" + year);
+                date.setDate(date.getDate() - 1);
+            }
+            return dates.reverse();
+        }
+    </script>
+{% endblock %}

@@ -1,7 +1,14 @@
+from datetime import timedelta
+
 from django.conf import settings
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Sum
+from django.utils import timezone
 from django.views.generic import TemplateView, CreateView, UpdateView
 from django.contrib.auth.views import LoginView, LogoutView
+
+from category.models import Category
+from order.models import Order
 from .admin import UserCreationForm
 from django.shortcuts import redirect
 from .forms import LoginForm, CustomUserChangeForm
@@ -17,7 +24,7 @@ class LoginPageView(LoginView):
 
     def get(self, request, *args, **kwargs):
         if self.request.user.is_authenticated:
-            return redirect(reverse_lazy('home'))
+            return redirect('/dashboard/')
         return super().get(request, *args, **kwargs)
 
 
@@ -48,3 +55,36 @@ class CustomUserChangeView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
     def get_object(self):
         return self.request.user
+
+
+class DashboardView(TemplateView):
+    template_name = 'home/dashboard.html'
+    context_object_name = 'analytics'
+    extra_context = {'title': _('label:dashboard')}
+
+    def get(self, request, *args, **kwargs):
+        income = self.request.user.orders.filter(
+            created__gte=timezone.now() - timedelta(days=7)
+        ).values('created').annotate(
+            total_price=Sum('price'),
+            total_amount=Sum('amount')
+        ).order_by('created')
+        for item in income:
+            item['created'] = item['created'].strftime('%d/%m/%Y')
+            item['total_price'] = float(item['total_price'])
+        product_ids = self.request.user.orders.values('product__id')
+        brand_ids = self.request.user.products.filter(id__in=product_ids).values('brand__id')
+        categories = self.request.user.brands.filter(id__in=brand_ids).values('category__name').distinct()
+
+        self.extra_context['analytics'] = {
+            'customer_count': self.request.user.customers.count(),
+            'product_count': self.request.user.products.count(),
+            'supplier_count': self.request.user.suppliers.count(),
+            'brands': self.request.user.brands.all(),
+            'categories': categories,
+            'income': income
+
+        }
+        if not self.request.user.is_authenticated:
+            return redirect(reverse_lazy('login'))
+        return super().get(request, *args, **kwargs)

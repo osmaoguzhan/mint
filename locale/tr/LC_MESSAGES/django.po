@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-16 10:11+0200\n"
+"POT-Creation-Date: 2023-04-17 18:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,15 +20,15 @@ msgstr "Tedarikçi seçin"
 msgid "label:select_category"
 msgstr "Kategori seçin"
 
-#: brand/forms.py:25 brand/views.py:23 product/forms.py:31 product/views.py:28
+#: brand/forms.py:25 brand/views.py:24 product/forms.py:31 product/views.py:29
 msgid "label:brand_name"
 msgstr "Marka"
 
-#: brand/forms.py:26 brand/views.py:24
+#: brand/forms.py:26 brand/views.py:25
 msgid "label:category_name"
 msgstr "Kategori"
 
-#: brand/forms.py:27 brand/views.py:25
+#: brand/forms.py:27 brand/views.py:26
 msgid "label:supplier_name"
 msgstr "Tedarikçi"
 
@@ -44,71 +44,72 @@ msgstr "Lütfen geçerli bir kategori seçin."
 msgid "message:supplier_name_error"
 msgstr "Lütfen geçerli bir tedarikçi seçin."
 
-#: brand/views.py:26 customer/views.py:28 order/views.py:29 product/views.py:29
-#: supplier/views.py:27
+#: brand/views.py:27 customer/views.py:29 order/views.py:30 product/views.py:30
+#: supplier/views.py:28
 msgid "label:created_date"
 msgstr "Oluşturulma tarihi"
 
-#: brand/views.py:28 static/templates/base.html:104
+#: brand/views.py:29 home/templates/home/dashboard.html:55
+#: static/templates/base.html:110
 msgid "label:brands"
 msgstr "Markalar"
 
-#: brand/views.py:32
+#: brand/views.py:33 home/templates/home/dashboard.html:62
 msgid "message:no_brands_found"
 msgstr "Marka bulunamadı."
 
-#: brand/views.py:33
+#: brand/views.py:34
 msgid "label:add_new_brand"
 msgstr "Yeni marka ekle"
 
-#: brand/views.py:67
+#: brand/views.py:68
 msgid "message:brand_updated"
 msgstr "Marka başarıyla güncellendi."
 
-#: brand/views.py:69 customer/views.py:80 home/views.py:46 order/views.py:77
-#: product/views.py:77 supplier/views.py:77
+#: brand/views.py:70 customer/views.py:81 home/views.py:54 order/views.py:78
+#: product/views.py:78 supplier/views.py:78
 msgid "label:update_button_text"
 msgstr "Güncelle"
 
-#: brand/views.py:69
+#: brand/views.py:70
 msgid "label:update_a_brand"
 msgstr "Marka güncelle"
 
-#: brand/views.py:79 customer/views.py:90 order/views.py:87 product/views.py:87
-#: supplier/views.py:87
+#: brand/views.py:80 customer/views.py:91 order/views.py:88 product/views.py:93
+#: supplier/views.py:88
 msgid "label:create_button_text"
 msgstr "Oluştur"
 
-#: brand/views.py:79
+#: brand/views.py:80
 msgid "label:create_a_brand"
 msgstr "Marka oluştur"
 
-#: brand/views.py:91
+#: brand/views.py:92
 msgid "message:brand_created"
 msgstr "Marka başarıyla oluşturuldu."
 
-#: customer/forms.py:20 customer/views.py:23
+#: customer/forms.py:20 customer/views.py:24
 msgid "label:firstname"
 msgstr "İsim"
 
-#: customer/forms.py:21 customer/views.py:24
+#: customer/forms.py:21 customer/views.py:25
 msgid "label:surname"
 msgstr "Soyisim"
 
-#: customer/forms.py:22 customer/views.py:25 home/forms.py:147
-#: home/forms.py:149 supplier/forms.py:20 supplier/views.py:24
+#: customer/forms.py:22 customer/views.py:26 home/forms.py:140
+#: home/forms.py:142 supplier/forms.py:20 supplier/views.py:25
 msgid "label:email"
 msgstr "E-posta"
 
-#: customer/forms.py:23 customer/views.py:26 home/forms.py:37 home/forms.py:38
-#: home/forms.py:159 home/forms.py:161 supplier/forms.py:21
-#: supplier/views.py:25
+#: customer/forms.py:23 customer/views.py:27 home/forms.py:37 home/forms.py:38
+#: home/forms.py:152 home/forms.py:154 supplier/forms.py:21
+#: supplier/views.py:26
 msgid "label:phone_number"
 msgstr "Telefon numarası"
 
-#: customer/forms.py:24 customer/views.py:27 home/forms.py:46 home/forms.py:47
-#: home/forms.py:170 home/forms.py:172 supplier/forms.py:22
-#: supplier/views.py:26
+#: customer/forms.py:24 customer/views.py:28 home/forms.py:46 home/forms.py:47
+#: home/forms.py:163 home/forms.py:165 supplier/forms.py:22
+#: supplier/views.py:27
 msgid "label:address"
 msgstr "Adres"
 
@@ -128,11 +129,11 @@ msgstr "Soyisim 3 ile 30 karakter arasında olmalıdır."
 msgid "message:surname_letters_include"
 msgstr "Soyisim sadece harflerden oluşmalıdır."
 
-#: customer/forms.py:47 home/forms.py:97 supplier/forms.py:35
+#: customer/forms.py:47 home/forms.py:90 supplier/forms.py:35
 msgid "message:email_format"
 msgstr "E-posta adresi geçerli değil."
 
-#: customer/forms.py:54 supplier/forms.py:42
+#: customer/forms.py:54 home/forms.py:107 supplier/forms.py:42
 msgid "message:phone_format"
 msgstr "Telefon numarası geçerli değil."
 
@@ -140,31 +141,32 @@ msgstr "Telefon numarası geçerli değil."
 msgid "message:address_length"
 msgstr "Adres 15 ile 100 karakter arasında olmalıdır."
 
-#: customer/views.py:30 static/templates/base.html:110
+#: customer/views.py:31 home/templates/home/dashboard.html:20
+#: static/templates/base.html:116
 msgid "label:customers"
 msgstr "Müşteriler"
 
-#: customer/views.py:34
+#: customer/views.py:35
 msgid "message:customer_not_found"
 msgstr "Müşteri bulunamadı."
 
-#: customer/views.py:35
+#: customer/views.py:36
 msgid "label:add_new_customer"
 msgstr "Yeni müşteri ekle"
 
-#: customer/views.py:78
+#: customer/views.py:79
 msgid "message:customer_updated"
 msgstr "Müşteri başarıyla güncellendi."
 
-#: customer/views.py:80
+#: customer/views.py:81
 msgid "label:update_a_customer"
 msgstr "Müşteri güncelle"
 
-#: customer/views.py:90
+#: customer/views.py:91
 msgid "label:create_a_customer"
 msgstr "Müşteri oluştur"
 
-#: customer/views.py:102
+#: customer/views.py:103
 msgid "message:customer_created"
 msgstr "Müşteri başarıyla oluşturuldu."
 
@@ -176,11 +178,11 @@ msgstr "E-posta adresi"
 msgid "label:password"
 msgstr "Şifre"
 
-#: home/forms.py:33 home/forms.py:34 home/forms.py:153 home/forms.py:155
+#: home/forms.py:33 home/forms.py:34 home/forms.py:146 home/forms.py:148
 msgid "label:company_name"
 msgstr "Şirket adı"
 
-#: home/forms.py:41 home/forms.py:42 home/forms.py:164 home/forms.py:166
+#: home/forms.py:41 home/forms.py:42 home/forms.py:157 home/forms.py:159
 msgid "label:website_optional"
 msgstr "Web sitesi (opsiyonel)"
 
@@ -192,88 +194,116 @@ msgstr "Şifre tekrarı"
 msgid "message:password_length_error"
 msgstr "Şifre uzunluğu 8 ile 20 karakter arasında olmalıdır."
 
-#: home/forms.py:69
+#: home/forms.py:68
 msgid "message:password_at_least_one_letter"
 msgstr "Şifre en az bir harf içermelidir."
 
-#: home/forms.py:72
+#: home/forms.py:70
 msgid "message:password_at_least_one_number"
 msgstr "Şifre en az bir rakam içermelidir."
 
-#: home/forms.py:75
+#: home/forms.py:72
 msgid "message:password_at_least_one_uppercase"
 msgstr "Şifre en az bir büyük harf içermelidir."
 
-#: home/forms.py:78
+#: home/forms.py:74
 msgid "message:password_at_least_one_lowercase"
 msgstr "Şifre en az bir küçük harf içermelidir."
 
-#: home/forms.py:81
+#: home/forms.py:76
 msgid "message:password_at_least_one_special_character"
 msgstr "Şifre en az bir özel karakter içermelidir."
 
-#: home/forms.py:89
+#: home/forms.py:83
 msgid "message:passwords_do_not_match"
 msgstr "Şifreler eşleşmiyor."
 
-#: home/forms.py:99
+#: home/forms.py:92
 msgid "message:email_already_exists"
 msgstr "Bu e-posta adresi zaten kayıtlı."
 
-#: home/forms.py:105
+#: home/forms.py:98
 msgid "message:company_name_already_exists"
 msgstr "Bu şirket adı zaten kayıtlı."
 
-#: home/forms.py:107
+#: home/forms.py:100
 msgid "message:company_name_length_error"
 msgstr "Şirket adı uzunluğu 3 ile 255 karakter arasında olmalıdır."
 
-#: home/forms.py:114 home/forms.py:195
-msgid "message:phone_number_format"
-msgstr "Telefon numarası geçerli değil."
-
-#: home/forms.py:116 home/forms.py:197
+#: home/forms.py:109 home/forms.py:190
 msgid "message:phone_number_already_exists"
 msgstr "Bu telefon numarası zaten kayıtlı."
 
-#: home/forms.py:124 home/forms.py:205
+#: home/forms.py:117 home/forms.py:198
 msgid "message:website_format_is_not_valid"
 msgstr "Web sitesi formatı geçerli değil."
 
-#: home/forms.py:126 home/forms.py:207
+#: home/forms.py:119 home/forms.py:200
 msgid "message:website_already_exists"
 msgstr "Web sitesi zaten kayıtlı."
 
-#: home/forms.py:132 home/forms.py:213
+#: home/forms.py:125 home/forms.py:206
 msgid "message:address_is_required"
 msgstr "Adres zorunludur."
 
-#: home/forms.py:134 home/forms.py:215
+#: home/forms.py:127 home/forms.py:208
 msgid "message:company_address_length_error"
 msgstr "Şirket adresi uzunluğu 3 ile 255 karakter arasında olmalıdır."
 
-#: home/forms.py:150
+#: home/forms.py:143
 msgid "message:please_contact_admin_to_change_email."
-msgstr "Lütfen e-posta adresinizi değiştirmek için yönetici ile iletişime geçin."
+msgstr ""
+"Lütfen e-posta adresinizi değiştirmek için yönetici ile iletişime geçin."
 
-#: home/forms.py:156
+#: home/forms.py:149
 msgid "message:please_contact_admin_to_change_company_name"
 msgstr "Lütfen şirket adınızı değiştirmek için yönetici ile iletişime geçin."
 
-#: home/forms.py:182
+#: home/forms.py:175
 msgid "message:email_cannot_be_changed"
 msgstr "E-posta adresi değiştirilemez."
 
-#: home/forms.py:188
+#: home/forms.py:181
 msgid "message:company_name_cannot_be_changed"
 msgstr "Şirket adı değiştirilemez."
+
+#: home/forms.py:188
+msgid "message:phone_number_format"
+msgstr "Telefon numarası geçerli değil."
+
+#: home/templates/home/dashboard.html:11 home/templates/home/dashboard.html:20
+#: home/templates/home/dashboard.html:29
+msgid "label:total"
+msgstr "Toplam"
+
+#: home/templates/home/dashboard.html:11 product/views.py:32
+#: static/templates/base.html:104
+msgid "label:products"
+msgstr "Ürünler"
+
+#: home/templates/home/dashboard.html:29 static/templates/base.html:107
+#: supplier/views.py:30
+msgid "label:suppliers"
+msgstr "Tedarikçiler"
+
+#: home/templates/home/dashboard.html:39
+msgid "label:categories"
+msgstr "Kategoriler"
+
+#: home/templates/home/dashboard.html:73
+msgid "label:income_last_week"
+msgstr "Son haftaki gelir"
+
+#: home/templates/home/dashboard.html:164
+msgid "label:incomes"
+msgstr "Gelirler"
 
 #: home/templates/home/login.html:45
 msgid "label:sign_into_your_account"
 msgstr "Hesabınıza giriş yapın"
 
-#: home/templates/home/login.html:53 home/views.py:15
-#: static/templates/base.html:78 static/templates/base.html:83
+#: home/templates/home/login.html:53 home/views.py:23
+#: static/templates/base.html:81 static/templates/base.html:86
 msgid "label:login"
 msgstr "Giriş yap"
 
@@ -285,8 +315,8 @@ msgstr "Hesabınız yok mu?"
 msgid "label_create_your_account"
 msgstr "Hesabınızı oluşturun"
 
-#: home/templates/home/signup.html:43 home/views.py:35
-#: static/templates/base.html:74 static/templates/base.html:86
+#: home/templates/home/signup.html:43 home/views.py:43
+#: static/templates/base.html:77 static/templates/base.html:89
 msgid "label:signup"
 msgstr "Kayıt ol"
 
@@ -304,21 +334,25 @@ msgstr ""
 "Mint bir ürün yönetim sistemidir. Ürünlerinizi, siparişlerinizi, "
 "müşterilerinizi ve tedarikçilerinizi yönetebilirsiniz."
 
-#: home/views.py:29 static/templates/base.html:95
+#: home/views.py:37 static/templates/base.html:98
 msgid "label:home"
 msgstr "Anasayfa"
 
-#: home/views.py:37
+#: home/views.py:45
 msgid "message:company_created_successfully"
 msgstr "Şirket başarıyla oluşturuldu."
 
-#: home/views.py:45
+#: home/views.py:53
 msgid "message:company_updated_successfully"
 msgstr "Şirket başarıyla güncellendi."
 
-#: home/views.py:46 static/templates/base.html:66
+#: home/views.py:54 static/templates/base.html:69
 msgid "label:company_settings"
 msgstr "Şirket ayarları"
+
+#: home/views.py:63 static/templates/base.html:101
+msgid "label:dashboard"
+msgstr "Gösterge Paneli"
 
 #: mint/settings.py:107
 msgid "English"
@@ -340,28 +374,28 @@ msgstr "Lütfen ürün seçin"
 msgid "label:select_customer"
 msgstr "Lütfen müşteri seçin"
 
-#: order/forms.py:28 order/views.py:23 product/forms.py:26 product/views.py:23
-#: supplier/forms.py:19 supplier/views.py:23
+#: order/forms.py:28 order/views.py:24 product/forms.py:26 product/views.py:24
+#: supplier/forms.py:19 supplier/views.py:24
 msgid "label:name"
 msgstr "İsim"
 
-#: order/forms.py:29 order/views.py:24 product/forms.py:27 product/views.py:24
+#: order/forms.py:29 order/views.py:25 product/forms.py:27 product/views.py:25
 msgid "label:description"
 msgstr "Açıklama"
 
-#: order/forms.py:30 order/views.py:25 product/forms.py:28 product/views.py:25
+#: order/forms.py:30 order/views.py:26 product/forms.py:28 product/views.py:26
 msgid "label:amount"
 msgstr "Miktar"
 
-#: order/forms.py:31 order/views.py:26 product/forms.py:30 product/views.py:27
+#: order/forms.py:31 order/views.py:27 product/forms.py:30 product/views.py:28
 msgid "label:price"
 msgstr "Fiyat"
 
-#: order/forms.py:32 order/views.py:27
+#: order/forms.py:32 order/views.py:28
 msgid "label:product_name"
 msgstr "Ürün"
 
-#: order/forms.py:33 order/views.py:28
+#: order/forms.py:33 order/views.py:29
 msgid "label:customer_name"
 msgstr "Müşteri"
 
@@ -389,39 +423,39 @@ msgstr "Bir ürün seçilmelidir."
 msgid "message:order_customer_error"
 msgstr "Bir müşteri seçilmelidir."
 
-#: order/views.py:31 static/templates/base.html:107
+#: order/views.py:32 static/templates/base.html:113
 msgid "label:orders"
 msgstr "Siparişler"
 
-#: order/views.py:35
+#: order/views.py:36
 msgid "message:order_not_found"
 msgstr "Sipariş bulunamadı."
 
-#: order/views.py:36
+#: order/views.py:37
 msgid "label:add_new_order"
 msgstr "Yeni sipariş ekle"
 
-#: order/views.py:75
+#: order/views.py:76
 msgid "message:order_updated_successfully"
 msgstr "Sipariş başarıyla güncellendi."
 
-#: order/views.py:77
+#: order/views.py:78
 msgid "label:update_order"
 msgstr "Siparişi güncelle"
 
-#: order/views.py:87
+#: order/views.py:88
 msgid "label:create_order"
 msgstr "Sipariş oluştur"
 
-#: order/views.py:98
+#: order/views.py:102
 msgid "message:order_created_successfully"
 msgstr "Sipariş başarıyla oluşturuldu."
 
-#: product/forms.py:11
+#: product/forms.py:12
 msgid "label:select_brand"
 msgstr "Marka seçin"
 
-#: product/forms.py:29 product/views.py:26
+#: product/forms.py:29 product/views.py:27
 msgid "label:unit"
 msgstr "Birim"
 
@@ -429,73 +463,65 @@ msgstr "Birim"
 msgid "message:product_name_length_error"
 msgstr "Ürün adı uzunluğu 3 ile 30 karakter arasında olmalıdır."
 
-#: product/forms.py:39
+#: product/forms.py:41 product/forms.py:44
 msgid "message:product_exists_error"
 msgstr "Bu isimde bir ürün zaten var."
 
-#: product/forms.py:45
+#: product/forms.py:50
 msgid "message:product_description_length_error"
 msgstr "Ürün açıklaması uzunluğu 3 ile 100 karakter arasında olmalıdır."
 
-#: product/forms.py:51
+#: product/forms.py:56
 msgid "message:product_amount_error"
 msgstr "Miktar 0 ile 99999999 arasında olmalıdır."
 
-#: product/forms.py:57
+#: product/forms.py:62
 msgid "message:product_unit_length_error"
 msgstr "Birim uzunluğu 1 ile 10 karakter arasında olmalıdır."
 
-#: product/forms.py:59
+#: product/forms.py:64
 msgid "message:product_unit_error"
 msgstr "Birim sadece harf içermelidir."
 
-#: product/forms.py:65
+#: product/forms.py:70
 msgid "message:product_price_error"
 msgstr "Fiyat 0 ile 99999999 arasında olmalıdır."
 
-#: product/forms.py:71
+#: product/forms.py:76
 msgid "message:product_brand_error"
 msgstr "Lütfen bir marka seçin."
 
-#: product/views.py:31 static/templates/base.html:98
-msgid "label:products"
-msgstr "Ürünler"
-
-#: product/views.py:35
+#: product/views.py:36
 msgid "message:no_products_found"
 msgstr "Ürün bulunamadı."
 
-#: product/views.py:36
+#: product/views.py:37
 msgid "label:add_new_product"
 msgstr "Ürün ekle"
 
-#: product/views.py:75
+#: product/views.py:76
 msgid "message:product_updated"
 msgstr "Ürün başarıyla güncellendi."
 
-#: product/views.py:77
+#: product/views.py:78
 msgid "label:update_a_product"
 msgstr "Ürün güncelle"
 
-#: product/views.py:87
+#: product/views.py:93
 msgid "label:create_a_product"
 msgstr "Ürün oluştur"
 
-#: product/views.py:99
+#: product/views.py:105
 msgid "message:product_created"
 msgstr "Ürün başarıyla oluşturuldu."
 
-#: static/templates/base.html:62
+#: static/templates/base.html:65
 msgid "label:welcome"
 msgstr "Hoşgeldiniz"
 
-#: static/templates/base.html:68
+#: static/templates/base.html:71
 msgid "label:logout"
 msgstr "Oturumu kapat"
-
-#: static/templates/base.html:101 supplier/views.py:29
-msgid "label:suppliers"
-msgstr "Tedarikçiler"
 
 #: static/templates/form_template.html:31
 msgid "label:back"
@@ -525,27 +551,27 @@ msgstr "Sil"
 msgid "message:supplier_name_length"
 msgstr "Tedarikçi adı 3 ile 30 karakter arasında olmalıdır."
 
-#: supplier/views.py:33
+#: supplier/views.py:34
 msgid "message:supplier_not_found"
 msgstr "Tedarikçi bulunamadı."
 
-#: supplier/views.py:34
+#: supplier/views.py:35
 msgid "label:add_new_supplier"
 msgstr "Yeni tedarikçi ekle"
 
-#: supplier/views.py:75
+#: supplier/views.py:76
 msgid "message:supplier_updated"
 msgstr "Tedarikçi başarıyla güncellendi."
 
-#: supplier/views.py:77
+#: supplier/views.py:78
 msgid "label:update_a_supplier"
 msgstr "Tedarikçi güncelle"
 
-#: supplier/views.py:87
+#: supplier/views.py:88
 msgid "label:create_a_supplier"
 msgstr "Tedarikçi oluştur"
 
-#: supplier/views.py:99
+#: supplier/views.py:100
 msgid "message:supplier_created"
 msgstr "Tedarikçi başarıyla oluşturuldu."
 
