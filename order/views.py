@@ -95,7 +95,10 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
+        self.object.company = self.request.user
         self.object.save()
+        self.object.product.amount -= self.object.amount
+        self.object.product.save()
         messages.success(self.request, _('message:order_created_successfully'))
         return HttpResponseRedirect(self.get_success_url())
 

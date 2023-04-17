@@ -11,7 +11,7 @@ from .forms import SupplierForm
 from .models import Supplier
 from django.utils.translation import gettext_lazy as _
 
-LIST_PATH = reverse_lazy('supplier')
+LIST_PATH = reverse_lazy('suppliers.list')
 
 
 class SupplierListView(LoginRequiredMixin, ListView):

@@ -105,6 +105,11 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         messages.success(self.request, _("message:product_created"))
         return HttpResponseRedirect(self.get_success_url())
 
+    def get_form_kwargs(self):
+        kwargs = super(ProductCreateView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
 
 class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
