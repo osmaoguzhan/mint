@@ -88,7 +88,6 @@
             let categories = {};
             {% for category in analytics.categories %}
                 let category = {{ category|safe }}['category__name'];
-                console.log(category)
                 if (categories[category] === undefined) {
                     categories[category] = 1;
                 } else {
@@ -154,7 +153,6 @@
                 income[item.created] = item.total_price * item.total_amount;
             {% endfor %}
             let barchart = $("#bar-chart");
-            console.log(income)
             new Chart(barchart, {
                 type: 'line',
                 data: {
