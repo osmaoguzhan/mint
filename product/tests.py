@@ -14,11 +14,13 @@ class ProductTest(LiveServerTestCase):
     def setup(self):
         translation.activate("en")
         self.options = Options()
-        self.options.add_experimental_option("detach", True)
+        #self.options.add_experimental_option("detach", True)
         self.browser = webdriver.Chrome(options=self.options)
         self.browser.maximize_window()
         self.signIntoAccount()
-        self.entry_point = "http://127.0.0.1:8000/en/products/create/"
+        self.products_end_point = "http://127.0.0.1:8000/en/products/"
+        self.create_end_point = "http://127.0.0.1:8000/en/products/create/"
+        self.delete_end_point = "http://127.0.0.1:8000/en/products/delete/"
         self.fields = [
             "product-name",
             "product-description",
@@ -53,12 +55,21 @@ class ProductTest(LiveServerTestCase):
             invalidPrice=translation.gettext("message:product_price_error"),
         ), "step7": dict(
             invalidBrand=translation.gettext("message:product_brand_error"),
+        ), "step8": dict(
+            success=translation.gettext("message:product_created"),
+        ), "step9": dict(
+            name="Product Test",
+            description="Product Test description",
+            amount="1",
+            unit="kg",
+            price="158.00",
+            brand="Samsung",
         )}
 
-    def test_form(self):
+    def test_Create_Product(self):
         self.setup()
         print("Step 1: Open the product edit page")
-        self.browser.get(self.entry_point)
+        self.browser.get(self.create_end_point)
         self.fields_ui = self.browser.find_elements(
             By.XPATH,
             "//*[@automation-id and not(contains(@type, 'submit'))]"
@@ -174,6 +185,39 @@ class ProductTest(LiveServerTestCase):
             self.expected["step7"],
             self.actualResultStep7,
             "Brand validation errors."
+        )
+
+        # Step 8 - Create: Add a new product with correct data.
+
+        print(
+            "Step 8: (Create) Add a new product with correct data."
+        )
+
+        self.fillFieldsAndClickButton("Product Test", "Product Test description", "1", "kg", "158", 1)
+        self.actualResultStep8 = dict(
+            success=self.browser.find_element(By.XPATH, "//div[contains(@class, 'alert')]").text,
+        )
+
+        self.assertEqual(
+            self.expected["step8"],
+            self.actualResultStep8,
+            "Product created successfully."
+        )
+
+        # Step 9 - Create: Control if the product is added to the list.
+        self.actualResultStep9 = dict(
+            name=self.browser.find_element(By.XPATH, "//td[contains(text(), 'Product Test')]").text,
+            description=self.browser.find_element(By.XPATH, "//td[contains(text(), 'Product Test description')]").text,
+            amount=self.browser.find_element(By.XPATH, "//td[contains(text(), '1')]").text,
+            unit=self.browser.find_element(By.XPATH, "//td[contains(text(), 'kg')]").text,
+            price=self.browser.find_element(By.XPATH, "//td[contains(text(), '158')]").text,
+            brand=self.browser.find_element(By.XPATH, "//td[contains(text(), 'Samsung')]").text,
+        )
+
+        self.assertEqual(
+            self.expected["step9"],
+            self.actualResultStep9,
+            "Product added to the list."
         )
 
     def getAndClickButton(self, id="general-submit-button"):
