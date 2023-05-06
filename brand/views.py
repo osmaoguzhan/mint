@@ -18,6 +18,7 @@ class BrandListView(LoginRequiredMixin, ListView):
     model = Brand
     template_name = 'table_template.html'
     context_object_name = 'table_data'
+    paginate_by = 5
     extra_context = {
         'header_data': [
             {'id': 'id', 'header': 'ID'},
