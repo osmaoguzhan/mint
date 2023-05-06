@@ -27,6 +27,11 @@ class LoginPageView(LoginView):
             return redirect('/dashboard/')
         return super().get(request, *args, **kwargs)
 
+    def render_to_response(self, context, **response_kwargs):
+        response = super().render_to_response(context, **response_kwargs)
+        response.set_cookie('django_language', self.request.LANGUAGE_CODE)
+        return response
+
 
 class LogoutInterfaceView(LogoutView):
     pass
