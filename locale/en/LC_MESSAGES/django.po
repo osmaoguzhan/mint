@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-17 18:19+0200\n"
+"POT-Creation-Date: 2023-05-06 18:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -96,19 +96,19 @@ msgstr "First Name"
 msgid "label:surname"
 msgstr "Surname"
 
-#: customer/forms.py:22 customer/views.py:26 home/forms.py:140
-#: home/forms.py:142 supplier/forms.py:20 supplier/views.py:25
+#: customer/forms.py:22 customer/views.py:26 home/forms.py:152
+#: home/forms.py:154 supplier/forms.py:20 supplier/views.py:25
 msgid "label:email"
 msgstr "Email"
 
-#: customer/forms.py:23 customer/views.py:27 home/forms.py:37 home/forms.py:38
-#: home/forms.py:152 home/forms.py:154 supplier/forms.py:21
+#: customer/forms.py:23 customer/views.py:27 home/forms.py:49 home/forms.py:50
+#: home/forms.py:164 home/forms.py:166 home/tests.py:31 supplier/forms.py:21
 #: supplier/views.py:26
 msgid "label:phone_number"
 msgstr "Phone Number"
 
-#: customer/forms.py:24 customer/views.py:28 home/forms.py:46 home/forms.py:47
-#: home/forms.py:163 home/forms.py:165 supplier/forms.py:22
+#: customer/forms.py:24 customer/views.py:28 home/forms.py:58 home/forms.py:59
+#: home/forms.py:175 home/forms.py:177 home/tests.py:33 supplier/forms.py:22
 #: supplier/views.py:27
 msgid "label:address"
 msgstr "Address"
@@ -129,11 +129,11 @@ msgstr "Surname must be between 3 and 30 characters."
 msgid "message:surname_letters_include"
 msgstr "Surname must include only letters."
 
-#: customer/forms.py:47 home/forms.py:90 supplier/forms.py:35
+#: customer/forms.py:47 home/forms.py:102 home/tests.py:40 supplier/forms.py:35
 msgid "message:email_format"
 msgstr "Email format is not valid."
 
-#: customer/forms.py:54 home/forms.py:107 supplier/forms.py:42
+#: customer/forms.py:54 home/forms.py:119 home/tests.py:48 supplier/forms.py:42
 msgid "message:phone_format"
 msgstr "Phone number format is not valid."
 
@@ -170,103 +170,111 @@ msgstr "Create Customer"
 msgid "message:customer_created"
 msgstr "Customer is created successfully."
 
-#: home/forms.py:14 home/forms.py:29 home/forms.py:30
+#: home/forms.py:12
+msgid "message:invalid_login"
+msgstr "Please check your email and password."
+
+#: home/forms.py:19 home/forms.py:39 home/forms.py:41 home/tests.py:29
+#: home/tests.py:74
 msgid "label:email_address"
 msgstr "Email Address"
 
-#: home/forms.py:22 home/forms.py:50 home/forms.py:51
+#: home/forms.py:27 home/forms.py:62 home/forms.py:63 home/tests.py:34
+#: home/tests.py:75
 msgid "label:password"
 msgstr "Password"
 
-#: home/forms.py:33 home/forms.py:34 home/forms.py:146 home/forms.py:148
+#: home/forms.py:44 home/forms.py:46 home/forms.py:158 home/forms.py:160
+#: home/tests.py:30
 msgid "label:company_name"
 msgstr "Company Name"
 
-#: home/forms.py:41 home/forms.py:42 home/forms.py:157 home/forms.py:159
+#: home/forms.py:53 home/forms.py:54 home/forms.py:169 home/forms.py:171
+#: home/tests.py:32
 msgid "label:website_optional"
 msgstr "Website (Optional)"
 
-#: home/forms.py:54 home/forms.py:56
+#: home/forms.py:66 home/forms.py:68 home/tests.py:35
 msgid "label:password_confirmation"
 msgstr "Password Confirmation"
 
-#: home/forms.py:66
+#: home/forms.py:78 home/tests.py:56
 msgid "message:password_length_error"
 msgstr "Password must be between 6 and 20 characters."
 
-#: home/forms.py:68
+#: home/forms.py:80 home/tests.py:57
 msgid "message:password_at_least_one_letter"
 msgstr "Password must include at least one letter."
 
-#: home/forms.py:70
+#: home/forms.py:82 home/tests.py:58
 msgid "message:password_at_least_one_number"
 msgstr "Password must include at least one number."
 
-#: home/forms.py:72
+#: home/forms.py:84 home/tests.py:60
 msgid "message:password_at_least_one_uppercase"
 msgstr "Password must include at least one uppercase letter."
 
-#: home/forms.py:74
+#: home/forms.py:86 home/tests.py:59
 msgid "message:password_at_least_one_lowercase"
 msgstr "Password must include at least one lowercase letter."
 
-#: home/forms.py:76
+#: home/forms.py:88 home/tests.py:61
 msgid "message:password_at_least_one_special_character"
 msgstr "Password must include at least one special character."
 
-#: home/forms.py:83
+#: home/forms.py:95 home/tests.py:64
 msgid "message:passwords_do_not_match"
-msgstr "Order not found!"
+msgstr "Passwords do not match."
 
-#: home/forms.py:92
+#: home/forms.py:104 home/tests.py:41
 msgid "message:email_already_exists"
 msgstr "Email already exists."
 
-#: home/forms.py:98
+#: home/forms.py:110 home/tests.py:45
 msgid "message:company_name_already_exists"
 msgstr "Company name already exists."
 
-#: home/forms.py:100
+#: home/forms.py:112 home/tests.py:44
 msgid "message:company_name_length_error"
 msgstr "Company name must be between 3 and 255 characters."
 
-#: home/forms.py:109 home/forms.py:190
+#: home/forms.py:121 home/forms.py:202 home/tests.py:49
 msgid "message:phone_number_already_exists"
 msgstr "Phone number already exists."
 
-#: home/forms.py:117 home/forms.py:198
+#: home/forms.py:129 home/forms.py:210
 msgid "message:website_format_is_not_valid"
 msgstr "Website format is not valid."
 
-#: home/forms.py:119 home/forms.py:200
+#: home/forms.py:131 home/forms.py:212
 msgid "message:website_already_exists"
 msgstr "Website already exists."
 
-#: home/forms.py:125 home/forms.py:206
+#: home/forms.py:137 home/forms.py:218 home/tests.py:53
 msgid "message:address_is_required"
 msgstr "Address is required."
 
-#: home/forms.py:127 home/forms.py:208
+#: home/forms.py:139 home/forms.py:220 home/tests.py:52
 msgid "message:company_address_length_error"
 msgstr "Address must be between 3 and 255 characters."
 
-#: home/forms.py:143
+#: home/forms.py:155
 msgid "message:please_contact_admin_to_change_email."
 msgstr "Please contact admin to change email."
 
-#: home/forms.py:149
+#: home/forms.py:161
 msgid "message:please_contact_admin_to_change_company_name"
 msgstr "Please contact admin to change company name."
 
-#: home/forms.py:175
+#: home/forms.py:187
 msgid "message:email_cannot_be_changed"
 msgstr "Email cannot be changed."
 
-#: home/forms.py:181
+#: home/forms.py:193
 msgid "message:company_name_cannot_be_changed"
 msgstr "Company name cannot be changed."
 
-#: home/forms.py:188
+#: home/forms.py:200
 msgid "message:phone_number_format"
 msgstr "Phone number format is not valid."
 
@@ -293,20 +301,20 @@ msgstr "Categories"
 msgid "label:income_last_week"
 msgstr "Incomes (1 week)"
 
-#: home/templates/home/dashboard.html:164
+#: home/templates/home/dashboard.html:162
 msgid "label:incomes"
 msgstr "Incomes"
 
-#: home/templates/home/login.html:45
+#: home/templates/home/login.html:61
 msgid "label:sign_into_your_account"
 msgstr "Sign in to your account"
 
-#: home/templates/home/login.html:53 home/views.py:23
+#: home/templates/home/login.html:70 home/views.py:23
 #: static/templates/base.html:81 static/templates/base.html:86
 msgid "label:login"
 msgstr "Login"
 
-#: home/templates/home/login.html:55
+#: home/templates/home/login.html:73
 msgid "label:dont_you_have_account"
 msgstr "Don't you have an account?"
 
