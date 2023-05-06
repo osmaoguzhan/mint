@@ -6,6 +6,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support.ui import Select
 
 
 class ProductTest(LiveServerTestCase):
@@ -17,7 +18,7 @@ class ProductTest(LiveServerTestCase):
         self.browser = webdriver.Chrome(options=self.options)
         self.browser.maximize_window()
         self.signIntoAccount()
-        self.entry_point = "http://127.0.0.1:8000/en/products/"
+        self.entry_point = "http://127.0.0.1:8000/en/products/create/"
         self.fields = [
             "product-name",
             "product-description",
@@ -40,14 +41,24 @@ class ProductTest(LiveServerTestCase):
             ],
             length=6
         ), "step2": dict(
-            invalid=translation.gettext("message:email_format"),
-            existing=translation.gettext("message:email_already_exists"),
+            invalidName=translation.gettext("message:product_name_length_error"),
+            existingName=translation.gettext("message:product_exists_error"),
+        ), "step3": dict(
+            invalidDesc=translation.gettext("message:product_description_length_error"),
+        ), "step4": dict(
+            invalidAmount=translation.gettext("message:product_amount_error"),
+        ), "step5": dict(
+            invalidUnit=translation.gettext("message:product_unit_length_error"),
+        ), "step6": dict(
+            invalidPrice=translation.gettext("message:product_price_error"),
+        ), "step7": dict(
+            invalidBrand=translation.gettext("message:product_brand_error"),
         )}
 
     def test_form(self):
         self.setup()
+        print("Step 1: Open the product edit page")
         self.browser.get(self.entry_point)
-        print("Step 1: Open the product page")
         self.fields_ui = self.browser.find_elements(
             By.XPATH,
             "//*[@automation-id and not(contains(@type, 'submit'))]"
@@ -65,45 +76,115 @@ class ProductTest(LiveServerTestCase):
             f"There should be {len(self.fields_labels)} fields {self.fields_labels}"
         )
 
+        # Step 2 - Create: Fill the name field with incorrect data.(Shorter than 3 or longer than 30)
+
         print(
-            "Step 2: Fill the email field with incorrect data. Fill with the invalid format, later with an "
-            "existing one. Fill the others with correct data"
+            "Step 2: (Create) Fill the name field with incorrect data.(Shorter than 3 or longer than 30)"
         )
-        self.browser.find_element(By.XPATH, "//input[@automation-id='product-name']").send_keys("Product1")
-        self.browser.find_element(By.XPATH, "//input[@automation-id='product-description']").send_keys("Product1 Description")
-        self.browser.find_element(By.XPATH, "//input[@automation-id='product-amount']").send_keys("1")
-        self.browser.find_element(By.XPATH, "//textarea[@automation-id='product-unit']").send_keys("Test address")
-        self.browser.find_element(By.XPATH, "//input[@automation-id='product-price']").send_keys("Example.123")
-        self.browser.find_element(By.XPATH, "//input[@automation-id='product-price']").send_keys("Example.123")
-        self.getAndClickButton()
+        self.fillFieldsAndClickButton("1", "Product1 Description", "1", "kg", "123", 1)
+
         self.actualResultStep2 = dict(
-            invalid=self.browser.find_element(By.XPATH, "//span[contains(@class, 'text-danger')]").text,
+            invalidName=self.browser.find_element(By.XPATH, "//span[contains(@class, 'text-danger')]").text,
         )
-        self.browser.find_element(By.XPATH, "//input[@automation-id='signup-email']").clear()
-        self.browser.find_element(By.XPATH, "//input[@automation-id='signup-email']").send_keys("admin@admin.com")
-        self.browser.find_element(By.XPATH, "//input[@automation-id='signup-password1']").send_keys("Example.123")
-        self.browser.find_element(By.XPATH, "//input[@automation-id='signup-password2']").send_keys("Example.123")
-        self.getAndClickButton()
-        self.actualResultStep2["existing"] = self.browser.find_element(
+
+        self.fillFieldsAndClickButton("Test Product", "Product1 Description", "1", "kg", "123", 1)
+        self.actualResultStep2["existingName"] = self.browser.find_element(
             By.XPATH,
             "//span[contains(@class, 'text-danger')]"
         ).text
         self.assertEqual(
             self.expected["step2"],
             self.actualResultStep2,
-            "There should be validation errors."
+            "Name validation errors."
         )
-        print("---------------------------------")
+
+        # Step 3 - Create: Fill the description field with incorrect data.(Shorter than 3 or longer than 100)
+
+        print(
+            "Step 3: (Create) Fill the description field with incorrect data.(Shorter than 3 or longer than 100)"
+        )
+        self.fillFieldsAndClickButton("Product 2", "Pp", "1", "kg", "123", 1)
+        self.actualResultStep3 = dict(
+            invalidDesc=self.browser.find_element(By.XPATH, "//span[contains(@class, 'text-danger')]").text,
+        )
+        self.assertEqual(
+            self.expected["step3"],
+            self.actualResultStep3,
+            "Description validation errors."
+        )
+
+        # Step 4 - Create: Fill the amount field with incorrect data.(Shorter than 0 or longer than 99999999)
+
+        print(
+            "Step 4: (Create) Fill the amount field with incorrect data.(Shorter than 0 or longer than 99999999)"
+        )
+        self.fillFieldsAndClickButton("Product 2", "Product 2 description", "-1", "kg", "123", 1)
+        self.actualResultStep4 = dict(
+            invalidAmount=self.browser.find_element(By.XPATH, "//span[contains(@class, 'text-danger')]").text,
+        )
+        self.assertEqual(
+            self.expected["step4"],
+            self.actualResultStep4,
+            "Amount validation errors."
+        )
+
+        # Step 5 - Create: Fill the unit field with incorrect data.(Shorter than 1 or longer than 10)
+
+        print(
+            "Step 5: (Create) Fill the unit field with incorrect data.(Shorter than 1 or longer than 10)"
+        )
+
+        self.fillFieldsAndClickButton("Product 2", "Product 2 description", "1", "kgkgkgkgkgkg", "123", 1)
+        self.actualResultStep5 = dict(
+            invalidUnit=self.browser.find_element(By.XPATH, "//span[contains(@class, 'text-danger')]").text,
+        )
+        self.assertEqual(
+            self.expected["step5"],
+            self.actualResultStep5,
+            "Unit validation errors."
+        )
+
+        # Step 6 - Create: Fill the price field with incorrect data.(Shorter than 0 or longer than 99999999)
+
+        print(
+            "Step 6: (Create) Fill the price field with incorrect data.(Shorter than 0 or longer than 99999999)"
+        )
+
+        self.fillFieldsAndClickButton("Product 2", "Product 2 description", "1", "kg", "-99999", 1)
+        self.actualResultStep6 = dict(
+            invalidPrice=self.browser.find_element(By.XPATH, "//span[contains(@class, 'text-danger')]").text,
+        )
+        self.assertEqual(
+            self.expected["step6"],
+            self.actualResultStep6,
+            "Price validation errors."
+        )
+
+        # Step 7 - Create: Fill the brand field with incorrect data.(When brand is not selected)
+
+        print(
+            "Step 7: (Create) Fill the brand field with incorrect data.(When brand is not selected)"
+        )
+
+        self.fillFieldsAndClickButton("Product 2", "Product 2 description", "1", "kg", "158", 0)
+        self.actualResultStep7 = dict(
+            invalidBrand=self.browser.find_element(By.XPATH, "//span[contains(@class, 'text-danger')]").text,
+        )
+        self.assertEqual(
+            self.expected["step7"],
+            self.actualResultStep7,
+            "Brand validation errors."
+        )
 
     def getAndClickButton(self, id="general-submit-button"):
         try:
             wait = WebDriverWait(self.browser, 10)
-            signup_button = wait.until(
+            button = wait.until(
                 EC.element_to_be_clickable((By.XPATH, f"//button[@automation-id='{id}']")))
         except StaleElementReferenceException:
-            signup_button = wait.until(
+            button = wait.until(
                 EC.element_to_be_clickable((By.XPATH, f"//button[@automation-id='{id}']")))
-        self.browser.execute_script("arguments[0].click();", signup_button)
+        self.browser.execute_script("arguments[0].click();", button)
 
     def signIntoAccount(self):
         self.browser.get("http://127.0.0.1:8000/en/login/")
@@ -112,3 +193,21 @@ class ProductTest(LiveServerTestCase):
         self.browser.find_element(By.XPATH, "//input[@automation-id='signin-password']").send_keys(
             "Appservers")
         self.getAndClickButton('signin-button')
+
+    def clearFields(self):
+        self.browser.find_element(By.XPATH, "//input[@automation-id='product-name']").clear()
+        self.browser.find_element(By.XPATH, "//textarea[@automation-id='product-description']").clear()
+        self.browser.find_element(By.XPATH, "//input[@automation-id='product-amount']").clear()
+        self.browser.find_element(By.XPATH, "//input[@automation-id='product-unit']").clear()
+        self.browser.find_element(By.XPATH, "//input[@automation-id='product-price']").clear()
+        Select(self.browser.find_element(By.XPATH, "//select[@automation-id='product-brand']")).select_by_index(0)
+
+    def fillFieldsAndClickButton(self, productName, productDesc, productAmount, productUnit, productPrice, indexBrand):
+        self.clearFields()
+        self.browser.find_element(By.XPATH, "//input[@automation-id='product-name']").send_keys(productName)
+        self.browser.find_element(By.XPATH, "//textarea[@automation-id='product-description']").send_keys(productDesc)
+        self.browser.find_element(By.XPATH, "//input[@automation-id='product-amount']").send_keys(productAmount)
+        self.browser.find_element(By.XPATH, "//input[@automation-id='product-unit']").send_keys(productUnit)
+        self.browser.find_element(By.XPATH, "//input[@automation-id='product-price']").send_keys(productPrice)
+        Select(self.browser.find_element(By.XPATH, "//select[@automation-id='product-brand']")).select_by_index(indexBrand)
+        self.getAndClickButton()
