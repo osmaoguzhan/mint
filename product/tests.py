@@ -261,7 +261,7 @@ class ProductTest(LiveServerTestCase):
             "Product updated and visible on the list."
         )
 
-    def test_Delete_Product(self):
+    def Test_Delete_Product(self):
         self.setup()
         # Step 1 - Delete: Click the delete button of the product and see alert message.
         print("# Step 1 - Delete: Click the delete button of the product and see success message.")
