@@ -5,8 +5,8 @@ from selenium.common import StaleElementReferenceException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.wait import WebDriverWait
 
 
 class ProductTest(LiveServerTestCase):
@@ -14,25 +14,16 @@ class ProductTest(LiveServerTestCase):
     def setup(self):
         translation.activate("en")
         self.options = Options()
-        #self.options.add_experimental_option("detach", True)
+        # self.options.add_experimental_option("detach", True)
         self.browser = webdriver.Chrome(options=self.options)
         self.browser.maximize_window()
         self.signIntoAccount()
         self.products_end_point = "http://127.0.0.1:8000/en/products/"
         self.create_end_point = "http://127.0.0.1:8000/en/products/create/"
-        self.delete_end_point = "http://127.0.0.1:8000/en/products/delete/"
-        self.fields = [
-            "product-name",
-            "product-description",
-            "product-amount",
-            "product-unit",
-            "product-price",
-            "product-brand"
-        ]
         self.build_expected()
 
     def build_expected(self):
-        self.expected = {"step1": dict(
+        self.expected_product_create = {"step1": dict(
             fields=[
                 translation.gettext('label:name'),
                 translation.gettext('label:description'),
@@ -65,6 +56,19 @@ class ProductTest(LiveServerTestCase):
             price="158.00",
             brand="Samsung",
         )}
+        self.expected_product_update = {"step1": dict(
+            successUpdate=translation.gettext("message:product_updated")),
+            "step2": dict(
+                nameUpdated="Product Test Updated",
+                descriptionUpdated="Product Test description updated",
+                amountUpdated="2",
+                unitUpdated="gr",
+                priceUpdated="147.00",
+                brandUpdated="Samsung",
+            )}
+        self.expected_product_delete = {"step1": dict(
+            isWarningVisible=True,
+            isConfirmVisible=True, )}
 
     def test_Create_Product(self):
         self.setup()
@@ -77,13 +81,13 @@ class ProductTest(LiveServerTestCase):
         self.fields_labels = []
         for field in self.fields_ui:
             self.fields_labels.append(field.get_attribute("placeholder"))
-        self.actualResultStep1 = dict(
+        self.actualResultCreateStep1 = dict(
             fields=self.fields_labels,
             length=len(self.fields_labels)
         )
         self.assertEqual(
-            self.expected["step1"],
-            self.actualResultStep1,
+            self.expected_product_create["step1"],
+            self.actualResultCreateStep1,
             f"There should be {len(self.fields_labels)} fields {self.fields_labels}"
         )
 
@@ -94,18 +98,18 @@ class ProductTest(LiveServerTestCase):
         )
         self.fillFieldsAndClickButton("1", "Product1 Description", "1", "kg", "123", 1)
 
-        self.actualResultStep2 = dict(
+        self.actualResultCreateStep2 = dict(
             invalidName=self.browser.find_element(By.XPATH, "//span[contains(@class, 'text-danger')]").text,
         )
 
         self.fillFieldsAndClickButton("Test Product", "Product1 Description", "1", "kg", "123", 1)
-        self.actualResultStep2["existingName"] = self.browser.find_element(
+        self.actualResultCreateStep2["existingName"] = self.browser.find_element(
             By.XPATH,
             "//span[contains(@class, 'text-danger')]"
         ).text
         self.assertEqual(
-            self.expected["step2"],
-            self.actualResultStep2,
+            self.expected_product_create["step2"],
+            self.actualResultCreateStep2,
             "Name validation errors."
         )
 
@@ -115,12 +119,12 @@ class ProductTest(LiveServerTestCase):
             "Step 3: (Create) Fill the description field with incorrect data.(Shorter than 3 or longer than 100)"
         )
         self.fillFieldsAndClickButton("Product 2", "Pp", "1", "kg", "123", 1)
-        self.actualResultStep3 = dict(
+        self.actualResultCreateStep3 = dict(
             invalidDesc=self.browser.find_element(By.XPATH, "//span[contains(@class, 'text-danger')]").text,
         )
         self.assertEqual(
-            self.expected["step3"],
-            self.actualResultStep3,
+            self.expected_product_create["step3"],
+            self.actualResultCreateStep3,
             "Description validation errors."
         )
 
@@ -130,12 +134,12 @@ class ProductTest(LiveServerTestCase):
             "Step 4: (Create) Fill the amount field with incorrect data.(Shorter than 0 or longer than 99999999)"
         )
         self.fillFieldsAndClickButton("Product 2", "Product 2 description", "-1", "kg", "123", 1)
-        self.actualResultStep4 = dict(
+        self.actualResultCreateStep4 = dict(
             invalidAmount=self.browser.find_element(By.XPATH, "//span[contains(@class, 'text-danger')]").text,
         )
         self.assertEqual(
-            self.expected["step4"],
-            self.actualResultStep4,
+            self.expected_product_create["step4"],
+            self.actualResultCreateStep4,
             "Amount validation errors."
         )
 
@@ -146,12 +150,12 @@ class ProductTest(LiveServerTestCase):
         )
 
         self.fillFieldsAndClickButton("Product 2", "Product 2 description", "1", "kgkgkgkgkgkg", "123", 1)
-        self.actualResultStep5 = dict(
+        self.actualResultCreateStep5 = dict(
             invalidUnit=self.browser.find_element(By.XPATH, "//span[contains(@class, 'text-danger')]").text,
         )
         self.assertEqual(
-            self.expected["step5"],
-            self.actualResultStep5,
+            self.expected_product_create["step5"],
+            self.actualResultCreateStep5,
             "Unit validation errors."
         )
 
@@ -162,12 +166,12 @@ class ProductTest(LiveServerTestCase):
         )
 
         self.fillFieldsAndClickButton("Product 2", "Product 2 description", "1", "kg", "-99999", 1)
-        self.actualResultStep6 = dict(
+        self.actualResultCreateStep6 = dict(
             invalidPrice=self.browser.find_element(By.XPATH, "//span[contains(@class, 'text-danger')]").text,
         )
         self.assertEqual(
-            self.expected["step6"],
-            self.actualResultStep6,
+            self.expected_product_create["step6"],
+            self.actualResultCreateStep6,
             "Price validation errors."
         )
 
@@ -178,12 +182,12 @@ class ProductTest(LiveServerTestCase):
         )
 
         self.fillFieldsAndClickButton("Product 2", "Product 2 description", "1", "kg", "158", 0)
-        self.actualResultStep7 = dict(
+        self.actualResultCreateStep7 = dict(
             invalidBrand=self.browser.find_element(By.XPATH, "//span[contains(@class, 'text-danger')]").text,
         )
         self.assertEqual(
-            self.expected["step7"],
-            self.actualResultStep7,
+            self.expected_product_create["step7"],
+            self.actualResultCreateStep7,
             "Brand validation errors."
         )
 
@@ -194,18 +198,18 @@ class ProductTest(LiveServerTestCase):
         )
 
         self.fillFieldsAndClickButton("Product Test", "Product Test description", "1", "kg", "158", 1)
-        self.actualResultStep8 = dict(
+        self.actualResultCreateStep8 = dict(
             success=self.browser.find_element(By.XPATH, "//div[contains(@class, 'alert')]").text,
         )
 
         self.assertEqual(
-            self.expected["step8"],
-            self.actualResultStep8,
+            self.expected_product_create["step8"],
+            self.actualResultCreateStep8,
             "Product created successfully."
         )
 
         # Step 9 - Create: Control if the product is added to the list.
-        self.actualResultStep9 = dict(
+        self.actualResultCreateStep9 = dict(
             name=self.browser.find_element(By.XPATH, "//td[contains(text(), 'Product Test')]").text,
             description=self.browser.find_element(By.XPATH, "//td[contains(text(), 'Product Test description')]").text,
             amount=self.browser.find_element(By.XPATH, "//td[contains(text(), '1')]").text,
@@ -215,9 +219,69 @@ class ProductTest(LiveServerTestCase):
         )
 
         self.assertEqual(
-            self.expected["step9"],
-            self.actualResultStep9,
+            self.expected_product_create["step9"],
+            self.actualResultCreateStep9,
             "Product added to the list."
+        )
+
+    def test_Update_Product(self):
+        self.setup()
+        # Step 1 - Update: Click the update button of the product and see success message.
+        print("# Step 1 - Update: Click the update button of the product and see success message.")
+        self.browser.get(self.products_end_point)
+        self.browser.find_element(By.XPATH,
+                                  '(//table[contains(@class, \'table-striped\')]//tbody//tr//td)[9]//a').click()
+
+        self.fillFieldsAndClickButton("Product Test Updated", "Product Test description updated", "2", "gr", "147", 1)
+        self.actualResultUpdateStep1 = dict(
+            successUpdate=self.browser.find_element(By.XPATH, "//div[contains(@class, 'alert')]").text
+        )
+
+        self.assertEqual(
+            self.expected_product_update["step1"],
+            self.actualResultUpdateStep1,
+            "Product is updated."
+        )
+
+        # Step 2 - Update: Control if the product is updated on the list.
+        print("# Step 2 - Update: Control if the product is updated.")
+        self.actualResultUpdateStep2 = dict(
+            nameUpdated=self.browser.find_element(By.XPATH, "//td[contains(text(), 'Product Test Updated')]").text,
+            descriptionUpdated=self.browser.find_element(By.XPATH,
+                                                         "//td[contains(text(), 'Product Test description updated')]").text,
+            amountUpdated=self.browser.find_element(By.XPATH, "//td[contains(text(), '2')]").text,
+            unitUpdated=self.browser.find_element(By.XPATH, "//td[contains(text(), 'gr')]").text,
+            priceUpdated=self.browser.find_element(By.XPATH, "//td[contains(text(), '147')]").text,
+            brandUpdated=self.browser.find_element(By.XPATH, "//td[contains(text(), 'Samsung')]").text,
+        )
+
+        self.assertEqual(
+            self.expected_product_update["step2"],
+            self.actualResultUpdateStep2,
+            "Product updated and visible on the list."
+        )
+
+    def test_Delete_Product(self):
+        self.setup()
+        # Step 1 - Delete: Click the delete button of the product and see alert message.
+        print("# Step 1 - Delete: Click the delete button of the product and see success message.")
+        self.browser.get(self.products_end_point)
+        self.browser.find_element(By.XPATH,
+                                  '(//table[contains(@class, \'table-striped\')]//tbody//tr//td)[10]//a').click()
+
+        self.actualResultDeleteStep1 = dict(
+            IsWarningVisible=self.browser.find_element(By.XPATH, "//div[contains(@class, 'swal2-modal')]")
+        )
+
+        # Step 2 - Delete: Click the delete button on the swal message and see success message.
+        print("# Step 2 - Delete: Click the delete button on the alert message and see success message.")
+        self.browser.find_element(By.XPATH, "//button[contains(text(), 'Delete')]").click()
+        self.actualResultDeleteStep1["isConfirmVisible"] = self.browser.find_element(By.XPATH,
+                                                                                     "//div[contains(@class, 'swal2-modal')]")
+        self.assertEqual(
+            self.expected_product_delete["step1"],
+            self.actualResultDeleteStep1,
+            "Product is deleted."
         )
 
     def getAndClickButton(self, id="general-submit-button"):
@@ -253,5 +317,6 @@ class ProductTest(LiveServerTestCase):
         self.browser.find_element(By.XPATH, "//input[@automation-id='product-amount']").send_keys(productAmount)
         self.browser.find_element(By.XPATH, "//input[@automation-id='product-unit']").send_keys(productUnit)
         self.browser.find_element(By.XPATH, "//input[@automation-id='product-price']").send_keys(productPrice)
-        Select(self.browser.find_element(By.XPATH, "//select[@automation-id='product-brand']")).select_by_index(indexBrand)
+        Select(self.browser.find_element(By.XPATH, "//select[@automation-id='product-brand']")).select_by_index(
+            indexBrand)
         self.getAndClickButton()
