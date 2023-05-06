@@ -12,7 +12,8 @@ class LoginForm(AuthenticationForm):
             'id': 'email',
             'class': 'form-control form-control-lg',
             'placeholder': _('label:email_address'),
-            'type': 'email'
+            'type': 'email',
+            'automation-id': 'signin-email'
         }
     ))
     password = forms.CharField(widget=forms.PasswordInput(
@@ -20,6 +21,7 @@ class LoginForm(AuthenticationForm):
             'id': 'password',
             'class': 'form-control form-control-lg',
             'placeholder': _('label:password'),
+            'automation-id': 'signin-password'
         }
     ))
 
