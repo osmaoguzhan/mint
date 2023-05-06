@@ -7,6 +7,11 @@ from django.utils.translation import gettext_lazy as _
 
 
 class LoginForm(AuthenticationForm):
+    error_messages = {
+        'invalid_login': _(
+            "message:invalid_login"
+        ),
+    }
     username = UsernameField(widget=forms.TextInput(
         attrs={
             'id': 'email',
@@ -27,35 +32,42 @@ class LoginForm(AuthenticationForm):
 
 
 class UserCreationForm(forms.ModelForm):
-    email = forms.EmailField(
+
+    def __init__(self, *args, **kwargs):
+        super(UserCreationForm, self).__init__(*args, **kwargs)
+        self.fields['address'].required = False
+
+    email = forms.CharField(
         label=_('label:email_address'),
-        widget=forms.EmailInput(attrs={'placeholder': _('label:email_address')})
+        widget=forms.TextInput(
+            attrs={'placeholder': _('label:email_address'), 'automation-id': 'signup-email'})
     )
     company_name = forms.CharField(
         label=_('label:company_name'),
-        widget=forms.TextInput(attrs={'placeholder': _('label:company_name')})
+        widget=forms.TextInput(
+            attrs={'placeholder': _('label:company_name'), 'automation-id': 'signup-company-name'})
     )
     phone_number = forms.CharField(
         label=_('label:phone_number'),
-        widget=forms.TextInput(attrs={'placeholder': _('label:phone_number')})
+        widget=forms.TextInput(attrs={'placeholder': _('label:phone_number'), 'automation-id': 'signup-phone-number'})
     )
     website = forms.CharField(
         label=_('label:website_optional'),
-        widget=forms.TextInput(attrs={'placeholder': _('label:website_optional')}),
+        widget=forms.TextInput(attrs={'placeholder': _('label:website_optional'), 'automation-id': 'signup-website'}),
         required=False
     )
     address = forms.CharField(
         label=_('label:address'),
-        widget=forms.Textarea(attrs={'placeholder': _('label:address'), 'rows': 5})
+        widget=forms.Textarea(attrs={'placeholder': _('label:address'), 'rows': 5, 'automation-id': 'signup-address'})
     )
     password1 = forms.CharField(
         label=_('label:password'),
-        widget=forms.PasswordInput(attrs={'placeholder': _('label:password')})
+        widget=forms.PasswordInput(attrs={'placeholder': _('label:password'), 'automation-id': 'signup-password1'})
     )
     password2 = forms.CharField(
         label=_('label:password_confirmation'),
         widget=forms.PasswordInput(
-            attrs={'placeholder': _('label:password_confirmation')})
+            attrs={'placeholder': _('label:password_confirmation'), 'automation-id': 'signup-password2'})
     )
 
     class Meta:
