@@ -187,10 +187,10 @@ class ProductTest(LiveServerTestCase):
             "Brand validation errors."
         )
 
-        # Step 8 - Create: Add a new product with correct data.
+        # Step 8 - Create: Add a new product with correct data and see success message.
 
         print(
-            "Step 8: (Create) Add a new product with correct data."
+            "Step 8: (Create) Add a new product with correct data and see success message."
         )
 
         self.fillFieldsAndClickButton("Product Test", "Product Test description", "1", "kg", "158", 1)
