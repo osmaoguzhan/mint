@@ -6,8 +6,8 @@ from .models import Order
 
 class OrderForm(forms.ModelForm):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def _init_(self, *args, **kwargs):
+        super()._init_(*args, **kwargs)
         self.fields["product"].empty_label = _("label:select_product")
         self.fields["product"].required = False
         self.fields["customer"].empty_label = _("label:select_customer")
@@ -17,12 +17,12 @@ class OrderForm(forms.ModelForm):
         model = Order
         fields = ["name", "description", "amount", "price", "product", "customer"]
         widgets = {
-            "name": forms.TextInput(attrs={"class": "form-control", "id": "name"}),
-            "description": forms.Textarea(attrs={"class": "form-control", "id": "description", "rows": 3}),
-            "amount": forms.NumberInput(attrs={"class": "form-control", "id": "amount"}),
-            "price": forms.NumberInput(attrs={"class": "form-control", "id": "price"}),
-            "product": forms.Select(attrs={"class": "form-control", "id": "product", "required": False}),
-            "customer": forms.Select(attrs={"class": "form-control", "id": "customer", "required": False}),
+            "name": forms.TextInput(attrs={"class": "form-control", "id": "name","automation-id": "order-name", "placeholder": _("label:name")}),
+            "description": forms.Textarea(attrs={"class": "form-control", "id": "description", "rows": 3, "automation-id": "order-description", "placeholder": _("label:description")}),
+            "amount": forms.NumberInput(attrs={"class": "form-control", "id": "amount", "automation-id": "order-amount", "placeholder": _("label:amount")}),
+            "price": forms.NumberInput(attrs={"class": "form-control", "id": "price", "automation-id": "order-price", "placeholder": _("label:price")}),
+            "product": forms.Select(attrs={"class": "form-control", "id": "product", "required": False, "automation-id": "order-product", "placeholder": _("label:product_name")}),
+            "customer": forms.Select(attrs={"class": "form-control", "id": "customer", "required": False, "automation-id": "order-customer", "placeholder": _("label:customer_name")}),
         }
         labels = {
             "name": _('label:name'),
