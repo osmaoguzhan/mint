@@ -10,10 +10,10 @@ class SupplierForm(forms.ModelForm):
         model = Supplier
         fields = ["name", "email", "phone", "address"]
         widgets = {
-            "name": forms.TextInput(attrs={"class": "form-control", "id": "name"}),
-            "email": forms.TextInput(attrs={"class": "form-control", "id": "email"}),
-            "phone": forms.TextInput(attrs={"class": "form-control", "id": "phone"}),
-            "address": forms.Textarea(attrs={"class": "form-control", "id": "address", "rows": 3}),
+            "name": forms.TextInput(attrs={"class": "form-control", "id": "name", "automation-id": "supplier-name", "placeholder": _('label:name')}),
+            "email": forms.TextInput(attrs={"class": "form-control", "id": "email", "automation-id": "supplier-email", "placeholder": _('label:email')}),
+            "phone": forms.TextInput(attrs={"class": "form-control", "id": "phone", "automation-id": "supplier-phone", "placeholder": _('label:phone')}),
+            "address": forms.Textarea(attrs={"class": "form-control", "id": "address", "rows": 3, "automation-id": "supplier-address", "placeholder": _('label:address')}),
         }
         labels = {
             "name": _('label:name'),
