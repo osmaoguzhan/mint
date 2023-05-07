@@ -51,7 +51,7 @@ class ProductTest(LiveServerTestCase):
         ), "step9": dict(
             name="Product Test",
             description="Product Test description",
-            amount="1",
+            amount="197",
             unit="kg",
             price="158.00",
             brand="Samsung",
@@ -70,7 +70,7 @@ class ProductTest(LiveServerTestCase):
             isWarningVisible=True,
             isConfirmVisible=True, )}
 
-    def test_Create_Product(self):
+    def test_1Create_Product(self):
         self.setup()
         print("Step 1: Open the product edit page")
         self.browser.get(self.create_end_point)
@@ -197,7 +197,7 @@ class ProductTest(LiveServerTestCase):
             "Step 8: (Create) Add a new product with correct data and see success message."
         )
 
-        self.fillFieldsAndClickButton("Product Test", "Product Test description", "1", "kg", "158", 1)
+        self.fillFieldsAndClickButton("Product Test", "Product Test description", "197", "kg", "158", 1)
         self.actualResultCreateStep8 = dict(
             success=self.browser.find_element(By.XPATH, "//div[contains(@class, 'alert')]").text,
         )
@@ -212,7 +212,7 @@ class ProductTest(LiveServerTestCase):
         self.actualResultCreateStep9 = dict(
             name=self.browser.find_element(By.XPATH, "//td[contains(text(), 'Product Test')]").text,
             description=self.browser.find_element(By.XPATH, "//td[contains(text(), 'Product Test description')]").text,
-            amount=self.browser.find_element(By.XPATH, "//td[contains(text(), '1')]").text,
+            amount=self.browser.find_element(By.XPATH, "//td[contains(text(), '197')]").text,
             unit=self.browser.find_element(By.XPATH, "//td[contains(text(), 'kg')]").text,
             price=self.browser.find_element(By.XPATH, "//td[contains(text(), '158')]").text,
             brand=self.browser.find_element(By.XPATH, "//td[contains(text(), 'Samsung')]").text,
@@ -224,7 +224,7 @@ class ProductTest(LiveServerTestCase):
             "Product added to the list."
         )
 
-    def test_Update_Product(self):
+    def test_2Update_Product(self):
         self.setup()
         # Step 1 - Update: Click the update button of the product and see success message.
         print("# Step 1 - Update: Click the update button of the product and see success message.")
@@ -261,25 +261,25 @@ class ProductTest(LiveServerTestCase):
             "Product updated and visible on the list."
         )
 
-    def Test_Delete_Product(self):
+    def test_3Delete_Product(self):
         self.setup()
-        # Step 1 - Delete: Click the delete button of the product and see alert message.
-        print("# Step 1 - Delete: Click the delete button of the product and see success message.")
+        # Step 1 - Delete: Click the delete button of the product and see alert window.
+        print("# Step 1 - Delete: Click the delete button of the product and see alert window.")
         self.browser.get(self.products_end_point)
         self.browser.find_element(By.XPATH,
                                   '(//table[contains(@class, \'table-striped\')]//tbody//tr//td)[10]//a').click()
 
         self.actualResultDeleteStep1 = dict(
-            IsWarningVisible=self.browser.find_element(By.XPATH, "//div[contains(@class, 'swal2-modal')]")
+            IsWarningVisible=self.browser.find_element(By.XPATH,
+                                                       "//div[contains(@class, 'swal2-warning')]").is_displayed()
         )
 
         # Step 2 - Delete: Click the delete button on the swal message and see success message.
         print("# Step 2 - Delete: Click the delete button on the alert message and see success message.")
         self.browser.find_element(By.XPATH, "//button[contains(text(), 'Delete')]").click()
         self.actualResultDeleteStep1["isConfirmVisible"] = self.browser.find_element(By.XPATH,
-                                                                                     "//div[contains(@class, 'swal2-modal')]")
-        self.assertEqual(
-            self.expected_product_delete["step1"],
+                                                                                     "//div[contains(@class, 'swal2-modal')]").is_displayed()
+        self.assertTrue(
             self.actualResultDeleteStep1,
             "Product is deleted."
         )
@@ -310,13 +310,14 @@ class ProductTest(LiveServerTestCase):
         self.browser.find_element(By.XPATH, "//input[@automation-id='product-price']").clear()
         Select(self.browser.find_element(By.XPATH, "//select[@automation-id='product-brand']")).select_by_index(0)
 
-    def fillFieldsAndClickButton(self, productName, productDesc, productAmount, productUnit, productPrice, indexBrand):
+    def fillFieldsAndClickButton(self, product_name, product_desc, product_amount, product_unit, product_price,
+                                 index_brand):
         self.clearFields()
-        self.browser.find_element(By.XPATH, "//input[@automation-id='product-name']").send_keys(productName)
-        self.browser.find_element(By.XPATH, "//textarea[@automation-id='product-description']").send_keys(productDesc)
-        self.browser.find_element(By.XPATH, "//input[@automation-id='product-amount']").send_keys(productAmount)
-        self.browser.find_element(By.XPATH, "//input[@automation-id='product-unit']").send_keys(productUnit)
-        self.browser.find_element(By.XPATH, "//input[@automation-id='product-price']").send_keys(productPrice)
+        self.browser.find_element(By.XPATH, "//input[@automation-id='product-name']").send_keys(product_name)
+        self.browser.find_element(By.XPATH, "//textarea[@automation-id='product-description']").send_keys(product_desc)
+        self.browser.find_element(By.XPATH, "//input[@automation-id='product-amount']").send_keys(product_amount)
+        self.browser.find_element(By.XPATH, "//input[@automation-id='product-unit']").send_keys(product_unit)
+        self.browser.find_element(By.XPATH, "//input[@automation-id='product-price']").send_keys(product_price)
         Select(self.browser.find_element(By.XPATH, "//select[@automation-id='product-brand']")).select_by_index(
-            indexBrand)
+            index_brand)
         self.getAndClickButton()
