@@ -10,11 +10,11 @@ class CustomerForm(forms.ModelForm):
         model = Customer
         fields = ["name", "surname", "email", "phone", "address"]
         widgets = {
-            "name": forms.TextInput(attrs={"class": "form-control", "id": "name"}),
-            "surname": forms.TextInput(attrs={"class": "form-control", "id": "surname"}),
-            "email": forms.TextInput(attrs={"class": "form-control", "id": "email"}),
-            "phone": forms.TextInput(attrs={"class": "form-control", "id": "phone"}),
-            "address": forms.Textarea(attrs={"class": "form-control", "id": "address", "rows": 3}),
+            "name": forms.TextInput(attrs={"class": "form-control", "id": "name", "automation-id": "customer-name", "placeholder": _("label:firstname")}),
+            "surname": forms.TextInput(attrs={"class": "form-control", "id": "surname", "automation-id": "customer-surname", "placeholder": _("label:surname")}),
+            "email": forms.TextInput(attrs={"class": "form-control", "id": "email", "automation-id": "customer-email", "placeholder": _("label:email")}),
+            "phone": forms.TextInput(attrs={"class": "form-control", "id": "phone", "automation-id": "customer-phone", "placeholder": _("label:phone_number")}),
+            "address": forms.Textarea(attrs={"class": "form-control", "id": "address", "rows": 3, "automation-id": "customer-address", "placeholder": _("label:address")}),
         }
         labels = {
             "name": _("label:firstname"),
