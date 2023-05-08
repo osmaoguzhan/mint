@@ -10,17 +10,18 @@ class ProductForm(forms.ModelForm):
         self.user = kwargs.pop("user")
         super().__init__(*args, **kwargs)
         self.fields["brand"].empty_label = _("label:select_brand")
+        self.fields["brand"].required = False
 
     class Meta:
         model = Product
         fields = ["name", "description", "amount", "unit", "price", "brand"]
         widgets = {
-            "name": forms.TextInput(attrs={"class": "form-control", "id": "name"}),
-            "description": forms.Textarea(attrs={"class": "form-control", "id": "description", "rows": 3}),
-            "amount": forms.NumberInput(attrs={"class": "form-control", "id": "amount"}),
-            "unit": forms.TextInput(attrs={"class": "form-control", "id": "unit"}),
-            "price": forms.NumberInput(attrs={"class": "form-control", "id": "price"}),
-            "brand": forms.Select(attrs={"class": "form-control", "id": "brand", "required": False}),
+            "name": forms.TextInput(attrs={"class": "form-control", "id": "name", "automation-id": "product-name", "placeholder": _("label:name")}),
+            "description": forms.Textarea(attrs={"class": "form-control", "id": "description", "rows": 3, "automation-id": "product-description", "placeholder": _("label:description")}),
+            "amount": forms.NumberInput(attrs={"class": "form-control", "id": "amount", "automation-id": "product-amount", "placeholder": _("label:amount")}),
+            "unit": forms.TextInput(attrs={"class": "form-control", "id": "unit", "automation-id": "product-unit", "placeholder": _("label:unit")}),
+            "price": forms.NumberInput(attrs={"class": "form-control", "id": "price", "automation-id": "product-price", "placeholder": _("label:price")}),
+            "brand": forms.Select(attrs={"class": "form-control", "id": "brand", "required": False, "automation-id": "product-brand", "placeholder": _("label:brand_name")}),
         }
         labels = {
             "name": _('label:name'),
